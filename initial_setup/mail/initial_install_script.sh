@@ -153,11 +153,11 @@ echo "[+] Configuring Dovecot..."
 bash $Setup_dir\email/Dovecot_setup_script.sh $domain_name
 
 ##### Install Drupal #####
-echo "[+] Installing Drupal..."
+echo "[+] Installing Drupal Dependicies..."
 bash $Setup_dir\drupal/Drupal_setup.sh $domain_name
 
 ##### SpamAssassin #####
-echo "[+] Configuring Dovecot..."
+echo "[+] Configuring SpamAssassin..."
 bash $Setup_dir\email/SpamAssassin.sh $domain_name
 
 ##### OpenDKIM #####

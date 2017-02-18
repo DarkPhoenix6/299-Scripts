@@ -39,11 +39,11 @@ sed  -i '
 	N
 		/  driver = sql/ {
 			N
-				/  args = /etc/dovecot/dovecot-sql.conf.ext/ {
+				/  args = \/etc\/dovecot\/dovecot-sql.conf.ext\/ {
 					N
 						/[}]/ {
 							N
-								s_userdb {\n  driver = sql\n  args = /etc/dovecot/dovecot-sql.conf.ext\n}_userdb {\n  driver = static\n  args = uid=vmail gid=vmail home=/var/vmail/%d/%n\n\# driver = sql\n  \# args = /etc/dovecot/dovecot-sql.conf.ext\n}_
+								s_userdb {\n  driver = sql\n  args = /etc/dovecot/dovecot-sql.conf.ext\n}_userdb {\n  driver = static\n  args = uid=vmail gid=vmail home=/var/vmail/%d/%n\n  \# driver = sql\n  \# args = /etc/dovecot/dovecot-sql.conf.ext\n}_
 							}
 					
 	}
