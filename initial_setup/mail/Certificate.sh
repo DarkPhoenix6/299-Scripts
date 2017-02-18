@@ -26,6 +26,8 @@ function new_dirs
 	mkdir -p /etc/ssl/My_Certs/certs/
 	mkdir -p /etc/ssl/My_Certs/private/
 }
+#####main#####
+new_dirs
 expect $Setup_dir\Certificate.exp $Country $State $City $OrgName $OU $FQDN $User_Name $domain_name
 chmod go= $My_Key
 

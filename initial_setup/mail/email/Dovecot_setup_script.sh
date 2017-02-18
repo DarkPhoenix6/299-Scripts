@@ -81,7 +81,7 @@ sed -i "
 ssl_cert = <$My_Cert\nssl_key = <$My_Key
 " $conf_dir\10-ssl.conf
 
-sed -i 's:namespace inbox {:namespace inbox {\n  mailbox INBOX/Junk {\n   auto = suscribe\n   special_use = \\Junk\n  }\n  mailbox INBOX/Trash {\n   auto = suscribe\n   special_use = \\Trash\n  }\n:' $conf_dir\15-mailboxes.conf
+sed -i 's:namespace inbox {:namespace inbox {\n  mailbox INBOX/Junk {\n   auto = subscribe\n   special_use = \\Junk\n  }\n  mailbox INBOX/Trash {\n   auto = subscribe\n   special_use = \\Trash\n  }\n:' $conf_dir\15-mailboxes.conf
 
 echo "driver = mysql" >> /etc/dovecot/dovecot-sql.conf.ext
 echo "connect = host=127.0.0.1 dbname=mailserver user=mailuser password=$mailuser_passwd" >> /etc/dovecot/dovecot-sql.conf.ext 

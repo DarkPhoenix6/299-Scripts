@@ -167,7 +167,7 @@ bash $Setup_dir\email/OpenDKIM.sh $domain_name
 }
 if [ ! -f $First_boot ]; then
 	touch $First_boot
-	bash $Setup_dir\ip_address_mail.sh
+	bash /root/initial_setup/ip_address_mail_deb_test.sh
 #	FB_install
 	
 #	raspi-config --expand-rootfs
