@@ -19,6 +19,7 @@ sudo bash $Setup_dir\drupal/Drush_install.sh $domain_name
 
 # download latest drupal8 and install
 echo "[+] Installing Drupal..."
+chown -R www-data:www-data /var/www/
 sudo -H -u nonroot bash -c "drush dl drupal-8 --destination=$(dirname $WEBROOT)"
 mv $(dirname $WEBROOT)/drupal-8* $WEBROOT
  

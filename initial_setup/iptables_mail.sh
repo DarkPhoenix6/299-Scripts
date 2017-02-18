@@ -90,73 +90,10 @@ $IPTABLES -A OUTPUT ! -o lo -j LOG --log-prefix "DROP " --log-ip-options --log-t
 ### Make sure that loopback traffic is accepted. ###
 $IPTABLES -A OUTPUT -o lo -j ACCEPT
 
-##### FORWARD chain #####
-echo "[+] Setting up FORWARD chain..."
-
-### State tracking rules ###
-$IPTABLES -A FORWARD -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
-$IPTABLES -A FORWARD -m conntrack --ctstate INVALID -j DROP
-$IPTABLES -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-
-### Anti-spoofing rules ###
-$IPTABLES -A FORWARD -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
-$IPTABLES -A FORWARD -i $IFACE_INT ! -s  $INT_NET -j DROP
-
-### ACCEPT rules ###
-$IPTABLES -A FORWARD -p tcp -i $IFACE_INT -s $INT_NET --dport 21 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp -i $IFACE_INT -s $INT_NET --dport 22 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp -i $IFACE_INT -s $INT_NET --dport 25 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp -i $IFACE_INT -s $INT_NET --dport 43 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp -i $IFACE_INT -s $INT_NET --dport 4321 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p icmp --icmp-type echo-request -j ACCEPT
-## Rules to allow conections to/from the internal Email server ##
-# SMTP and SMTPS #
-$IPTABLES -A FORWARD -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 465 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 587 -m conntrack --ctstate NEW -j ACCEPT
-# IMAP and IMAPS #                     
-$IPTABLES -A FORWARD -p tcp --dport 143 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 993 -m conntrack --ctstate NEW -j ACCEPT
-# POP3 and POP3S #                     
-$IPTABLES -A FORWARD -p tcp --dport 110 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 995 -m conntrack --ctstate NEW -j ACCEPT
-##### allow SIP phone calls
-$IPTABLES -A FORWARD -p tcp --dport 5060 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p udp --dport 5060 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --dport 5061 -m conntrack --ctstate NEW -j ACCEPT
-
-### Default FORWARD LOG rule ###
-$IPTABLES -A FORWARD ! -i lo -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
 
 
-##### NAT rules #####
-echo "[+] Setting up NAT rules..."
 
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 80 -i $IFACE_EXT -j DNAT --to $WEB_SVR_IP\:80
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 443 -i $IFACE_EXT -j DNAT --to $WEB_SVR_IP\:443
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 53 -i $IFACE_EXT -j DNAT --to $DNS_SVR_IP\:53
-$IPTABLES -t nat -A PREROUTING -p udp --dport 53 -i $IFACE_EXT -j DNAT --to $DNS_SVR_IP\:53
-## Rules to nat conections to internal Email server ##
-# SMTP and SMTPS #
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 25 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:25
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 465 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:465
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 587 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:587
-# IMAP and IMAPS #
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 143 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:143
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 993 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:993
-# POP3 and POP3S #
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 110 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:110
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 995 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:995
-##### Rules to allow SIP phone calls
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 5060 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER\:5060
-$IPTABLES -t nat -A PREROUTING -p udp --dport 5060 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER\:5060
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 5061 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER\:5061
-# POSTROUTING rule
-$IPTABLES -t nat -A POSTROUTING -s $INT_NET -o $IFACE_EXT -j MASQUERADE
+
 
 
 ##### Forwarding #####

@@ -39,7 +39,7 @@ sed  -i '
 	N
 		/  driver = sql/ {
 			N
-				/  args = \/etc\/dovecot\/dovecot-sql.conf.ext\/ {
+				/  args = \/etc\/dovecot\/dovecot-sql.conf.ext/ {
 					N
 						/[}]/ {
 							N
