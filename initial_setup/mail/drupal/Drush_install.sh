@@ -28,9 +28,9 @@ domain_name=$1
 #drush --version
 
 # install drush dev-master
-git clone --depth 1 https://github.com/drush-ops/drush.git $SRC/drush
+sudo -H -u www-data bash -c "git clone --depth 1 https://github.com/drush-ops/drush.git $SRC/drush"
 cd $SRC/drush
-composer install
+sudo -H -u www-data bash -c "composer install"
 ln -s $SRC/drush/drush /usr/local/bin/drush
 ln -s $SRC/drush/drush.complete.sh /etc/bash_completion.d/drush
 

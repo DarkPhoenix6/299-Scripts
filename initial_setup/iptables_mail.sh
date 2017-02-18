@@ -12,7 +12,7 @@ IPTABLES=/sbin/iptables
 IP6TABLES=/sbin/ip6tables
 MODPROBE=/sbin/modprobe
 INT_NET=192.168.10.0/24
-IFACE_INT=eth0:0
+IFACE_INT=eth0
 IFACE_EXT=eth0
 DNS_SVR_IP=192.168.10.253
 WEB_SVR_IP=192.168.10.253
@@ -57,6 +57,18 @@ $IPTABLES -A INPUT -i $IFACE_INT ! -s  $INT_NET -j DROP
 ### ACCEPT rules ###
 $IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 22 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 8443 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+# SMTP and SMTPS #
+$IPTABLES -A INPUT -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 465 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 587 -m conntrack --ctstate NEW -j ACCEPT
+# IMAP and IMAPS #                     
+$IPTABLES -A INPUT -p tcp --dport 143 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 993 -m conntrack --ctstate NEW -j ACCEPT
+# POP3 and POP3S #                     
+$IPTABLES -A INPUT -p tcp --dport 110 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 995 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
 
 ### Default INPUT LOG rule ###
@@ -82,6 +94,16 @@ $IPTABLES -A OUTPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 4321 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+# SMTP and SMTPS #
+$IPTABLES -A OUTPUT -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --dport 465 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --dport 587 -m conntrack --ctstate NEW -j ACCEPT
+# IMAP and IMAPS #                     
+$IPTABLES -A OUTPUT -p tcp --dport 143 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --dport 993 -m conntrack --ctstate NEW -j ACCEPT
+# POP3 and POP3S #                     
+$IPTABLES -A OUTPUT -p tcp --dport 110 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --dport 995 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
 
 ### Default OUTPUT LOG rule ###

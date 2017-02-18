@@ -27,6 +27,7 @@ apt-get install -y -q debconf-utils sudo
 apt-get install pwgen curl php5-cli git quotatool expect -y -q
 
 SQL_root_passwd=$(pwgen -s 20 1)
+Roundcube_app_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_user_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_setup_passwd=$(pwgen -s 20 1)
 #####New user
@@ -56,6 +57,8 @@ echo "roundcube-core  roundcube/mysql/admin-pass password     $SQL_root_passwd" 
 echo "roundcube-core  roundcube/dbconfig-install      boolean true" | debconf-set-selections
 echo "roundcube-core  roundcube/password-confirm      password	$SQL_root_passwd" | debconf-set-selections
 
+echo "roundcube-core  roundcube/app-password-confirm  password $Roundcube_app_passwd" | debconf-set-selections
+echo "roundcube-core  roundcube/mysql/app-pass        password $Roundcube_app_passwd" | debconf-set-selections
 
 debconf-set-selections <<< "phpmyadmin phpmyadmin/setup-password       password $PHPMyAdmin_setup_passwd"
 debconf-set-selections <<< "phpmyadmin phpmyadmin/password-confirm     password $PHPMyAdmin_setup_passwd"
@@ -82,6 +85,10 @@ chmod u=rw,go= /root/.my.cnf
 touch $Setup_dir\MYSQL/pass.txt
 echo "$SQL_root_passwd" >> $Setup_dir\MYSQL/pass.txt
 chmod u=rw,go= $Setup_dir\MYSQL/pass.txt
+
+touch $Setup_dir\webmail/roundcube_app_pass.txt
+echo "$Roundcube_app_passwd" >> $Setup_dir\webmail/roundcube_app_pass.txt
+chmod u=rw,go= $Setup_dir\webmail/roundcube_app_pass.txt
 
 touch $Setup_dir\PHPMyAdmin.txt
 echo "$PHPMyAdmin_user_passwd" >> $Setup_dir\PHPMyAdmin.txt
@@ -129,7 +136,7 @@ apt-get install dovecot-mysql dovecot-pop3d dovecot-imapd dovecot-managesieved d
 
 ##### Roundcube #####
 echo "[+] Installing Roundcube..."
-apt-get install -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" roundcube roundcube-plugins roundcube-plugins-extra 
+apt-get install -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" roundcube roundcube-plugins 
 
 ##### PHPMyAdmin #####
 echo "[+] Installing PHPMyAdmin..."
