@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+pw_hash=$(doveadm pw -s SHA256-CRYPT -p P@ssw0rd)
+
+doveadm pw -s SHA256-CRYPT -p P@ssw0rd -t $pw_hash
