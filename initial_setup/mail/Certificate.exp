@@ -66,5 +66,5 @@ send -- "$OU\r"
 expect -exact "Common Name (e.g. server FQDN or YOUR name) \[\]:"
 send -- "$FQDN\r"
 expect -exact "Email Address \[\]:"
-send -- "$user@$domain_name\r"
+send -- "$User_Name@$domain_name\r"
 expect eof

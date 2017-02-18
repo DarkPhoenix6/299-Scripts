@@ -80,7 +80,7 @@ echo '#*@example.org mail._domainkey.example.org' >> /etc/opendkim/SigningTable
 
 #Generate the Public and Private keys
 
-cd /etc/opendkim/$domain_name
+cd /etc/opendkim/keys/$domain_name
 opendkim-genkey -s mail -d $domain_name
 chown opendkim:opendkim mail.private
 #Update dns

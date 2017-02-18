@@ -32,8 +32,8 @@ a2ensite default-ssl
 service apache2 reload
 
 sed -i "
-	s:		\#ServerName www.example.com:        ServerName mail.$domain_name\n        ServerAlias www.$domain_name\n        Redirect permanent / https://www.$domain_name\/:
-	s:        DocumentRoot /var/www/html:        \#DocumentRoot /var/www/html:
+	s:		\#ServerName www.example.com|        ServerName mail.$domain_name\n        ServerAlias www.$domain_name\n        Redirect permanent / https://www.$domain_name\/|
+	s|        DocumentRoot /var/www/html|        \#DocumentRoot /var/www/html|
 " /etc/apache2/sites-available/000-default.conf
 
 service apache2 reload
