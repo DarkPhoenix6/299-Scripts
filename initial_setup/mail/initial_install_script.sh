@@ -51,14 +51,7 @@ echo postfix postfix/procmail        boolean true | debconf-set-selections
 echo postfix postfix/mailbox_limit   string  0 | debconf-set-selections
 echo postfix postfix/destinations    string  $domain_name, localhost.com, , localhost | debconf-set-selections
 
-echo "roundcube-core  roundcube/language      select  en_US" | debconf-set-selections
-echo "roundcube-core  roundcube/database-type select  mysql" | debconf-set-selections
-echo "roundcube-core  roundcube/mysql/admin-pass password     $SQL_root_passwd" | debconf-set-selections
-echo "roundcube-core  roundcube/dbconfig-install      boolean true" | debconf-set-selections
-echo "roundcube-core  roundcube/password-confirm      password	$SQL_root_passwd" | debconf-set-selections
-echo "roundcube-core  roundcube/db/app-user   string  roundcube" | debconf-set-selections
-echo "roundcube-core  roundcube/app-password-confirm  password $Roundcube_app_passwd" | debconf-set-selections
-echo "roundcube-core  roundcube/mysql/app-pass        password $Roundcube_app_passwd" | debconf-set-selections
+
 
 debconf-set-selections <<< "phpmyadmin phpmyadmin/setup-password       password $PHPMyAdmin_setup_passwd"
 debconf-set-selections <<< "phpmyadmin phpmyadmin/password-confirm     password $PHPMyAdmin_setup_passwd"
@@ -136,7 +129,7 @@ apt-get install dovecot-mysql dovecot-pop3d dovecot-imapd dovecot-managesieved d
 
 ##### Roundcube #####
 echo "[+] Installing Roundcube..."
-apt-get install -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" roundcube roundcube-plugins 
+expect $Setup_dir\webmail/RoundCube.exp $SQL_root_passwd
 
 ##### PHPMyAdmin #####
 echo "[+] Installing PHPMyAdmin..."
