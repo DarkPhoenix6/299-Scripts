@@ -13,9 +13,9 @@ Setup_dir='/root/initial_setup/mail/'
 SRC=/usr/local/src
 WEBROOT=/var/www/drupal
 echo "[+] Installing Composer..."
-sudo bash $Setup_dir\drupal/composer_install.sh $domain_name
+sudo bash -x $Setup_dir\drupal/composer_install.sh $domain_name
 echo "[+] Installing Drush..."
-sudo bash $Setup_dir\drupal/Drush_install.sh $domain_name
+sudo bash -x $Setup_dir\drupal/Drush_install.sh $domain_name
 
 # download latest drupal8 and install
 echo "[+] Installing Drupal..."

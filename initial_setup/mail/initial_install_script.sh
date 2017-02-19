@@ -119,7 +119,7 @@ apt-get install php5 php-pear php5-mysql -y -q
 
 ##### MYSQL Database Setup #####
 echo "[+] Setting up MYSQL Database..."
-bash $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
+bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
 
 ##### Install BIND #####
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q
@@ -144,41 +144,41 @@ apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="-
 
 ##### Certificate Setup #####
 echo "[+] Configuring Certificates..."
-bash $Setup_dir\Certificate.sh $domain_name
+bash -x $Setup_dir\Certificate.sh $domain_name
 
 ##### Apache Setup #####
 echo "[+] Configuring Apache..."
-bash $Setup_dir\webmail/Apache_config.sh $domain_name
+bash -x $Setup_dir\webmail/Apache_config.sh $domain_name
 
 ##### Postfix Setup #####
 echo "[+] Configuring Postfix..."
-bash $Setup_dir\email/Postfix_setup_script.sh $domain_name
+bash -x $Setup_dir\email/Postfix_setup_script.sh $domain_name
 
 
 ##### Dovecot Setup #####
 echo "[+] Configuring Dovecot..."
-bash $Setup_dir\email/Dovecot_setup_script.sh $domain_name
+bash -x $Setup_dir\email/Dovecot_setup_script.sh $domain_name
 
 ##### Install Drupal #####
 echo "[+] Installing Drupal Dependicies..."
-bash $Setup_dir\drupal/Drupal_setup.sh $domain_name
+bash -x $Setup_dir\drupal/Drupal_setup.sh $domain_name
 
 ##### SpamAssassin #####
 echo "[+] Configuring SpamAssassin..."
-bash $Setup_dir\email/SpamAssassin.sh $domain_name
+bash -x $Setup_dir\email/SpamAssassin.sh $domain_name
 
 ##### OpenDKIM #####
 echo "[+] Configuring OpenDKIM..."
-bash $Setup_dir\email/OpenDKIM.sh $domain_name
+bash -x $Setup_dir\email/OpenDKIM.sh $domain_name
 
 ##### Roundcube Setup #####
 echo "[+] Configuring Roundcube..."
-bash $Setup_dir\webmail/RoundCube_config.sh $domain_name
+bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
 }
 if [ ! -f $First_boot ]; then
 	touch $First_boot
 #	bash $Setup_dir\ip_address_mail.sh
-	bash /root/initial_setup/ip_address_mail_deb_test.sh
+	bash -x /root/initial_setup/ip_address_mail_deb_test.sh
 #	FB_install
 	
 #	raspi-config --expand-rootfs
