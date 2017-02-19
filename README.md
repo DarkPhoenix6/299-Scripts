@@ -11,4 +11,4 @@ cp -a * ..
 cd ../
 rm -r 299-Scripts/
 touch /var/log/initial_setup.log
-bash -x /root/initial_setup/mail/initial_install_script.sh fedun.ca &>> /var/log/initial_setup.log
+bash -x /root/initial_setup/mail/initial_install_script.sh <your_domain> &>> /var/log/initial_setup.log
