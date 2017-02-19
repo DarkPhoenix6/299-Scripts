@@ -1,7 +1,8 @@
 # 299-Scripts
 
+this is designed to be run manually or with rc.local upon boot-up 
 run as root:
-
+apt-get install git -y
 cd /root/
 rm -r 299-Scripts/ initial_setup/ README.md
 git -C /root/ clone https://github.com/DarkPhoenix6/299-Scripts.git
