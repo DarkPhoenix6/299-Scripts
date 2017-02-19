@@ -56,7 +56,7 @@ echo "roundcube-core  roundcube/database-type select  mysql" | debconf-set-selec
 echo "roundcube-core  roundcube/mysql/admin-pass password     $SQL_root_passwd" | debconf-set-selections
 echo "roundcube-core  roundcube/dbconfig-install      boolean true" | debconf-set-selections
 echo "roundcube-core  roundcube/password-confirm      password	$SQL_root_passwd" | debconf-set-selections
-
+echo "roundcube-core  roundcube/db/app-user   string  roundcube" | debconf-set-selections
 echo "roundcube-core  roundcube/app-password-confirm  password $Roundcube_app_passwd" | debconf-set-selections
 echo "roundcube-core  roundcube/mysql/app-pass        password $Roundcube_app_passwd" | debconf-set-selections
 

@@ -28,6 +28,7 @@ domain_name=$1
 #drush --version
 
 # install drush dev-master
+
 sudo -H -u www-data bash -c "git clone --depth 1 https://github.com/drush-ops/drush.git $SRC/drush"
 cd $SRC/drush
 sudo -H -u www-data bash -c "composer install"
