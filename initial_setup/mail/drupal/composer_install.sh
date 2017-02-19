@@ -34,7 +34,7 @@ mkdir /home/www-data
 chown -R www-data:www-data /home/www-data/
 cd /home/www-data/
 sudo -H -u www-data bash -c 'curl -sS https://getcomposer.org/installer | php'
-sudo -H -u www-data bash -c php composer.phar
+#sudo -H -u www-data bash -c php composer.phar
 mv composer.phar /usr/local/bin/composer
 #rm composer-setup.php
 ln -s /usr/local/bin/composer /usr/bin/composer
