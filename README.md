@@ -18,3 +18,8 @@ or
 bash -x /root/initial_setup/mail/initial_install_script.sh <your_domain> 2>> /var/log/initial_setup.err.log 1>> /var/log/initial_setup.log
 
 to send stdout and stderr to different files
+
+you can follow the install process by using "tail -f /var/log/initial_setup" 
+while in another terminal...
+or by issuing "bash -x /root/initial_setup/mail/initial_install_script.sh <your_domain> &>> /var/log/initial_setup.log"
+in "screen"
