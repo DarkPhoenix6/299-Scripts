@@ -45,7 +45,7 @@ sed  -i '
 							N
 								s_userdb {\n  driver = sql\n  args = /etc/dovecot/dovecot-sql.conf.ext\n}_userdb {\n  driver = static\n  args = uid=vmail gid=vmail home=/var/vmail/%d/%n\n  \# driver = sql\n  \# args = /etc/dovecot/dovecot-sql.conf.ext\n}_
 							}
-					
+		}			
 	}
 }' $conf_dir\auth-sql.conf.ext
 
