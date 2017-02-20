@@ -27,13 +27,13 @@ apt-get install -y -q debconf-utils sudo
 apt-get install pwgen curl php5-cli git quotatool expect -y -q
 
 SQL_root_passwd=$(pwgen -s 20 1)
-Roundcube_app_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_user_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_setup_passwd=$(pwgen -s 20 1)
 #####New user
 adduser --disabled-login --quiet --gecos "" nonroot
 adduser --disabled-login --quiet --gecos "" server_admin 
 adduser server_admin sudo
+adduser www-data staff
 #usermod  
 #####deb_conf#####
 debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login        boolean true"
@@ -78,10 +78,6 @@ chmod u=rw,go= /root/.my.cnf
 touch $Setup_dir\MYSQL/pass.txt
 echo "$SQL_root_passwd" >> $Setup_dir\MYSQL/pass.txt
 chmod u=rw,go= $Setup_dir\MYSQL/pass.txt
-
-touch $Setup_dir\webmail/roundcube_app_pass.txt
-echo "$Roundcube_app_passwd" >> $Setup_dir\webmail/roundcube_app_pass.txt
-chmod u=rw,go= $Setup_dir\webmail/roundcube_app_pass.txt
 
 touch $Setup_dir\PHPMyAdmin.txt
 echo "$PHPMyAdmin_user_passwd" >> $Setup_dir\PHPMyAdmin.txt
