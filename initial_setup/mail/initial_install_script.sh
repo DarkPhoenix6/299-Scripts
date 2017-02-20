@@ -8,7 +8,7 @@
 #
 ######################################################################
 #####Constants#####
-export DEBIAN_FRONTEND=noninteractive
+
 domain_name=$1
 Setup_dir='/root/initial_setup/mail/'
 First_boot="/var/log/firstboot.log"
@@ -125,7 +125,9 @@ apt-get install dovecot-mysql dovecot-pop3d dovecot-imapd dovecot-managesieved d
 
 ##### Roundcube #####
 echo "[+] Installing Roundcube..."
+export DEBIAN_FRONTEND=dialog
 expect $Setup_dir\webmail/RoundCube.exp $SQL_root_passwd
+export DEBIAN_FRONTEND=noninteractive
 
 ##### PHPMyAdmin #####
 echo "[+] Installing PHPMyAdmin..."
@@ -164,6 +166,8 @@ bash -x $Setup_dir\email/OpenDKIM.sh $domain_name
 echo "[+] Configuring Roundcube..."
 bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
 }
+#####Main
+export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
 	touch $First_boot
 #	bash $Setup_dir\ip_address_mail.sh
