@@ -7,7 +7,7 @@
 #	Description:	IP Configuration script Configuration
 #
 ######################################################################
-
+Setup_dir='/root/initial_setup/mail/'
 function network_config
 {
 
@@ -38,6 +38,13 @@ dns-nameservers 8.8.8.8 8.8.4.4
 allow-hotplug wlan0
 iface wlan0 inet manual" > /etc/network/interfaces
 
+
+}
+
+#####Main
+
+network_config
+$Setup_dir\change_hosts.sh
 if ! /etc/init.d/networking restart
 then
 	if ! /etc/init.d/networking restart
@@ -45,11 +52,5 @@ then
 		reboot
 	fi
 fi
-}
-
-#####Main
-
-network_config
-
 exit
 #######END :) #######

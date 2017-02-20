@@ -40,4 +40,4 @@ ln -s /usr/local/bin/composer /usr/bin/composer
 
 
 exit
-#######END :) #######
+####### END :) #######

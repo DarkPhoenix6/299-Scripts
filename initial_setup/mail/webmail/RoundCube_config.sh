@@ -53,6 +53,6 @@ sed -i "
 " /etc/roundcube/plugins/password/config.inc.php
 
 exit
-#######END :) #######
+####### END :) #######
 
 

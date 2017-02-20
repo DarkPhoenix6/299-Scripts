@@ -31,7 +31,8 @@ new_dirs
 expect $Setup_dir\Certificate.exp $Country $State $City $OrgName $OU $FQDN $User_Name $domain_name
 chmod go= $My_Key
 
-
+exit
+####### END :) #######
 #sudo apt-get install python-certbot-apache -t jessie-backports
 #certbot --apache
 #certbot --apache certonly

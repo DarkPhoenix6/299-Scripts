@@ -40,7 +40,7 @@ service apache2 reload
 
 exit
 
-#######END :) #######
+####### END :) #######
 	
 #						SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
 #						SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key

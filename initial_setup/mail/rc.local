@@ -18,6 +18,6 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-#sudo /root/initial_setup/initial_install_script.sh fedun.ca 2>> /var/log/initial_setup.err.log 1>> /var/log/initial_setup.log
+#sudo bash -x /root/initial_setup/initial_install_script.sh fedun.ca 2>> /var/log/initial_setup.err.log 1>> /var/log/initial_setup.log
 sudo bash -x /root/initial_setup/mail/initial_install_script.sh fedun.ca &>> /var/log/initial_setup.log
 exit 0
