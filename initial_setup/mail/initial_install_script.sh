@@ -88,8 +88,8 @@ echo "$PHPMyAdmin_setup_passwd" >> $Setup_dir\PHPMyAdmin-setup_password.txt
 chmod u=rw,go= $Setup_dir\PHPMyAdmin-setup_password.txt
 
 echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
-apt-get update -q
-apt-get dist-upgrade -y -q
+apt-get update -q 1> /dev/null
+apt-get dist-upgrade -y -q 
 ##### OpenSSH/OpenSSL/OpenDKIM #####
 
 apt-get install -y -q ssh openssl openssh-server openssh-client opendkim opendkim-tools 
