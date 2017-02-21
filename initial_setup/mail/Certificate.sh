@@ -7,26 +7,28 @@
 #	Description:	Certificate Creation Script 
 #	
 ######################################################################
-#####Constants#####
+##### Constants #####
 My_Cert="/etc/ssl/My_Certs/certs/mailserver_crt.pem"
 My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
 Setup_dir='/root/initial_setup/mail/'
-domain_name=$1
-Country=CA
-State=BC
-City=KELOWNA
-OrgName="Chris Fedun Sec LTD"
-OU=CF
-FQDN=mail.$domain_name
-User_Name=chris
+host_name=$1
+domain_name=$2
+Country=$3
+State=$4
+City=$5
+OrgName=$6
+OU=$7
+FQDN=$hostname.$domain_name
+User_Name=$8
 Email=$User_Name@$domain_name
 
+##### Functions #####
 function new_dirs
 {
 	mkdir -p /etc/ssl/My_Certs/certs/
 	mkdir -p /etc/ssl/My_Certs/private/
 }
-#####main#####
+##### Main #####
 new_dirs
 expect $Setup_dir\Certificate.exp $Country $State $City $OrgName $OU $FQDN $User_Name $domain_name
 chmod go= $My_Key

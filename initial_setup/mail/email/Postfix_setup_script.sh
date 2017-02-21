@@ -14,6 +14,7 @@ mailuser_passwd=$(cat $Setup_dir\email/mailuser_passwd.txt)
 My_Cert="/etc/ssl/My_Certs/certs/mailserver_crt.pem"
 My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
 
+##### Functions #####
 function Create_config_files
 {
 	touch /etc/postfix/mysql-virtual-mailbox-domains.cf

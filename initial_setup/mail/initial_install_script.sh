@@ -14,8 +14,7 @@ domain_name=$2
 Setup_dir='/root/initial_setup/mail/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
-
-
+##### Functions #####
 function Second_boot_install 
 {
 

@@ -10,6 +10,8 @@
 Setup_dir='/root/initial_setup/mail/'
 host_name=$1
 domain_name=$2
+
+##### Functions #####
 function network_config
 {
 
@@ -47,7 +49,7 @@ iface wlan0 inet manual" > /etc/network/interfaces
 
 }
 
-#####Main
+##### Main #####
 
 network_config
 $Setup_dir\change_hosts.sh $host_name $domain_name
