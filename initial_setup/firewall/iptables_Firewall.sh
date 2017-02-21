@@ -5,6 +5,7 @@
 #	Name:		 	iptables_Firewall.sh
 #	Author:			Chris Fedun 17/12/2016
 #	Description:	Base IPTABLES Firewall Configuration for Firewall Device
+#	Based on:		http://cipherdyne.org/LinuxFirewalls/ch01/
 #
 ######################################################################
 #####Constants#####
@@ -17,7 +18,7 @@ IFACE_EXT=eth0
 DNS_SVR_IP=192.168.10.253
 WEB_SVR_IP=192.168.10.253
 EMAIL_SVR_IP=192.168.10.253
-CALL_MANAGER=192.168.10.252
+CALL_MANAGER_IP=192.168.10.252
 Setup_dir='/root/initial_setup/'
 ### Flush existing rules and set chain policy settings to DROP. ###
 echo "[+] Flushing existing iptables rules..."
@@ -152,9 +153,9 @@ $IPTABLES -t nat -A PREROUTING -p tcp --dport 993 -i $IFACE_EXT -j DNAT --to $EM
 $IPTABLES -t nat -A PREROUTING -p tcp --dport 110 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:110
 $IPTABLES -t nat -A PREROUTING -p tcp --dport 995 -i $IFACE_EXT -j DNAT --to $EMAIL_SVR_IP\:995
 ##### Rules to allow SIP phone calls
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 5060 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER\:5060
-$IPTABLES -t nat -A PREROUTING -p udp --dport 5060 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER\:5060
-$IPTABLES -t nat -A PREROUTING -p tcp --dport 5061 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER\:5061
+$IPTABLES -t nat -A PREROUTING -p tcp --dport 5060 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER_IP\:5060
+$IPTABLES -t nat -A PREROUTING -p udp --dport 5060 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER_IP\:5060
+$IPTABLES -t nat -A PREROUTING -p tcp --dport 5061 -i $IFACE_EXT -j DNAT --to $CALL_MANAGER_IP\:5061
 # POSTROUTING rule
 $IPTABLES -t nat -A POSTROUTING -s $INT_NET -o $IFACE_EXT -j MASQUERADE
 

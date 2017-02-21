@@ -5,6 +5,7 @@
 #	Name:		 	iptables.sh
 #	Author:			Chris Fedun 17/12/2016
 #	Description:	Base IPTABLES Firewall Configuration for Firewall Device
+#	Based on:		http://cipherdyne.org/LinuxFirewalls/ch01/
 #
 ######################################################################
 #####Constants#####

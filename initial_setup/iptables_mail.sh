@@ -2,9 +2,10 @@
 #
 ######################################################################
 #
-#	Name:		 	iptables.sh
+#	Name:		 	iptables_mail.sh
 #	Author:			Chris Fedun 17/12/2016
-#	Description:	Base IPTABLES Firewall Configuration for Firewall Device
+#	Description:	Base IPTABLES Firewall Configuration for Mail Server
+#	Based on:		http://cipherdyne.org/LinuxFirewalls/ch01/
 #
 ######################################################################
 #####Constants#####
@@ -19,6 +20,7 @@ WEB_SVR_IP=192.168.10.253
 EMAIL_SVR_IP=192.168.10.253
 CALL_MANAGER=192.168.10.252
 Setup_dir='/root/initial_setup/mail/'
+
 ### Flush existing rules and set chain policy settings to DROP. ###
 echo "[+] Flushing existing iptables rules..."
 
@@ -121,8 +123,7 @@ $IPTABLES -A OUTPUT -o lo -j ACCEPT
 ##### Forwarding #####
 echo "[+] Enabling IP forwarding..."
 echo 1 > /proc/sys/net/ipv4/ip_forward
-##### Basic DDos Prevention #####
-sudo bash $Setup_dir\ddos_protection.sh
+
 ### Save ###
 echo "[+] Saving rules..."
 iptables-save > ipt.save
