@@ -1,0 +1,21 @@
+apt install git -y
+
+cd /root/
+rm -r 299-Scripts/ initial_setup/ README.md
+git -C /root/ clone https://github.com/DarkPhoenix6/299-Scripts.git
+cd /root/299-Scripts/
+cp -a * ..
+cd ../
+rm -r 299-Scripts/
+touch /var/log/initial_setup.log
+rmdir 299-Scripts/
+
+domain_name=$1
+Country=CA
+State=BC
+City=KELOWNA
+OrgName="Chris Fedun Sec LTD"
+OU=CF
+FQDN=mail.$domain_name
+User_Name=chris
+Email=$User_Name@$domain_name
