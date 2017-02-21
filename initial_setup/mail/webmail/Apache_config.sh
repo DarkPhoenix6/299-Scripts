@@ -24,8 +24,9 @@ sed -i '
 
 ' /etc/apache2/sites-available/default-ssl.conf
 
-#Enable the SSL encryption module
-a2enmod ssl
+#Enable the SSL encryption module and the Rewrite module
+a2enmod rewrite ssl
+
 #Enable the virtual host for HTTPS
 a2ensite default-ssl
 

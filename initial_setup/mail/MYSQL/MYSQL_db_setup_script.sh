@@ -8,8 +8,8 @@
 #
 ######################################################################
 #####Constants#####
-mailuser_passwd=$(pwgen -s 25)
-drupaluser_passwd=$(pwgen -s 25)
+mailuser_passwd=$(pwgen -s 25 1)
+drupaluser_passwd=$(pwgen -s 25 1)
 domain_name=$1
 Setup_dir='/root/initial_setup/mail/'
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
