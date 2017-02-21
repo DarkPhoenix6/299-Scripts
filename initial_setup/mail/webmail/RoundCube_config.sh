@@ -17,7 +17,7 @@ mailuser_passwd=$(cat $Setup_dir\email/mailuser_passwd.txt)
 
 sed -i "
 /ServerAdmin webmaster@localhost/ a\
-\                ServerName mail.$domain_name:443\n                ServerAlias www.$domain_name:443\n                Include /etc/phpmyadmin/apache.conf\n                Include /etc/roundcube/apache.conf\n                Alias /webmail /var/lib\/roundcube/
+\t\tServerName mail.$domain_name:443\n\t\tServerAlias www.$domain_name:443\n\t\tInclude /etc/phpmyadmin/apache.conf\n\t\tInclude /etc/roundcube/apache.conf\n\t\tAlias /webmail /var/lib\/roundcube/
 " /etc/apache2/sites-available/default-ssl.conf
 
 sed -i "

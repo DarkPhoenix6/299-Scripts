@@ -13,11 +13,11 @@ My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
 domain_name=$1
 #####Main
 sed -i '
-	/		                SSLCertificateFile    \/etc\/ssl\/certs\/ssl-cert-snakeoil.pem/ {
+	/\t\tSSLCertificateFile    \/etc\/ssl\/certs\/ssl-cert-snakeoil.pem/ {
 		N
-			/		                SSLCertificateKeyFile \/etc\/ssl\/private\/ssl-cert-snakeoil.key/ {
+			/\t\tSSLCertificateKeyFile \/etc\/ssl\/private\/ssl-cert-snakeoil.key/ {
 				N
-					s:		                SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem\n		                SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key:		                \#SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem\n						\#SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key\n						SSLCertificateFile /etc/ssl/My_Certs/certs/mailserver_crt.pem\n						SSLCertificateKeyFile /etc/ssl/My_Certs/private/mailserver_key.pem:
+					s:\t\tSSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\tSSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key:\t\t\#SSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\t\#SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key\n\t\tSSLCertificateFile\t/etc/ssl/My_Certs/certs/mailserver_crt.pem\n\t\tSSLCertificateKeyFile /etc/ssl/My_Certs/private/mailserver_key.pem:
 			}
 	}
 
@@ -32,8 +32,8 @@ a2ensite default-ssl
 service apache2 reload
 
 sed -i "
-	s|		\#ServerName www.example.com|        ServerName mail.$domain_name\n        ServerAlias www.$domain_name\n        Redirect permanent / https://www.$domain_name\/|
-	s|        DocumentRoot /var/www/html|        \#DocumentRoot /var/www/html|
+	s|\t\#ServerName www.example.com|\tServerName mail.$domain_name\n\tServerAlias www.$domain_name\n\tRedirect permanent / https://www.$domain_name\/|
+	s|\tDocumentRoot /var/www/html|\t\#DocumentRoot /var/www/html|
 " /etc/apache2/sites-available/000-default.conf
 
 service apache2 reload
@@ -41,7 +41,7 @@ service apache2 reload
 exit
 
 ####### END :) #######
-	
+#	
 #						SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
 #						SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
 #		                #SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
