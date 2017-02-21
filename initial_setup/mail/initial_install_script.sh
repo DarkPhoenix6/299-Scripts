@@ -9,7 +9,8 @@
 ######################################################################
 #####Constants#####
 
-domain_name=$1
+host_name=$1
+domain_name=$2
 Setup_dir='/root/initial_setup/mail/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
@@ -171,7 +172,7 @@ export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
 	touch $First_boot
 #	bash $Setup_dir\ip_address_mail.sh
-	bash -x /root/initial_setup/ip_address_mail_deb_test.sh
+	bash -x /root/initial_setup/ip_address_mail_deb_test.sh $host_name $domain_name
 #	FB_install
 	
 #	raspi-config --expand-rootfs
