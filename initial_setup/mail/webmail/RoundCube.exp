@@ -41,7 +41,8 @@ set SQL_root_passwd [lindex $argv 0]
 #
 # -Don
 
-
+stty columns 177
+stty rows 57
 set timeout -1
 spawn apt-get install roundcube roundcube-plugins roundcube-core -y
 match_max 100000
