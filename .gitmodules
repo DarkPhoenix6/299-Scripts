@@ -1,0 +1,3 @@
+[submodule "My_List_of_SMS_gateways"]
+	path = My_List_of_SMS_gateways
+	url = git://github.com/DarkPhoenix6/My_List_of_SMS_gateways.git
