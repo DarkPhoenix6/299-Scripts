@@ -48,11 +48,11 @@ mysql <<ADD_USER_MYSQL_SCRIPT
 
 USE mailserver;
 
-INSERT INTO 'mailserver'.'virtual_users' ( 'id' , 'domain_id' , 'password' , 'email' )
+INSERT INTO \`mailserver\`.\`virtual_users\` ( \`id\` , \`domain_id\` , \`password\` , \`email\` )
  VALUES ('NULL', '1', "$user_pass_hash" , "$UserName\@$domain_name");
  
-REPLACE INTO 'mailserver'.'virtual_aliases' ('id','domain_id','source','destination')
- VALUES ('NULL', '1', "$UserName\@$domain_name", "$UserName\@$domain_name");
+REPLACE INTO \`mailserver\`.\`virtual_aliases\` (\`id\`, \`domain_id\`, \`source\`, \`destination\`)
+ VALUES ('NULL', '1', "$UserName@$domain_name", "$UserName@$domain_name");
  
 ADD_USER_MYSQL_SCRIPT
 
