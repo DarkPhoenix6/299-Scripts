@@ -31,7 +31,7 @@ State=$4
 City=$5
 OrgName=$6
 OU=$7
-FQDN=$hostname.$domain_name
+FQDN=$host_name.$domain_name
 User_Name=$8
 Email=$User_Name@$domain_name
 
