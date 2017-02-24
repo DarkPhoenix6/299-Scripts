@@ -34,15 +34,12 @@ EMAIL_SVR_IP=192.168.10.253
 CALL_MANAGER=192.168.10.252
 Setup_dir='/root/initial_setup/mail/'
 
-### Flush existing rules and set chain policy settings to DROP. ###
+### Flush existing rules ###
 echo "[+] Flushing existing iptables rules..."
 
 $IPTABLES -F
 $IPTABLES -F -t nat
 $IPTABLES -X
-$IPTABLES -P INPUT DROP
-$IPTABLES -P OUTPUT DROP
-$IPTABLES -P FORWARD DROP
 
 ### This policy does not handle IPv6 traffic except to DROP it. ###
 echo "[+] Disabling IPv6 traffic..."
@@ -136,6 +133,11 @@ $IPTABLES -A OUTPUT -o lo -j ACCEPT
 ##### Forwarding #####
 echo "[+] Enabling IP forwarding..."
 echo 1 > /proc/sys/net/ipv4/ip_forward
+
+### Setting chain policy settings to DROP. ###
+$IPTABLES -P INPUT DROP
+$IPTABLES -P OUTPUT DROP
+$IPTABLES -P FORWARD DROP
 
 ### Save ###
 echo "[+] Saving rules..."

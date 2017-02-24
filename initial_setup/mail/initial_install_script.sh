@@ -183,13 +183,16 @@ bash -x $Setup_dir\email/OpenDKIM.sh $domain_name
 ##### Roundcube Setup #####
 echo "[+] Configuring Roundcube..."
 bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
+
+##### Firewall #####
+bash -x $Setup_dir\iptables_mail.sh
 }
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
 	touch $First_boot
 #	bash $Setup_dir\ip_address_mail.sh
-	bash -x /root/initial_setup/ip_address_mail_deb_test.sh $host_name $domain_name
+	bash -x $Setup_dir\ip_address_mail_deb_test.sh $host_name $domain_name
 #	FB_install
 	
 #	raspi-config --expand-rootfs
