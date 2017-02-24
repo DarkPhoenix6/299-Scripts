@@ -47,7 +47,7 @@ mv $(dirname $WEBROOT)/drupal-8* $WEBROOT
 
 # setup Database
 #drush si standard --db-url=mysql://[db_user]:[db_pass]@[ip-address]/[db_name] --account-name=admin --account-pass=[useruser_pass] --site-name=Example
-drush si standard --db-url=mysql://root:$root_db_pass@127.0.0.1/drupal --account-name=admin --account-pass=$drupal_admin_passwd
+expect $Setup_dir\drupal/Drupal_Setup.exp $root_db_pass $drupal_admin_passwd
 
 exit
 ####### END :) #######
