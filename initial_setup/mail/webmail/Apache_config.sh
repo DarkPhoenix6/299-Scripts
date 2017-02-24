@@ -26,7 +26,7 @@ My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
 domain_name=$1
 #####Main
 sed -i '
-	/\t\tSSLCertificateFile    \/etc\/ssl\/certs\/ssl-cert-snakeoil.pem/ {
+	/\t\tSSLCertificateFile\t\/etc\/ssl\/certs\/ssl-cert-snakeoil.pem/ {
 		N
 			/\t\tSSLCertificateKeyFile \/etc\/ssl\/private\/ssl-cert-snakeoil.key/ {
 				N

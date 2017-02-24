@@ -13,14 +13,14 @@ cp -a * ..
 cd ../
 rm -r 299-Scripts/
 touch /var/log/initial_setup.log
-rmdir 299-Scripts/
+
 
 domain_name=$1
 host_name=mail
 Country=CA
 State=BC
 City=KELOWNA
-OrgName="Chris Fedun Sec LTD"
+OrgName="Chris\ Fedun\ Sec\ LTD"
 OU=CF
 FQDN=$host_name.$domain_name
 User_Name=chris

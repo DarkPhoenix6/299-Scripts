@@ -23,9 +23,9 @@
 ######################################################################
 #####Constants#####
 domain_name=$1
+Setup_dir='/root/initial_setup/mail/'
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 drupal_admin_passwd=$(pwgen -s 25 1)
-Setup_dir='/root/initial_setup/mail/'
 SRC=/usr/local/src
 WEBROOT=/var/www/drupal
 
