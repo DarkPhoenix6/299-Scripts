@@ -185,6 +185,7 @@ echo "[+] Configuring Roundcube..."
 bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
 
 ##### Firewall #####
+echo "[+] Configuring Firewall..."
 bash -x $Setup_dir\iptables_mail.sh
 }
 #####Main

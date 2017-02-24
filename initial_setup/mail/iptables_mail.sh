@@ -41,13 +41,6 @@ $IPTABLES -F
 $IPTABLES -F -t nat
 $IPTABLES -X
 
-### This policy does not handle IPv6 traffic except to DROP it. ###
-echo "[+] Disabling IPv6 traffic..."
-
-$IP6TABLES -P INPUT DROP
-$IP6TABLES -P OUTPUT DROP
-$IP6TABLES -P FORWARD DROP
-
 ### Load connection-tracking modules. ###
 $MODPROBE ip_conntrack
 $MODPROBE iptable_nat
@@ -69,6 +62,12 @@ $IPTABLES -A INPUT -i $IFACE_INT ! -s  $INT_NET -j DROP
 ### ACCEPT rules ###
 $IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 22 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 8443 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 21 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 43 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 4321 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 # SMTP and SMTPS #
@@ -138,7 +137,12 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 $IPTABLES -P INPUT DROP
 $IPTABLES -P OUTPUT DROP
 $IPTABLES -P FORWARD DROP
+### This policy does not handle IPv6 traffic except to DROP it. ###
+echo "[+] Disabling IPv6 traffic..."
 
+$IP6TABLES -P INPUT DROP
+$IP6TABLES -P OUTPUT DROP
+$IP6TABLES -P FORWARD DROP
 ### Save ###
 echo "[+] Saving rules..."
 iptables-save > ipt.save

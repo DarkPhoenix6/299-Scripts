@@ -41,13 +41,6 @@ $IPTABLES -F
 $IPTABLES -F -t nat
 $IPTABLES -X
 
-### This policy does not handle IPv6 traffic except to DROP it. ###
-echo "[+] Disabling IPv6 traffic..."
-
-$IP6TABLES -P INPUT DROP
-$IP6TABLES -P OUTPUT DROP
-$IP6TABLES -P FORWARD DROP
-
 ### Load connection-tracking modules. ###
 $MODPROBE ip_conntrack
 $MODPROBE iptable_nat
@@ -179,6 +172,12 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 $IPTABLES -P INPUT DROP
 $IPTABLES -P OUTPUT DROP
 $IPTABLES -P FORWARD DROP
+### This policy does not handle IPv6 traffic except to DROP it. ###
+echo "[+] Disabling IPv6 traffic..."
+
+$IP6TABLES -P INPUT DROP
+$IP6TABLES -P OUTPUT DROP
+$IP6TABLES -P FORWARD DROP
 
 ##### Basic DDos Prevention #####
 sudo bash $Setup_dir\ddos_protection.sh
