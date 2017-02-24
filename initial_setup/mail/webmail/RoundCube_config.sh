@@ -30,7 +30,7 @@ mailuser_passwd=$(cat $Setup_dir\email/mailuser_passwd.txt)
 
 sed -i "
 /ServerAdmin webmaster@localhost/ a\
-\t\tServerName mail.$domain_name:443\n\t\tServerAlias www.$domain_name:443\n\t\tInclude /etc/phpmyadmin/apache.conf\n\t\tInclude /etc/roundcube/apache.conf\n\t\tAlias /webmail /var/lib\/roundcube/
+\\t\tServerName mail.$domain_name:443\n\t\tServerAlias www.$domain_name:443\n\t\tInclude /etc/phpmyadmin/apache.conf\n\t\tInclude /etc/roundcube/apache.conf\n\t\tAlias /webmail /var/lib\/roundcube/
 " /etc/apache2/sites-available/default-ssl.conf
 
 sed -i "
@@ -39,14 +39,8 @@ s:\$config\['default_host'\] = '';://\$config\['default_host'\] = '';\n\$config\
 
 #Plugins
 sed -i "
-/'archive',/ {
-	N
-		/'zipdownload',/ {
-			N
-				a\
-				'managesieve',\n'password',
-		}
-}
+/'zipdownload',/ a\
+'managesieve',\n'password',
 " /etc/roundcube/config.inc.php
 
 echo "\$config['session_lifetime'] = 60;" >> /etc/roundcube/config.inc.php
@@ -61,7 +55,7 @@ sed -i "
 	s:\$config\['password_force_save'\] = false;:\$config\['password_force_save'\] = true;:
 	s|\$config\['password_db_dsn'\] = '';|\$config\['password_db_dsn'\] = 'mysql://mailuser:$mailuser_passwd@127.0.0.1/mailserver';|
 	
-	s:\$config\['password_query'\] = 'SELECT update_passwd(%c, %u)';:\$config\['password_query'\] = \"UPDATE virtual_users SET password=CONCAT('{SHA256-CRYPT}', ENCRYPT (%p, CONCAT('$5$', SUBSTRING(SHA(RAND()), -16)))) WHERE email=%u;\";:
+	s:\$config\['password_query'\] = 'SELECT update_passwd(%c, %u)';:\$config\['password_query'\] = \"UPDATE virtual_users SET password=CONCAT('{SHA256-CRYPT}', ENCRYPT (%p, CONCAT('\$5$', SUBSTRING(SHA(RAND()), -16)))) WHERE email=%u;\";:
 
 " /etc/roundcube/plugins/password/config.inc.php
 

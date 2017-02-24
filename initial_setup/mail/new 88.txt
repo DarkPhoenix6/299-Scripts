@@ -38,3 +38,5 @@ git push
 $host_name $domain_name $Country $State $City $OrgName $OU $User_Name
 
 bash -x /root/install.sh fedun.ca &>> /var/log/initial_setup.log
+
+tail -f /var/log/initial_setup.log
