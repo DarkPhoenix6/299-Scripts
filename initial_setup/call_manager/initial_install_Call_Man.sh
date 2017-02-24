@@ -24,13 +24,8 @@
 ##### Constants #####
 host_name=$1
 domain_name=$2
-Country=$3
-State=$4
-City=$5
-OrgName=$6
-OU=$7
-User_Name=$8
-Setup_dir='/root/initial_setup/mail/'
+
+Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
 ##### Functions #####
@@ -42,12 +37,11 @@ apt-get update -q
 apt-get upgrade -y -q
 
 #####install#####
-apt-get install -y -q debconf-utils sudo
+apt-get install -y -q debconf-utils sudo autotools
 apt-get install pwgen curl php5-cli git quotatool expect -y -q
 
 SQL_root_passwd=$(pwgen -s 20 1)
-PHPMyAdmin_user_passwd=$(pwgen -s 20 1)
-PHPMyAdmin_setup_passwd=$(pwgen -s 20 1)
+
 #####New user
 adduser --disabled-login --quiet --gecos "" nonroot
 adduser --disabled-login --quiet --gecos "" server_admin 
@@ -67,9 +61,6 @@ touch $Setup_dir\MYSQL/pass.txt
 echo "$SQL_root_passwd" >> $Setup_dir\MYSQL/pass.txt
 chmod u=rw,go= $Setup_dir\MYSQL/pass.txt
 
-touch $Setup_dir\PHPMyAdmin.txt
-echo "$PHPMyAdmin_user_passwd" >> $Setup_dir\PHPMyAdmin.txt
-chmod u=rw,go= $Setup_dir\PHPMyAdmin.txt
 
 touch $Setup_dir\PHPMyAdmin-setup_password.txt
 echo "$PHPMyAdmin_setup_passwd" >> $Setup_dir\PHPMyAdmin-setup_password.txt
@@ -78,9 +69,9 @@ chmod u=rw,go= $Setup_dir\PHPMyAdmin-setup_password.txt
 echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 apt-get update -q 1> /dev/null
 apt-get dist-upgrade -y -q 
-##### OpenSSH/OpenSSL/OpenDKIM #####
+##### OpenSSH/OpenSSL#####
 
-apt-get install -y -q ssh openssl openssh-server openssh-client opendkim opendkim-tools 
+apt-get install -y -q ssh openssl openssh-server openssh-client 
 
 ##### NTP #####
 apt-get install ntp ntpdate -y -q
@@ -91,20 +82,13 @@ echo "[+] Installing MYSQL..."
 apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" apache2 mysql-server
 
 
-##### MYSQL Database Setup #####
-echo "[+] Setting up MYSQL Database..."
-bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
-
+apt-get install build-essential subversion \
+libncurses5-dev libssl-dev libxml2-dev vim-nox gcc
+ apt-get install linux-headers-`uname -r`
+ 
 ##### Install BIND #####
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q
 
-##### Certificate Setup #####
-echo "[+] Configuring Certificates..."
-bash -x $Setup_dir\Certificate.sh $host_name $domain_name $Country $State $City "$OrgName" $OU $User_Name
-
-##### Apache Setup #####
-echo "[+] Configuring Apache..."
-bash -x $Setup_dir\webmail/Apache_config.sh $domain_name
 
 ##### Firewall #####
 echo "[+] Configuring Firewall..."
