@@ -58,7 +58,7 @@ iface wlan0 inet manual" > /etc/network/interfaces
 #####Main
 
 network_config
-$Setup_dir\change_hosts.sh
+bash -x $Setup_dir\change_hosts.sh $host_name $domain_name
 if ! /etc/init.d/networking restart
 then
 	if ! /etc/init.d/networking restart
