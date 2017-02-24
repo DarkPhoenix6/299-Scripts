@@ -21,9 +21,14 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################
 #####Constants#####
-
 host_name=$1
 domain_name=$2
+Country=$3
+State=$4
+City=$5
+OrgName=$6
+OU=$7
+User_Name=$8
 Setup_dir='/root/initial_setup/mail/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
@@ -148,7 +153,7 @@ apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="-
 
 ##### Certificate Setup #####
 echo "[+] Configuring Certificates..."
-bash -x $Setup_dir\Certificate.sh $domain_name
+bash -x $Setup_dir\Certificate.sh $host_name $domain_name $Country $State $City $OrgName $OU $User_Name
 
 ##### Apache Setup #####
 echo "[+] Configuring Apache..."

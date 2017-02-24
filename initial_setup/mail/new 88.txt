@@ -4,6 +4,7 @@ cd /root/
 rm -r 299-Scripts/ initial_setup/ README.md
 git -C /root/ clone https://github.com/DarkPhoenix6/299-Scripts.git
 cd /root/299-Scripts/
+git submodule update --init --recursive
 cp -a * ..
 cd ../
 rm -r 299-Scripts/
@@ -19,3 +20,19 @@ OU=CF
 FQDN=mail.$domain_name
 User_Name=chris
 Email=$User_Name@$domain_name
+
+
+
+cd /root/
+rm -r 299-Scripts/ initial_setup/ README.md
+git clone --recursive https://github.com/DarkPhoenix6/299-Scripts.git
+cd 299-Scripts/
+git submodule update --init --recursive
+git submodule update --remote 
+git commit -am "Submodule Update"
+git push --recurse-submodules=on-demand
+git init .
+git commit -m "update"
+git push
+
+$host_name $domain_name $Country $State $City $OrgName $OU $User_Name
