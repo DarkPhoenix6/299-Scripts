@@ -4,3 +4,6 @@
 [submodule "web_pages"]
 	path = web_pages
 	url = git://github.com/DarkPhoenix6/299_web_pages.git
+[submodule "initial_setup/call_manager/Asterisk_files/iksemel"]
+	path = initial_setup/call_manager/Asterisk_files/iksemel
+	url = https://github.com/DarkPhoenix6/iksemel.git
