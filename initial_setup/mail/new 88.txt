@@ -40,3 +40,25 @@ $host_name $domain_name $Country $State $City $OrgName $OU $User_Name
 bash -x /root/install.sh fedun.ca &>> /var/log/initial_setup.log
 
 tail -f /var/log/initial_setup.log
+
+
+#elif defined (PJ_M_ARMV4) || defined(ARM) || defined(_ARM_) ||  \
+        defined(ARMV4) || defined(__arm__)
+    /*
+     * ARM, bi-endian, so raise error if endianness is not configured
+     */
+#   undef PJ_M_ARMV4
+#   define PJ_M_ARMV4           1
+#   define PJ_M_NAME            "armv4"
+#   define PJ_HAS_PENTIUM       0
+#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN
+#       error Endianness must be declared for this processor
+#   endif
+#    \terror Endianness must be declared for this processor
+
+#   undef PJ_M_ARMV4
+#   define PJ_M_ARMV4           1
+#   define PJ_M_NAME            "armv4"
+#   define PJ_HAS_PENTIUM       0
+#   define PJ_IS_LITTLE_ENDIAN  1
+#   define PJ_IS_BIG_ENDIAN     0

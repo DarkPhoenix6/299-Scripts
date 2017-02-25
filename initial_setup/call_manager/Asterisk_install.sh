@@ -64,9 +64,35 @@ function install_LibPRI
 	cd $asterisk_SRC\libpri-1.6.0/
 	make && make install
 }
+function install_asterisk
+{
+	cd $asterisk_SRC\asterisk-14.3.0/
+	./contrib/scripts/get_mp3_source.sh
+	./contrib/scripts/install_prereq install #expect
+	./contrib/scripts/install_prereq install-unpackaged #expect
+	###for RPI change this to compile###
+	sed -i '
+	/\#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN/ {
+		N
+			/\#    \terror Endianness must be declared for this processor/ {
+				N
+					/\#   endif/ {
+						N
+							s/\#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN\n\#    \terror Endianness must be declared for this processor\n\#   endif/\#   define PJ_IS_LITTLE_ENDIAN\t1\n\#   define PJ_IS_BIG_ENDIAN\t0
+					}
+			}
+	}
+	' /usr/include/pj/config.h
+	./configure --with-pjproject-bundled
+	make && make install
+	#Make Do
+	make progdocs
+	
+)
 ##### Main #####
 unpack_asterisk
 install_DHADI
+install_LibPRI
 
 exit
 ####### END :) #######
