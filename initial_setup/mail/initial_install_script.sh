@@ -110,7 +110,8 @@ apt-get update -q 1> /dev/null
 apt-get dist-upgrade -y -q 
 ##### OpenSSH/OpenSSL/OpenDKIM #####
 
-apt-get install -y -q ssh openssl openssh-server openssh-client opendkim opendkim-tools 
+apt-get install -y -q ssh openssl openssh-server \
+openssh-client opendkim opendkim-tools 
 
 ##### NTP #####
 apt-get install ntp ntpdate -y -q
@@ -118,7 +119,8 @@ apt-get install ntp ntpdate -y -q
 echo "[+] Installing Apache..."
 apt-get update -q 1> /dev/null
 echo "[+] Installing MYSQL..."
-apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" apache2 mysql-server
+apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
+-o Dpkg::Options::="--force-confold" apache2 mysql-server
 
 ##### PHP #####
 echo "[+] Installing PHP..."
@@ -132,14 +134,16 @@ bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q
 ##### Postfix #####
 echo "[+] Installing Postfix..."
-apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" postfix postfix-mysql
+apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
+-o Dpkg::Options::="--force-confold" postfix postfix-mysql
 apt-get --purge remove 'exim4*' -y -q
 apt-get install spamassassin spamass-milter -y -q
 apt-get install swaks -y -q
 
 ##### Dovecot #####
 echo "[+] Installing Dovecot..."
-apt-get install dovecot-mysql dovecot-pop3d dovecot-imapd dovecot-managesieved dovecot-lmtpd -y -q
+apt-get install dovecot-mysql dovecot-pop3d \
+dovecot-imapd dovecot-managesieved dovecot-lmtpd -y -q
 
 ##### Roundcube #####
 echo "[+] Installing Roundcube..."
@@ -149,7 +153,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 ##### PHPMyAdmin #####
 echo "[+] Installing PHPMyAdmin..."
-apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" phpmyadmin 
+apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
+-o Dpkg::Options::="--force-confold" phpmyadmin 
 
 ##### Certificate Setup #####
 echo "[+] Configuring Certificates..."

@@ -3,7 +3,7 @@
 ######################################################################
 #
 #	Name:		 	<Script Name>
-#	Author:			Chris Fedun <Date>
+#	Author:			Chris Fedun 23/02/2017
 #	Description:	<description> 
 #	
 #	Copyright (C) 2017  Christopher Fedun
@@ -37,8 +37,8 @@ apt-get update -q
 apt-get upgrade -y -q
 
 #####install#####
-apt-get install -y -q debconf-utils sudo automake
-apt-get install pwgen curl php5-cli git quotatool expect -y -q
+apt-get install -y -q debconf-utils sudo automake \
+pwgen curl php5-cli git quotatool expect -y -q
 
 SQL_root_passwd=$(pwgen -s 20 1)
 
@@ -77,7 +77,8 @@ apt-get install ntp ntpdate -y -q
 echo "[+] Installing Apache..."
 apt-get update -q 1> /dev/null
 echo "[+] Installing MYSQL..."
-apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" apache2 mysql-server
+apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
+-o Dpkg::Options::="--force-confold" apache2 mysql-server
 
 ##### PHP #####
 echo "[+] Installing PHP..."
@@ -89,8 +90,14 @@ echo "[+] Setting up MYSQL Database..."
 
 ##### Asterisk Dependicies #####
 apt-get install build-essential subversion \
-libncurses5-dev libssl-dev libxml2-dev vim-nox gcc -y
-apt-get install linux-headers-`uname -r` -y
+	libncurses5-dev libssl-dev libxml2-dev vim-nox gcc \
+	linux-headers-`uname -r` \
+	libncurses5-dev libncursesw5-dev \
+	mysql-client bison flex php5 php5-curl php5-cli php5-mysql php-pear php5-gd curl sox\
+	libncurses5-dev libssl-dev libmysqlclient-dev mpg123 libxml2-dev libnewt-dev sqlite3\
+	libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev\
+	libasound2-dev libogg-dev libvorbis-dev libcurl4-openssl-dev libical-dev libneon27-dev libsrtp0-dev\
+	libspandsp-dev sudo libmyodbc subversion -y -q
 
 ##### Install Asterisk ##### 
 bash -x $Setup_dir\Asterisk_install.sh
