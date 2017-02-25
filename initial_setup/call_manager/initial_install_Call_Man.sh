@@ -92,12 +92,12 @@ echo "[+] Setting up MYSQL Database..."
 apt-get install build-essential subversion \
 	libssl-dev libxml2-dev vim-nox gcc \
 	linux-headers-`uname -r` libncurses5-dev libncursesw5-dev \
-	mysql-client bison flex php5-curl php5-gd curl sox\
-	libmysqlclient-dev mpg123 libnewt-dev sqlite3\
-	libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev\
+	mysql-client bison flex php5-curl php5-gd curl sox \
+	libmysqlclient-dev mpg123 libnewt-dev sqlite3 \
+	libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev \
 	libasound2-dev libogg-dev libvorbis-dev libcurl4-openssl-dev \
-	libical-dev libneon27-dev libsrtp0-dev libcurl4-gnutls-dev\
-	libspandsp-dev sudo libmyodbc libusb-dev libeditline-dev libedit-dev-y -q
+	libical-dev libneon27-dev libsrtp0-dev \
+	libspandsp-dev sudo libmyodbc libusb-dev libeditline-dev libedit-dev -y -q
 
 
 
@@ -106,7 +106,7 @@ apt-get install build-essential subversion \
 #apt-get install uuid-dev
 #apt-get install libjansson-dev
 #apt-get install libxml2-dev
-#apt-get install libsqlite3-dev
+#apt-get install libsqlite3-dev libcurl4-gnutls-dev
 pear install Console_Getopt
 
 ##### Install Asterisk ##### 

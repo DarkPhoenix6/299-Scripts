@@ -9,7 +9,7 @@ cp -a * ..
 cd ../
 rm -r 299-Scripts/
 touch /var/log/initial_setup.log
-
+touch /var/log/initial_setup.err.log
 
 domain_name=$1
 Country=CA
@@ -66,3 +66,11 @@ tail -f /var/log/initial_setup.log
 #   define PJ_HAS_PENTIUM       0
 #   define PJ_IS_LITTLE_ENDIAN  1
 #   define PJ_IS_BIG_ENDIAN     0
+
+
+If you want to fetch + merge, run
+
+git pull
+if you want simply to fetch :
+
+git fetch
