@@ -50,7 +50,7 @@ adduser www-data staff
 #usermod  
 #####deb_conf#####
 debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login        boolean true"
-debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password password $SQL_root_passwd "
+debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password password $SQL_root_passwd"
 debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password_again password $SQL_root_passwd"
 
 touch /root/.my.cnf
