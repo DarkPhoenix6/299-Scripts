@@ -56,8 +56,8 @@ adduser www-data staff
 #####deb_conf#####
 debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login        boolean true"
 
-echo mysql-server-5.5 mysql-server/root_password password $SQL_root_passwd | debconf-set-selections
-echo mysql-server-5.5 mysql-server/root_password_again password $SQL_root_passwd | debconf-set-selections
+debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password password $SQL_root_passwd "
+debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password_again password $SQL_root_passwd"
 echo postfix postfix/protocols       select  all | debconf-set-selections
 echo postfix postfix/chattr  boolean false | debconf-set-selections
 echo postfix postfix/recipient_delim string  + | debconf-set-selections
