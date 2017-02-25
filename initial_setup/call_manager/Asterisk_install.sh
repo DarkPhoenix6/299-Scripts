@@ -38,7 +38,7 @@ asterisk_SRC="/usr/local/src/"
 ##### Functions #####
 function unpack_asterisk
 {
-	cp $Setup_dir\Asterisk_files/* $asterisk_SRC
+	cp -r $Setup_dir\Asterisk_files/* $asterisk_SRC
 	cd $asterisk_SRC
 	tar -zxvf libpri-current.tar.gz
 	tar -zxvf asterisk-14-current.tar.gz
@@ -173,8 +173,8 @@ install_iksemel
 install_DHADI
 install_LibPRI
 install_jansson
-install_asterisk
-install_FreePBX
+#install_asterisk
+#install_FreePBX
 
 exit
 ####### END :) #######
