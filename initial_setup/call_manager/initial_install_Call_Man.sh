@@ -38,7 +38,7 @@ apt-get upgrade -y -q
 
 #####install#####
 apt-get install -y -q debconf-utils sudo automake \
-pwgen curl php5-cli git quotatool expect -y -q
+pwgen curl php5-cli git quotatool expect 
 
 SQL_root_passwd=$(pwgen -s 20 1)
 
@@ -98,6 +98,16 @@ apt-get install build-essential subversion \
 	libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev\
 	libasound2-dev libogg-dev libvorbis-dev libcurl4-openssl-dev libical-dev libneon27-dev libsrtp0-dev\
 	libspandsp-dev sudo libmyodbc subversion -y -q
+
+
+
+#apt-get install g++
+#apt-get install libncurses-dev
+#apt-get install uuid-dev
+#apt-get install libjansson-dev
+#apt-get install libxml2-dev
+#apt-get install libsqlite3-dev
+pear install Console_Getopt
 
 ##### Install Asterisk ##### 
 bash -x $Setup_dir\Asterisk_install.sh

@@ -45,11 +45,11 @@ function unpack_asterisk
 	tar -zxvf jansson-2.7.tar.gz
 	tar -zxvf dahdi-linux-complete-current.tar.gz
 	tar -xjvf pjproject-2.6.tar.bz2
-	tar -vxfz freepbx-13.0-latest.tgz
+	tar -xzvf freepbx-13.0-latest.tgz
 	rm /usr/local/src/*.tar.gz
 	rm /usr/local/src/*.tar.bz2
-	rm /usr/local/src/*.tar.tgz
-	rm -f jansson-2.7.tar.gz
+	rm /usr/local/src/*.tgz
+
 }
 
 function install_DHADI
@@ -67,6 +67,7 @@ function install_LibPRI
 }
 function install_jansson
 {
+	echo "[+] Compile and Install jansson..."
 	cd $asterisk_SRC\jansson-*
 	autoreconf -i
 	./configure
@@ -76,11 +77,13 @@ function install_jansson
 
 function install_asterisk
 {
+	
 	cd $asterisk_SRC\asterisk-14.3.0/
-	./contrib/scripts/get_mp3_source.sh
+
 	./contrib/scripts/install_prereq install #expect
 	./contrib/scripts/install_prereq install-unpackaged #expect	
 	./configure --with-pjproject-bundled
+	./contrib/scripts/get_mp3_source.sh
 	###for RPI change this to compile###
 	sed -i '
 	/\#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN/ {
@@ -93,7 +96,7 @@ function install_asterisk
 					}
 			}
 	}
-	' /usr/include/pj/config.h
+	' /usr/local/include/pj/config.h
 
 	make menuselect.makeopts
 	menuselect/menuselect --enable app_voicemail --enable format_mp3 --enable res_config_mysql \
@@ -102,7 +105,7 @@ function install_asterisk
 	#Make Docs
 	make progdocs
 	
-)
+}
 ##### Main #####
 unpack_asterisk
 install_DHADI
