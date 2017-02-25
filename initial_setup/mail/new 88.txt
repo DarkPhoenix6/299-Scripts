@@ -22,6 +22,10 @@ User_Name=chris
 Email=$User_Name@$domain_name
 
 
+git submodule add <url> <path to add the submodule to>
+git commit -am 'Added iksemel module'
+git init .
+git push origin master
 
 cd /root/
 rm -r 299-Scripts/ initial_setup/ README.md

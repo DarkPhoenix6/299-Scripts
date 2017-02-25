@@ -3,7 +3,7 @@
 ######################################################################
 #
 #	Name:		 	Apache_config.sh
-#	Author:			Chris Fedun 31/01/2017
+#	Author:			Chris Fedun 25/02/2017
 #	Description:	Apache Configuration
 #	Copyright (C) 2017  Christopher Fedun
 #
@@ -20,10 +20,8 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################
-#####Constants#####
-My_Cert="/etc/ssl/My_Certs/certs/mailserver_crt.pem"
-My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
-domain_name=$1
+
+
 #####Main
 
 

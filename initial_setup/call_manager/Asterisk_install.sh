@@ -52,8 +52,19 @@ function unpack_asterisk
 
 }
 
+function install_iksemel
+{
+	###Google Voice support###
+	echo "[+] Building and Installing iksemel..."
+	cd $asterisk_SRC\iksemel
+	./configure
+	make
+	make install
+}
 function install_DHADI
 {
+	### Install DHADI ###
+	echo "[+] Building and Installing DHADI..."
 	cd $asterisk_SRC\dahdi-linux-complete-2.11.1+2.11.1/
 	make all && make install
 	make config
@@ -62,6 +73,8 @@ function install_DHADI
 
 function install_LibPRI
 {
+	### Install LibPRI ###
+	echo "[+] Building and Installing LibPRI..."
 	cd $asterisk_SRC\libpri-1.6.0/
 	make && make install
 }
@@ -102,15 +115,66 @@ function install_asterisk
 	menuselect/menuselect --enable app_voicemail --enable format_mp3 --enable res_config_mysql \
 	--enable app_mysql --enable cdr_mysql menuselect.makeopts
 	make && make install
-	#Make Docs
-	make progdocs
+	make config
+	#Make Docs # not needed
+	#make progdocs
+	ldconfig
+	update-rc.d -f asterisk remove
+}
+
+function conf_ODBC
+{
+cat >> /etc/odbcinst.ini << EOF
+[MySQL]
+Description = ODBC for MySQL
+Driver = /usr/lib/x86_64-linux-gnu/odbc/libmyodbc.so
+Setup = /usr/lib/x86_64-linux-gnu/odbc/libodbcmyS.so
+FileUsage = 1
+  
+EOF
+	
+cat >> /etc/odbc.ini << EOF
+[MySQL-asteriskcdrdb]
+Description=MySQL connection to 'asteriskcdrdb' database
+driver=MySQL
+server=localhost
+database=asteriskcdrdb
+Port=3306
+Socket=/var/run/mysqld/mysqld.sock
+option=3
+  
+EOF
+
+}
+
+function install_FreePBX
+{
+	
+	useradd -m asterisk
+	chown asterisk. /var/run/asterisk
+	chown -R asterisk. /etc/asterisk
+	chown -R asterisk. /var/{lib,log,spool}/asterisk
+	chown -R asterisk. /usr/lib/asterisk
+	rm -rf /var/www/html
+	#Configure Apache2 #
+	bash -x $Setup_dir\Apache2/Apache_config.sh
+	# Configure ODBC #
+	conf_ODBC
+	# Install FreePBX#
+	cd $asterisk_SRC\freepbx
+	./start_asterisk start
+	./install -n
+
 	
 }
 ##### Main #####
 unpack_asterisk
+install_iksemel
 install_DHADI
 install_LibPRI
 install_jansson
 install_asterisk
+install_FreePBX
+
 exit
 ####### END :) #######
