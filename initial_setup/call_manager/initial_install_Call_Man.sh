@@ -73,6 +73,7 @@ apt-get install -y -q ssh openssl openssh-server openssh-client
 
 ##### NTP #####
 apt-get install ntp ntpdate -y -q
+timedatectl set-timezone America/Vancouver
 ##### Apache and MYSQL Install #####
 echo "[+] Installing Apache..."
 apt-get update -q 1> /dev/null
@@ -95,17 +96,18 @@ apt-get install build-essential subversion \
 	mysql-client bison flex php5-curl php5-gd curl sox \
 	libmysqlclient-dev mpg123 libnewt-dev sqlite3 \
 	libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev \
-	libasound2-dev libogg-dev libvorbis-dev libcurl4-openssl-dev \
+	libasound2-dev libogg-dev libvorbis-dev  \
 	libical-dev libneon27-dev libsrtp0-dev \
-	libspandsp-dev sudo libmyodbc libusb-dev libeditline-dev libedit-dev -y -q
-
+	libspandsp-dev sudo libmyodbc libusb-dev libeditline-dev libedit-dev \
+	tftpd chkconfig libcurl4-gnutls-dev \
+	xinetd e2fsprogs dbus xmlstarlet unixodbc -y -q
 
 
 #apt-get install g++
 #apt-get install libncurses-dev
 #apt-get install uuid-dev
-#apt-get install libjansson-dev
-#apt-get install libxml2-dev
+#apt-get install libjansson-dev libcurl4-openssl-dev
+#apt-get install libxml2-dev postfix mailutils
 #apt-get install libsqlite3-dev libcurl4-gnutls-dev
 pear install Console_Getopt
 
@@ -125,7 +127,7 @@ export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
 	touch $First_boot
 #	bash $Setup_dir\ip_address_mail.sh
-	#bash -x $Setup_dir\ip_address_CC_deb_test.sh $host_name $domain_name
+	bash -x $Setup_dir\ip_address_call_man_deb_test.sh $host_name $domain_name
 #	FB_install
 	
 #	raspi-config --expand-rootfs

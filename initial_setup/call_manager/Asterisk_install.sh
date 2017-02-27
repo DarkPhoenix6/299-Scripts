@@ -34,6 +34,7 @@ Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
 asterisk_SRC="/usr/local/src/"
+root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 
 ##### Functions #####
 function unpack_asterisk
@@ -57,6 +58,7 @@ function install_iksemel
 	###Google Voice support###
 	echo "[+] Building and Installing iksemel..."
 	cd $asterisk_SRC\iksemel
+	./autogen.sh
 	./configure
 	make
 	make install
@@ -99,27 +101,35 @@ function install_asterisk
 	./contrib/scripts/get_mp3_source.sh
 	###for RPI change this to compile###
 	sed -i '
-	/\#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN/ {
+	/\#   define PJ_M_NAME\t\t"armv4"/{
 		N
-			/\#    \terror Endianness must be declared for this processor/ {
+			/\#   define PJ_HAS_PENTIUM\t0/ {
 				N
-					/\#   endif/ {
+					/\#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN/ {
 						N
-							s/\#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN\n\#    \terror Endianness must be declared for this processor\n\#   endif/\#   define PJ_IS_LITTLE_ENDIAN\t1\n\#   define PJ_IS_BIG_ENDIAN\t0/
+							/\#   \terror Endianness must be declared for this processor/ {
+								N
+									/\#   endif/ {
+										N
+											s/\#   define PJ_M_NAME\t\t"armv4"\n\#   define PJ_HAS_PENTIUM\t0\n\#   if !PJ_IS_LITTLE_ENDIAN && !PJ_IS_BIG_ENDIAN\n\#   \terror Endianness must be declared for this processor\n\#   endif/\#   define PJ_M_NAME\t\t"armv4"\n\#   define PJ_HAS_PENTIUM\t0\n\#   define PJ_IS_LITTLE_ENDIAN\t1\n\#   define PJ_IS_BIG_ENDIAN\t0/
+									}
+							}
 					}
-			}
+			}	
 	}
 	' /usr/local/include/pj/config.h
-
+#   define PJ_M_NAME		"armv4"
+#   define PJ_HAS_PENTIUM	0
 	make menuselect.makeopts
 	menuselect/menuselect --enable app_voicemail --enable format_mp3 --enable res_config_mysql \
-	--enable app_mysql --enable cdr_mysql menuselect.makeopts
+	--enable app_mysql --enable cdr_mysql --enable res_pjsip_config_wizard \
+	--enable EXTRA-SOUNDS-EN-GSM --enable res_pjproject menuselect.makeopts
 	make && make install
 	make config
+	make install-logrotate
 	#Make Docs # not needed
 	#make progdocs
-	ldconfig
-	update-rc.d -f asterisk remove
+	
 }
 
 function conf_ODBC
@@ -146,11 +156,52 @@ option=3
 EOF
 
 }
+function FreePBX_conf
+{
+cat >> /etc/systemd/system/freepbx.service << EOF
+[Unit]
+Description=FreePBX VoIP Server
+After=mysql.service
 
+ 
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/fwconsole start
+ExecStop=/usr/sbin/fwconsole stop
+ 
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat >> /etc/logrotate.d/asterisk << EOF
+/var/spool/mail/asterisk
+/var/log/asterisk/*log
+/var/log/asterisk/messages
+/var/log/asterisk/full
+/var/log/asterisk/dtmf
+/var/log/asterisk/freepbx_dbug
+/var/log/asterisk/fail2ban {
+        weekly
+        missingok
+        rotate 4
+        #compress
+        notifempty
+        sharedscripts
+        create 0640 asterisk asterisk
+        postrotate
+        /usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null || true
+        endscript
+        su root root
+}
+EOF
+
+}
 function install_FreePBX
 {
 	
-	useradd -m asterisk
+	#useradd -m asterisk
+	adduser asterisk --disabled-password --shell /sbin/nologin --gecos "Asterisk User"
 	chown asterisk. /var/run/asterisk
 	chown -R asterisk. /etc/asterisk
 	chown -R asterisk. /var/{lib,log,spool}/asterisk
@@ -161,11 +212,38 @@ function install_FreePBX
 	# Configure ODBC #
 	conf_ODBC
 	# Install FreePBX#
+	ldconfig
+	update-rc.d -f asterisk remove
 	cd $asterisk_SRC\freepbx
 	./start_asterisk start
-	./install -n
+	./install -n --dbpass $root_db_pass
+	# Minimal module install
+	fwconsole ma upgrade framework core voicemail sipsettings infoservices \
+	featurecodeadmin logfiles callrecording cdr dashboard
+	fwconsole restart
+	fwconsole reload
+	fwconsole chown
+	FreePBX_conf
+}
+function setup_tftp
+{
+cat >> /etc/xinetd.d/tftp << EOF
+service tftp
+{
+protocol        = udp
+port            = 69
+socket_type     = dgram
+wait            = yes
+user            = nobody
+server          = /usr/sbin/in.tftpd
+server_args     = /tftpboot
+disable         = no
+}
+EOF
 
-	
+mkdir /tftpboot
+chmod 777 /tftpboot
+systemctl restart xinetd
 }
 ##### Main #####
 unpack_asterisk
@@ -175,6 +253,7 @@ install_LibPRI
 install_jansson
 #install_asterisk
 #install_FreePBX
+setup_tftp
 
 exit
 ####### END :) #######
