@@ -112,7 +112,7 @@ apt-get install build-essential subversion \
 pear install Console_Getopt
 
 ##### Install Asterisk ##### 
-bash -x $Setup_dir\Asterisk_install.sh
+bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name
 
 ##### Install BIND #####
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q

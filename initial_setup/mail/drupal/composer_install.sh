@@ -23,7 +23,7 @@
 ######################################################################
 domain_name=$1
 SRC=/usr/local/src
-WEBROOT=/var/www/drupal
+WEBROOT=/var/www/html/drupal
 #EXPECTED_SIGNATURE=$(wget -q -O - https://composer.github.io/installer.sig)
 #cd /usr/src
 #php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"

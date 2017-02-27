@@ -27,7 +27,7 @@ Setup_dir='/root/initial_setup/mail/'
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 drupal_admin_passwd=$(pwgen -s 25 1)
 SRC=/usr/local/src
-WEBROOT=/var/www/drupal
+WEBROOT=/var/www/html/drupal
 
 touch $Setup_dir\drupal/drupal_Admin_passwd.txt
 echo "$drupal_admin_passwd" >> $Setup_dir\drupal/drupal_Admin_passwd.txt

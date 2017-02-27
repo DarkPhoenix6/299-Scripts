@@ -24,15 +24,18 @@
 ##### Constants #####
 host_name=$1
 domain_name=$2
-Country=$3
-State=$4
-City=$5
-OrgName=$6
-OU=$7
-User_Name=$8
+Is_PI=$3
+Country=$4
+State=$5
+City=$6
+OrgName=$7
+OU=$8
+User_Name=$9
+
 Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
+sound_src="/var/lib/asterisk/sounds/"
 asterisk_SRC="/usr/local/src/"
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 
@@ -47,10 +50,7 @@ function unpack_asterisk
 	tar -zxvf dahdi-linux-complete-current.tar.gz
 	tar -xjvf pjproject-2.6.tar.bz2
 	tar -xzvf freepbx-13.0-latest.tgz
-	rm /usr/local/src/*.tar.gz
-	rm /usr/local/src/*.tar.bz2
-	rm /usr/local/src/*.tgz
-
+	
 }
 
 function install_iksemel
@@ -96,7 +96,8 @@ function install_asterisk
 	cd $asterisk_SRC\asterisk-14.3.0/
 
 	./contrib/scripts/install_prereq install #expect
-	./contrib/scripts/install_prereq install-unpackaged #expect	
+	./contrib/scripts/install_prereq install-unpackaged 
+	#compile with bundled PJsip Project
 	./configure --with-pjproject-bundled
 	./contrib/scripts/get_mp3_source.sh
 	###for RPI change this to compile###
@@ -127,6 +128,22 @@ function install_asterisk
 	make && make install
 	make config
 	make install-logrotate
+	if [ $Is_PI = $false ]; then 
+		# 8 KHz
+		cd $asterisk_SRC
+		cp asterisk-core-sounds-en-wav-current.tar.gz $sound_src
+		cp asterisk-extra-sounds-en-wav-current.tar.gz $sound_src
+		cd $sound_src
+		tar -zxvf asterisk-core-sounds-en-wav-current.tar.gz
+		tar -zxvf asterisk-core-sounds-en-wav-current.tar.gz
+		# Wideband Audio ( High Definition 'Wideband' )
+		cd $asterisk_SRC
+		cp asterisk-extra-sounds-en-g722-current.tar.gz $sound_src
+		cp asterisk-core-sounds-en-g722-current.tar.gz $sound_src
+		cd $sound_src
+		tar asterisk-extra-sounds-en-g722-current.tar.gz
+		tar asterisk-core-sounds-en-g722-current.tar.gz
+	fi
 	#Make Docs # not needed
 	#make progdocs
 	
@@ -245,15 +262,22 @@ mkdir /tftpboot
 chmod 777 /tftpboot
 systemctl restart xinetd
 }
+function clean_up
+{
+	rm /usr/local/src/*.tar.gz
+	rm /usr/local/src/*.tar.bz2
+	rm /usr/local/src/*.tgz
+	rm /var/lib/asterisk/sounds/*.tar.gz
+}
 ##### Main #####
 unpack_asterisk
 install_iksemel
 install_DHADI
 install_LibPRI
 install_jansson
-#install_asterisk
-#install_FreePBX
+install_asterisk
+install_FreePBX
 setup_tftp
-
+clean_up
 exit
 ####### END :) #######

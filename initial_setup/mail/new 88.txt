@@ -74,3 +74,24 @@ git pull
 if you want simply to fetch :
 
 git fetch
+
+
+
+
+
+dd bs=4M if=/dev/sdd of=from-sd-card.img
+truncate --reference 2017-01-11-raspbian-jessie.img from-sd-card.img
+diff -s from-sd-card.img 2017-01-11-raspbian-jessie.img
+
+
+
+dd if=/dev/zero of=/media/usb1/zero.txt status=progress
+dd if=/dev/zero of=/media/usb2/zero.txt status=progress
+rm /media/usb1/zero.txt 
+rm /media/usb2/zero.txt 
+umount /dev/sdb1
+umount /dev/sdb2
+#dd bs=4M if=/dev/sdb of=my_raspian.img status=progress conv=sparse
+
+( dd bs=4M if=/dev/sdb1 
+dd bs=4M if=/dev/sdb2 ) > my_raspian.img

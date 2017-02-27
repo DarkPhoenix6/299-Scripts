@@ -21,7 +21,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################
 SRC=/usr/local/src
-WEBROOT=/var/www/drupal
+WEBROOT=/var/www/html/drupal
 domain_name=$1
 
 
