@@ -26,5 +26,6 @@ FQDN=$host_name.$domain_name
 User_Name=chris
 Email=$User_Name@$domain_name
 bash -x /root/initial_setup/mail/initial_install_script.sh $host_name $domain_name $Country $State $City "$OrgName" $OU $User_Name &>> /var/log/initial_setup.log
+chmod go= /var/log/initial_setup.log
 exit
 #######END :) #######
