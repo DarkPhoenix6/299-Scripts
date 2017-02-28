@@ -77,6 +77,7 @@ git fetch
 
 
 
+pi:$6$k0vFWRoG$bEBdFcFBWw2fLEA.5LsVKOtLWdWSkZMnEikqOG4jHCneRrWEBnEt6.ROe60ggdA7DbdU.l2ZO35WFvi3q6Ays/:17130:0:99999:7:::
 
 
 dd bs=4M if=/dev/sdd of=from-sd-card.img
@@ -92,6 +93,7 @@ rm /media/usb2/zero.txt
 umount /dev/sdb1
 umount /dev/sdb2
 #dd bs=4M if=/dev/sdb of=my_raspian.img status=progress conv=sparse
-
-( dd bs=4M if=/dev/sdb1 
-dd bs=4M if=/dev/sdb2 ) > my_raspian.img
+#dd if=/dev/whatever | cp --sparse=always /dev/stdin disk.image
+dd if=/dev/sdb | cp --sparse=always /dev/stdin disk.image
+#( dd bs=4M if=/dev/sdb1 
+#dd bs=4M if=/dev/sdb2 ) > my_raspian.img

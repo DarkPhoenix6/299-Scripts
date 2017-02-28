@@ -201,10 +201,10 @@ if [ ! -f $First_boot ]; then
 	bash -x $Setup_dir\ip_address_mail_deb_test.sh $host_name $domain_name
 #	FB_install
 	
-#	raspi-config --expand-rootfs
-#	reboot
-	touch $Second_boot
-	Second_boot_install
+	raspi-config --expand-rootfs
+	reboot
+	#touch $Second_boot
+	#Second_boot_install
 	exit
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot

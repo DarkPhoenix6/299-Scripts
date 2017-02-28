@@ -18,7 +18,20 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
+if [ ! -f /var/log/The_start.log ]; then
+	if [ git -C /root/ clone --recursive https://github.com/DarkPhoenix6/299-Scripts.git ]; then
+		cd /root/299-Scripts/
+		cp -a * ..
+		cd ../
+		rm -r 299-Scripts/
+		touch /var/log/The_start.log
+		bash -x /root/install.sh fedun.ca &>> /var/log/initial_setup.log
+	fi
+elif [ -f /var/log/firstboot.log ] && [ ! -f /var/log/secondboot.log ]; then
+	bash -x /root/install.sh fedun.ca &>> /var/log/initial_setup.log
+fi
+	
 #bash -x /root/initial_setup/initial_install_script.sh fedun.ca 2>> /var/log/initial_setup.err.log 1>> /var/log/initial_setup.log
-bash -x /root/initial_setup/mail/initial_install_script.sh fedun.ca &>> /var/log/initial_setup.log
-bash iptables_mail.sh
+#bash -x /root/initial_setup/mail/initial_install_script.sh fedun.ca &>> /var/log/initial_setup.log
+#bash iptables_mail.sh
 exit 0

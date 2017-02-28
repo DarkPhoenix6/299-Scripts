@@ -28,6 +28,7 @@ domain_name=$2
 Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
+Third_boot="/var/log/thirdboot.log"
 ##### Functions #####
 function Second_boot_install 
 {
@@ -122,6 +123,11 @@ bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name
 echo "[+] Configuring Firewall..."
 #bash -x $Setup_dir\iptables_mail.sh
 }
+
+function third_boot_config
+{
+	
+}
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
@@ -138,6 +144,9 @@ if [ ! -f $First_boot ]; then
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
+elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then	
+	touch $Third_boot
+	third_boot_config
 else
 	exit
 fi
