@@ -119,8 +119,7 @@ function install_asterisk
 			}	
 	}
 	' /usr/local/include/pj/config.h
-#   define PJ_M_NAME		"armv4"
-#   define PJ_HAS_PENTIUM	0
+
 	make menuselect.makeopts
 	menuselect/menuselect --enable app_voicemail --enable format_mp3 --enable res_config_mysql \
 	--enable app_mysql --enable cdr_mysql --enable res_pjsip_config_wizard \
@@ -237,6 +236,10 @@ function install_FreePBX
 	# Minimal module install
 	fwconsole ma upgrade framework core voicemail sipsettings infoservices \
 	featurecodeadmin logfiles callrecording cdr dashboard
+	#my options
+	fwconsole ma upgrade configedit backup asteriskinfo bulkhandler callforward certman cxpanel \
+	disa fw_langpacks languages asterisk-cli cidlookup \
+	blacklist dahdiconfig digium_phones 
 	fwconsole restart
 	fwconsole reload
 	fwconsole chown
