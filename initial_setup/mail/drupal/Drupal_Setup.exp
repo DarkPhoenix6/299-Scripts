@@ -48,6 +48,6 @@ stty rows 57
 set timeout -1
 spawn drush si standard --db-url=mysql://root:$root_db_pass@127.0.0.1/drupal --account-name=admin --account-pass=$drupal_admin_passwd
 match_max 100000
-expect -exact "You are about to create a /var/www/drupal/sites/default/settings.php file and DROP all tables in your 'drupal' database. Do you want to continue? (y/n): "
+expect -exact "You are about to create a /var/www/html/drupal/sites/default/settings.php file and DROP all tables in your 'drupal' database. Do you want to continue? (y/n): "
 send -- "y\r"
 expect eof
