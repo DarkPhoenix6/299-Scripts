@@ -49,7 +49,9 @@ sed -i "
 	s|\t\#ServerName www.example.com|\tServerName mail.$domain_name\n\tServerAlias www.$domain_name\n\tRedirect permanent / https://www.$domain_name\/|
 	s|\tDocumentRoot /var/www/html|\t\#DocumentRoot /var/www/html|
 " /etc/apache2/sites-available/000-default.conf
-
+#set simple default webpage
+mv /var/www/html/index.html /var/www/html/index.html.disable
+cp /root/web_pages/HTML/index.html /var/www/html/index.html
 service apache2 reload
 
 exit

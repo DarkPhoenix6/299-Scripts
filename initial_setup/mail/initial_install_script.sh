@@ -158,7 +158,7 @@ apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
 
 ##### Certificate Setup #####
 echo "[+] Configuring Certificates..."
-bash -x $Setup_dir\Certificate.sh $host_name $domain_name $Country $State $City "$OrgName" $OU $User_Name
+bash -x $Setup_dir\Certificate.sh "$host_name" "$domain_name" "$Country" "$State" "$City" "$OrgName" "$OU" "$User_Name"
 
 ##### Apache Setup #####
 echo "[+] Configuring Apache..."

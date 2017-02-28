@@ -43,7 +43,8 @@ set drupal_admin_passwd [lindex $argv 1]
 #
 # -Don
 
-
+stty columns 177
+stty rows 57
 set timeout -1
 spawn drush si standard --db-url=mysql://root:$root_db_pass@127.0.0.1/drupal --account-name=admin --account-pass=$drupal_admin_passwd
 match_max 100000
