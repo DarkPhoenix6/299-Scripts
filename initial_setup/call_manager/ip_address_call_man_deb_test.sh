@@ -57,8 +57,9 @@ network 192.168.10.0
 dns-nameservers 8.8.8.8 8.8.4.4
 
 
-allow-hotplug wlan0
-iface wlan0 inet manual" > /etc/network/interfaces
+#allow-hotplug wlan0
+#iface wlan0 inet manual
+" > /etc/network/interfaces
 
 }
 
