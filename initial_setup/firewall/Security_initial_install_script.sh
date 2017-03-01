@@ -43,7 +43,7 @@ if [ ! -f $First_boot ]; then
 	bash -x $Setup_dir\network_config_Firewall.sh $host_name $domain_name
 	FB_install
 	
-	raspi-config --expand-rootfs
+	#raspi-config --expand-rootfs
 	reboot
 	#touch $Second_boot
 	#Second_boot_install
