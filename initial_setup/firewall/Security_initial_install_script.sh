@@ -51,6 +51,10 @@ if [ ! -f $First_boot ]; then
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
+	sed -i "
+	/exit 0/ i\
+	bash $Setup_dir\iptables_Firewall.sh
+	" /etc/rc.local
 else
 	exit
 fi
