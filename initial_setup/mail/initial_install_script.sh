@@ -197,8 +197,8 @@ bash -x $Setup_dir\iptables_mail.sh
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
 	touch $First_boot
-#	bash $Setup_dir\ip_address_mail.sh
-	bash -x $Setup_dir\ip_address_mail_deb_test.sh $host_name $domain_name
+	bash $Setup_dir\ip_address_mail.sh $host_name $domain_name
+#	bash -x $Setup_dir\ip_address_mail_deb_test.sh $host_name $domain_name
 #	FB_install
 	
 	raspi-config --expand-rootfs
@@ -209,6 +209,10 @@ if [ ! -f $First_boot ]; then
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
+	sed -i "
+	/exit 0/ i\
+	bash $Setup_dir\iptables_mail.sh
+	" /etc/rc.local
 else
 	exit
 fi

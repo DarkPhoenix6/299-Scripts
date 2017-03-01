@@ -58,7 +58,6 @@ $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 ### ACCEPT rules ###
 $IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 22 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 8443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 21 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 43 -m conntrack --ctstate NEW -j ACCEPT
@@ -119,12 +118,6 @@ $IPTABLES -A OUTPUT ! -o lo -j LOG --log-prefix "DROP " --log-ip-options --log-t
 
 ### Make sure that loopback traffic is accepted. ###
 $IPTABLES -A OUTPUT -o lo -j ACCEPT
-
-
-
-
-
-
 
 ##### Forwarding #####
 echo "[+] Enabling IP forwarding..."

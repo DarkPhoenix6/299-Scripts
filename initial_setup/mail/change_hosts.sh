@@ -31,10 +31,10 @@ sed -i '
 127.0.1.1\tmail
 ' /etc/hosts
 
-if ! /etc/init.d/hostname.sh start
-then
-	if ! /etc/init.d/hostname.sh start
-	then
-		reboot
-	fi
-fi
+#if ! /etc/init.d/hostname.sh start
+#then
+#	if ! /etc/init.d/hostname.sh start
+#	then
+#		reboot
+#	fi
+#fi
