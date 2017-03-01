@@ -113,7 +113,7 @@ apt-get install build-essential subversion \
 pear install Console_Getopt
 
 ##### Install Asterisk ##### 
-bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name
+bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name $true
 
 ##### Install BIND #####
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q
@@ -136,17 +136,23 @@ if [ ! -f $First_boot ]; then
 	bash -x $Setup_dir\ip_address_call_man_deb_test.sh $host_name $domain_name
 #	FB_install
 	
-#	raspi-config --expand-rootfs
-#	reboot
-	touch $Second_boot
-	Second_boot_install
+	raspi-config --expand-rootfs
+	reboot
+	#touch $Second_boot
+	#Second_boot_install
 	exit
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
-elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then	
-	touch $Third_boot
-	third_boot_config
+#	sed -i "
+#	/exit 0/ i\
+#	bash $Setup_dir\iptables_mail.sh
+#	" /etc/rc.local
+	reboot
+	exit
+#elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then	
+	#touch $Third_boot
+	#third_boot_config
 else
 	exit
 fi

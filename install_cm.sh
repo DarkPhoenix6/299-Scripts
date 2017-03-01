@@ -2,7 +2,7 @@
 #
 ######################################################################
 #
-#	Name:		 	install_mail.sh
+#	Name:		 	install_cm.sh
 #	Author:			Chris Fedun 31/01/2017
 #	Description:	        Install Script 
 #	Copyright (C) 2017  Christopher Fedun
@@ -36,16 +36,17 @@
 
 
 domain_name=$1
-host_name=mail
+host_name=CallMan
 Country=CA
 State=BC
 City=KELOWNA
-OrgName="Chris Fedun Sec LTD"
+OrgName="Chris Fedun LTD"
 OU=CF
 FQDN=$host_name.$domain_name
 User_Name=chris
 Email=$User_Name@$domain_name
-bash -x /root/initial_setup/call_manager/initial_install_Call_Man.sh $host_name $domain_name $Country $State $City "$OrgName" $OU $User_Name &>> /var/log/initial_setup.log
+#bash -x /root/initial_setup/call_manager/initial_install_Call_Man.sh "$host_name" "$domain_name" "$Country" "$State" "$City" "$OrgName" "$OU" "$User_Name" &>> /var/log/initial_setup.log
+bash -x /root/initial_setup/call_manager/initial_install_Call_Man.sh "$host_name" "$domain_name" &>> /var/log/initial_setup.log
 chmod go= /var/log/initial_setup.log
 exit
 #######END :) #######

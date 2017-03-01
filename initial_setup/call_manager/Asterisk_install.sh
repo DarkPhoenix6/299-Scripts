@@ -25,12 +25,12 @@
 host_name=$1
 domain_name=$2
 Is_PI=$3
-Country=$4
-State=$5
-City=$6
-OrgName=$7
-OU=$8
-User_Name=$9
+#Country=$4
+#State=$5
+#City=$6
+#OrgName=$7
+#OU=$8
+#User_Name=$9
 
 Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
