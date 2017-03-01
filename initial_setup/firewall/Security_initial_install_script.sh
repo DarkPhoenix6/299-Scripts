@@ -16,6 +16,22 @@ First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
 function FB_install
 {
+echo "
+#
+
+# deb cdrom:[Debian GNU/Linux 8.7.1 _Jessie_ - Official amd64 NETINST Binary-1 20170116-10:57]/ jessie main
+
+#deb cdrom:[Debian GNU/Linux 8.7.1 _Jessie_ - Official amd64 NETINST Binary-1 20170116-10:57]/ jessie main
+
+deb http://mirror.it.ubc.ca/debian/ jessie main
+deb-src http://mirror.it.ubc.ca/debian/ jessie main
+
+deb http://security.debian.org/ jessie/updates main
+deb-src http://security.debian.org/ jessie/updates main
+
+# jessie-updates, previously known as 'volatile'
+deb http://mirror.it.ubc.ca/debian/ jessie-updates main
+deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main" >> /etc/apt/sources.list
 #####install#####
 apt-get install -y -q debconf-utils sudo
 pwgen curl git -y -q
