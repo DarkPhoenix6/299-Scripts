@@ -43,7 +43,7 @@ iface lo inet loopback
 # The primary network interface
 auto eth1
 allow-hotplug eth1
-iface eth0 inet dhcp
+iface eth1 inet dhcp
 
 # The secondary network interface
 auto eth0

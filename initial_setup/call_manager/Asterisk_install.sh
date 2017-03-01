@@ -95,7 +95,8 @@ function install_asterisk
 	
 	cd $asterisk_SRC\asterisk-14.3.0/
 
-	./contrib/scripts/install_prereq install #expect
+	expect $Setup_dir\ITU-T.exp
+	#./contrib/scripts/install_prereq install #expect
 	./contrib/scripts/install_prereq install-unpackaged 
 	#compile with bundled PJsip Project
 	./configure --with-pjproject-bundled
