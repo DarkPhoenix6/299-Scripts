@@ -8,6 +8,9 @@
 #
 ######################################################################
 #####Constants#####
+host_name=$1
+domain_name=$2
+
 function network_config
 {
 
@@ -32,20 +35,34 @@ up ip addr add 192.168.10.254/24 dev $IFACE label $IFACE:0
 down ip addr del 192.168.10.254/24 dev $IFACE label $IFACE:0
 
 allow-hotplug wlan0
-iface wlan0 inet manual" > /etc/network/interfaces
+iface wlan0 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 
-if ! /etc/init.d/networking restart
-then
-	if ! /etc/init.d/networking restart
-	then
-		reboot
-	fi
-fi
+allow-hotplug wlan1
+iface wlan1 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf" > /etc/network/interfaces
+
+#if ! /etc/init.d/networking restart
+#then
+#	if ! /etc/init.d/networking restart
+#	then
+#		reboot
+#	fi
+#fi
 }
 
+function change_name
+{
+echo "$host_name" > /etc/hostname
+
+sed -i "
+/127.0.1.1/ c\
+127.0.1.1\t$host_name
+" /etc/hosts
+}
 #####Main
 
 network_config
-
+change_name
 exit
 #######END :) #######

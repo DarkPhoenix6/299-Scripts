@@ -10,6 +10,7 @@
 #####Constants#####
 export DEBIAN_FRONTEND=noninteractive
 domain_name=$1
+host_name=$2
 Setup_dir='/root/initial_setup/firewall/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
@@ -17,8 +18,8 @@ function FB_install
 {
 #####install#####
 apt-get install -y -q debconf-utils sudo
-apt-get install pwgen curl git -y -q
-
+pwgen curl git -y -q
+apt
 #####New user
 adduser --disabled-login --quiet --gecos "" nonroot
 adduser --disabled-login --quiet --gecos "" server_admin 
@@ -26,7 +27,7 @@ adduser server_admin sudo
 }
 
 #####deb_conf#####
-debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login        boolean true"
+#debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login        boolean true"
 
 
 
@@ -40,7 +41,7 @@ if [ ! -f $First_boot ]; then
 	touch $First_boot
 #	bash $Setup_dir\ip_address_mail.sh
 	bash -x $Setup_dir\network_config_Firewall.sh $host_name $domain_name
-#	FB_install
+	FB_install
 	
 	raspi-config --expand-rootfs
 	reboot

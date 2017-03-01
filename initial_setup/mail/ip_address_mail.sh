@@ -50,7 +50,13 @@ dns-nameservers 8.8.8.8 8.8.4.4
 
 
 allow-hotplug wlan0
-iface wlan0 inet manual" > /etc/network/interfaces
+iface wlan0 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+allow-hotplug wlan1
+iface wlan1 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+" > /etc/network/interfaces
 
 
 }

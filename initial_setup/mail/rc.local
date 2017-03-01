@@ -19,6 +19,7 @@ if [ "$_IP" ]; then
 fi
 
 if [ ! -f /var/log/The_start.log ]; then
+	apt-get install -qy git
 	if [ git -C /root/ clone --recursive https://github.com/DarkPhoenix6/299-Scripts.git ]; then
 		cd /root/299-Scripts/
 		cp -a * ..
