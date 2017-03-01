@@ -139,10 +139,10 @@ echo "[+] Configuring Firewall..."
 #bash -x $Setup_dir\iptables_mail.sh
 }
 
-function third_boot_config
-{
-	
-}
+#function third_boot_config
+#{
+#	
+#}
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
