@@ -9,8 +9,8 @@
 ######################################################################
 #####Constants#####
 export DEBIAN_FRONTEND=noninteractive
-domain_name=$1
-host_name=$2
+domain_name=$2
+host_name=$1
 Setup_dir='/root/initial_setup/firewall/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
