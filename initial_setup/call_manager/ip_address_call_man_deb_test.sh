@@ -41,13 +41,13 @@ auto lo
 iface lo inet loopback
 
 # The primary network interface
-auto eth0
-allow-hotplug eth0
+auto eth1
+allow-hotplug eth1
 iface eth0 inet dhcp
 
 # The secondary network interface
-auto eth1
-allow-hotplug eth1
+auto eth0
+allow-hotplug eth0
 iface eth0 inet static
 address 192.168.10.252
 netmask 255.255.255.0
@@ -65,13 +65,13 @@ iface wlan0 inet manual" > /etc/network/interfaces
 ##### Main #####
 
 network_config
-bash -x $Setup_dir\change_hosts.sh $host_name $domain_name
-if ! /etc/init.d/networking restart
-then
-	if ! /etc/init.d/networking restart
-	then
-		reboot
-	fi
-fi
+#bash -x $Setup_dir\change_hosts.sh $host_name $domain_name
+#if ! /etc/init.d/networking restart
+#then
+#	if ! /etc/init.d/networking restart
+#	then
+#		reboot
+#	fi
+#fi
 exit
 #######END :) #######
