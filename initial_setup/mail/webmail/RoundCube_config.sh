@@ -30,7 +30,7 @@ mailuser_passwd=$(cat $Setup_dir\email/mailuser_passwd.txt)
 
 sed -i "
 /ServerAdmin webmaster@localhost/ a\
-\\t\tServerName mail.$domain_name:443\n\t\tServerAlias www.$domain_name:443\n\t\tInclude /etc/phpmyadmin/apache.conf\n\t\tInclude /etc/roundcube/apache.conf\n\t\tAlias /webmail /var/lib\/roundcube/
+\	\tServerName mail.$domain_name:443\n\t\tServerAlias www.$domain_name:443\n\t\tInclude /etc/phpmyadmin/apache.conf\n\t\tInclude /etc/roundcube/apache.conf\n\t\tAlias /webmail /var/lib\/roundcube/
 " /etc/apache2/sites-available/default-ssl.conf
 
 sed -i "
@@ -58,7 +58,7 @@ sed -i "
 	s:\$config\['password_query'\] = 'SELECT update_passwd(%c, %u)';:\$config\['password_query'\] = \"UPDATE virtual_users SET password=CONCAT('{SHA256-CRYPT}', ENCRYPT (%p, CONCAT('\$5$', SUBSTRING(SHA(RAND()), -16)))) WHERE email=%u;\";:
 
 " /etc/roundcube/plugins/password/config.inc.php
-
+service apache2 reload
 exit
 ####### END :) #######
 

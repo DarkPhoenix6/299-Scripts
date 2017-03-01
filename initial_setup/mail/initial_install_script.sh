@@ -213,6 +213,6 @@ else
 	exit
 fi
 
-
+reboot
 exit
 ####### END :) #######

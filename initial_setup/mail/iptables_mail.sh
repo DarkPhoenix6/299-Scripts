@@ -55,9 +55,6 @@ $IPTABLES -A INPUT -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVA
 $IPTABLES -A INPUT -m conntrack --ctstate INVALID -j DROP
 $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-### Anti-spoofing rules ###
-$IPTABLES -A INPUT -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
-$IPTABLES -A INPUT -i $IFACE_INT ! -s  $INT_NET -j DROP
 
 ### ACCEPT rules ###
 $IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 22 -m conntrack --ctstate NEW -j ACCEPT

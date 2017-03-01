@@ -10,7 +10,7 @@
 #####Constants#####
 export DEBIAN_FRONTEND=noninteractive
 domain_name=$1
-Setup_dir='/root/initial_setup/'
+Setup_dir='/root/initial_setup/firewall/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
 function FB_install
@@ -35,20 +35,21 @@ debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login    
 apt-get update -q
 apt-get upgrade -y -q
 
+export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
 	touch $First_boot
-	FB_install
-	network_config_Firewall.sh
-	$Setup_dir\iptables_Firewall.sh
+#	bash $Setup_dir\ip_address_mail.sh
+	bash -x $Setup_dir\network_config_Firewall.sh $host_name $domain_name
+#	FB_install
+	
 	raspi-config --expand-rootfs
 	reboot
-	
+	#touch $Second_boot
+	#Second_boot_install
 	exit
-
-elif [ -f $First_boot && ! -f $Second_boot ]; 
+elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
-	
-	
+	Second_boot_install
 else
 	exit
 fi
