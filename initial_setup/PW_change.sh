@@ -21,11 +21,11 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################
-apt-get install -y python-minimal
+#apt-get install -y python-minimal
 
 Saltsalt=$(pwgen -s 8 1)
 User_name=chris
 shadow_passwd=$(python -c "import crypt, getpass, pwd; \
          print crypt.crypt('password', '\$6\$$Saltsalt\$')")
-sed -r "s|$User_name:[^:].*:(.*)|$User_name:$shadow_passwd:\1|" /etc/shadow > /etc/shadow.new2
-
+#sed -r "s|$User_name:[^:].*:(.*)|$User_name:$shadow_passwd:\1|" /etc/shadow > /etc/shadow.new2
+sed -r "s|$User_name:[^:].*:(.*:.*:.*:*:::)|$User_name:$shadow_passwd:\1|" /etc/shadow > /etc/shadow.new3

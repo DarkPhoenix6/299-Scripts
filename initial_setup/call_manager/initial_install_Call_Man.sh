@@ -112,11 +112,11 @@ apt-get install build-essential subversion \
 	mysql-client bison flex php5-curl php5-gd curl sox \
 	libmysqlclient-dev mpg123 libnewt-dev sqlite3 \
 	libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev \
-	libasound2-dev libogg-dev libvorbis-dev  \
-	libical-dev libneon27-dev libsrtp0-dev \
+	libasound2-dev libogg-dev libvorbis-dev  libtool-bin \
+	libical-dev libneon27-dev libsrtp0-dev autotools-dev \
 	libspandsp-dev sudo libmyodbc libusb-dev libeditline-dev libedit-dev \
 	tftpd chkconfig libcurl4-gnutls-dev \
-	xinetd e2fsprogs dbus xmlstarlet unixodbc -y -q
+	xinetd e2fsprogs dbus xmlstarlet unixodbc py-y -q
 
 
 #apt-get install g++
