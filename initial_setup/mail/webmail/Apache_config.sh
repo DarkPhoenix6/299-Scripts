@@ -30,7 +30,7 @@ sed -i '
 		N
 			/\t\tSSLCertificateKeyFile \/etc\/ssl\/private\/ssl-cert-snakeoil.key/ {
 				N
-					s:\t\tSSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\tSSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key:\t\t\#SSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\t\#SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key\n\t\tSSLCertificateFile\t/etc/ssl/My_Certs/certs/mailserver_crt.pem\n\t\tSSLCertificateKeyFile /etc/ssl/My_Certs/private/mailserver_key.pem:
+					s:\t\tSSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\tSSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key:\t\t\#SSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\t\#SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key\n\t\tSSLCertificateFile\t$My_Cert\n\t\tSSLCertificateKeyFile $My_Key:
 			}
 	}
 
