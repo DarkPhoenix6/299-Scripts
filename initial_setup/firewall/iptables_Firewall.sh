@@ -181,9 +181,9 @@ $IP6TABLES -P FORWARD DROP
 
 ##### Basic DDos Prevention #####
 sudo bash $Setup_dir\ddos_protection.sh
-### Save ###
-echo "[+] Saving rules..."
-iptables-save > ipt.save
+#### Save ###
+#echo "[+] Saving rules..."
+#iptables-save > ipt.save
 
 
 exit

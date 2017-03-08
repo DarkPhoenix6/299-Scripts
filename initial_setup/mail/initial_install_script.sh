@@ -84,7 +84,8 @@ echo postfix postfix/procmail        boolean true | debconf-set-selections
 echo postfix postfix/mailbox_limit   string  0 | debconf-set-selections
 echo postfix postfix/destinations    string  $domain_name, localhost.com, , localhost | debconf-set-selections
 
-
+debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v4 boolean true"
+debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v6 boolean true"
 
 debconf-set-selections <<< "phpmyadmin phpmyadmin/setup-password       password $PHPMyAdmin_setup_passwd"
 debconf-set-selections <<< "phpmyadmin phpmyadmin/password-confirm     password $PHPMyAdmin_setup_passwd"
@@ -150,7 +151,7 @@ bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
 ##### Postfix #####
 echo "[+] Installing Postfix..."
 apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
--o Dpkg::Options::="--force-confold" postfix postfix-mysql
+-o Dpkg::Options::="--force-confold" postfix postfix-mysql mailutils
 apt-get --purge remove 'exim4*' -y -q
 apt-get install spamassassin spamass-milter -y -q
 apt-get install swaks -y -q
@@ -207,6 +208,17 @@ bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
 ##### Firewall #####
 echo "[+] Configuring Firewall..."
 bash -x $Setup_dir\iptables_mail.sh
+
+
+##### Persistent Firewall #####
+echo "[+] Configuring Persistent Firewall..."
+
+apt-get -q -y -o Dpkg::Options::="--force-confdef" \
+-o Dpkg::Options::="--force-confold" install iptables-persistent
+
+##### Fail2Ban
+bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
+
 }
 #####Main
 export DEBIAN_FRONTEND=noninteractive
@@ -224,10 +236,10 @@ if [ ! -f $First_boot ]; then
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
-	sed -i "
-	/exit 0/ i\
-	bash $Setup_dir\iptables_mail.sh
-	" /etc/rc.local
+#	sed -i "
+#	/exit 0/ i\
+#	bash $Setup_dir\iptables_mail.sh
+#	" /etc/rc.local
 else
 	exit
 fi

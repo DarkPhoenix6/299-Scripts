@@ -44,7 +44,8 @@ sed -i "
 " /etc/roundcube/config.inc.php
 
 echo "\$config['session_lifetime'] = 60;" >> /etc/roundcube/config.inc.php
-
+echo "// Log successful/failed logins to <log_dir>/userlogins or to syslog ">> /etc/roundcube/config.inc.php
+echo "\$config['log_logins'] = false;" >> /etc/roundcube/config.inc.php
 
 #configure the managesieve plugin
 cp /usr/share/roundcube/plugins/managesieve/config.inc.php.dist /etc/roundcube/plugins/managesieve/config.inc.php

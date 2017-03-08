@@ -2,7 +2,7 @@
 #
 ######################################################################
 #
-#	Name:		 	Fail2Ban.sh
+#	Name:		 	Fail2Ban_callman.sh
 #	Author:			Chris Fedun 31/01/2017
 #	Description:	Fail2Ban Configuration
 #
@@ -189,7 +189,7 @@ maxretry = 6
 
 [xinetd-fail]
 
-enabled   = false
+enabled   = true
 filter    = xinetd-fail
 port      = all
 banaction = iptables-multiport-log
@@ -247,7 +247,7 @@ maxretry = 6
 
 [apache]
 
-enabled  = false
+enabled  = true
 port     = http,https
 filter   = apache-auth
 logpath  = /var/log/apache*/*error.log
@@ -273,7 +273,7 @@ maxretry = 6
 
 [apache-overflows]
 
-enabled  = false
+enabled  = true
 port     = http,https
 filter   = apache-overflows
 logpath  = /var/log/apache*/*error.log
@@ -289,7 +289,7 @@ maxretry = 2
 
 [apache-nohome]
 
-enabled  = false
+enabled  = true
 filter   = apache-nohome
 port     = http,https
 logpath  = /var/log/apache*/*error.log
@@ -328,33 +328,6 @@ enabled = false
 port    = http,https
 filter  = suhosin
 logpath = /var/log/lighttpd/error.log
-
-[nginx-http-auth]
-
-enabled = false
-filter  = nginx-http-auth
-port    = http,https
-logpath = /var/log/nginx/error.log
-
-# Monitor roundcube server
-
-[roundcube-auth]
-
-enabled  = false
-filter   = roundcube-auth
-port     = http,https
-logpath  = /var/log/roundcube/userlogins
-
-
-[sogo-auth]
-
-enabled  = false
-filter   = sogo-auth
-port     = http, https
-# without proxy this would be:
-# port    = 20000
-logpath  = /var/log/sogo/sogo.log
-
 
 #
 # FTP servers
@@ -525,7 +498,7 @@ logpath  = /var/log/ejabberd/ejabberd.log
 # see https://github.com/fail2ban/fail2ban/issues/37
 [asterisk-tcp]
 
-enabled  = false
+enabled  = true
 filter   = asterisk
 port     = 5060,5061
 protocol = tcp
@@ -533,7 +506,7 @@ logpath  = /var/log/asterisk/messages
 
 [asterisk-udp]
 
-enabled  = false
+enabled  = true
 filter	 = asterisk
 port     = 5060,5061
 protocol = udp
