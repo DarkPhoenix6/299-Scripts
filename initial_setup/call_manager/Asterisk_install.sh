@@ -191,6 +191,8 @@ ExecStop=/usr/sbin/fwconsole stop
 WantedBy=multi-user.target
 EOF
 
+systemctl enable freepbx
+
 cat >> /etc/logrotate.d/asterisk << EOF
 /var/spool/mail/asterisk
 /var/log/asterisk/*log
@@ -230,7 +232,8 @@ function install_FreePBX
 	conf_ODBC
 	# Install FreePBX#
 	ldconfig
-	update-rc.d -f asterisk remove
+#	update-rc.d -f asterisk remove
+	update-rc.d asterisk disable
 	cd $asterisk_SRC\freepbx
 	./start_asterisk start
 	./install -n --dbpass $root_db_pass
@@ -240,7 +243,7 @@ function install_FreePBX
 	#my options
 	fwconsole ma upgrade configedit backup asteriskinfo bulkhandler callforward certman cxpanel \
 	disa fw_langpacks languages asterisk-cli cidlookup \
-	blacklist dahdiconfig digium_phones 
+	blacklist 
 	fwconsole restart
 	fwconsole reload
 	fwconsole chown

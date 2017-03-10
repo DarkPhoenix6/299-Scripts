@@ -100,7 +100,9 @@ apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
 ##### PHP #####
 echo "[+] Installing PHP..."
 apt-get install php5 php-pear php5-mysql -y -q
+}
 
+function third_boot_config{
 ##### MYSQL Database Setup #####
 echo "[+] Setting up MYSQL Database..."
 #bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
@@ -116,7 +118,7 @@ apt-get install build-essential subversion \
 	libical-dev libneon27-dev libsrtp0-dev autotools-dev \
 	libspandsp-dev sudo libmyodbc libusb-dev libeditline-dev libedit-dev \
 	tftpd chkconfig libcurl4-gnutls-dev \
-	xinetd e2fsprogs dbus xmlstarlet unixodbc py-y -q
+	xinetd e2fsprogs dbus xmlstarlet unixodbc python-minimal -y -q
 
 
 #apt-get install g++
@@ -126,7 +128,10 @@ apt-get install build-essential subversion \
 #apt-get install libxml2-dev postfix mailutils
 #apt-get install libsqlite3-dev libcurl4-gnutls-dev
 pear install Console_Getopt
+}
 
+function fourth_boot_config
+{
 ##### Install Asterisk ##### 
 bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name "true"
 
@@ -139,10 +144,7 @@ echo "[+] Configuring Firewall..."
 #bash -x $Setup_dir\iptables_mail.sh
 }
 
-#function third_boot_config
-#{
-#	
-#}
+
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
@@ -159,10 +161,20 @@ if [ ! -f $First_boot ]; then
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
-#	sed -i "
-#	/exit 0/ i\
-#	bash $Setup_dir\iptables_mail.sh
-#	" /etc/rc.local
+	touch $Third_boot
+	third_boot_config
+	touch $Fourth_boot
+	fourth_boot_config
+	reboot
+elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then
+	touch $Third_boot
+	third_boot_config
+	touch $Fourth_boot
+	fourth_boot_config
+	reboot
+elif [ -f $First_boot ] && [ -f $Second_boot ] && [ -f $Third_boot ] && [ ! -f $Fourth_boot ]; then
+	touch $Fourth_boot
+	fourth_boot_config
 	reboot
 	exit
 #elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then	
