@@ -43,9 +43,21 @@ sed -i "
 'managesieve',\n'password',
 " /etc/roundcube/config.inc.php
 
+#### Change session timeout to 60 minutes so the user does not need to continually login ####
 echo "\$config['session_lifetime'] = 60;" >> /etc/roundcube/config.inc.php
-echo "// Log successful/failed logins to <log_dir>/userlogins or to syslog ">> /etc/roundcube/config.inc.php
-echo "\$config['log_logins'] = false;" >> /etc/roundcube/config.inc.php
+
+#### Enable user login logging for Fail2Ban ####
+echo "
+ // Log successful/failed logins to <log_dir>/userlogins or to syslog ">> /etc/roundcube/config.inc.php
+echo "\$config['log_logins'] = true;" >> /etc/roundcube/config.inc.php
+
+#### Force HTTPS ####
+echo '
+// enforce connections over https
+// with this option enabled, all non-secure connections will be redirected.
+// set the port for the ssl connection as value of this option if it differs from the default 443
+' >> /etc/roundcube/config.inc.php
+echo "\$config['force_https'] = true;">> /etc/roundcube/config.inc.php
 
 #configure the managesieve plugin
 cp /usr/share/roundcube/plugins/managesieve/config.inc.php.dist /etc/roundcube/plugins/managesieve/config.inc.php
