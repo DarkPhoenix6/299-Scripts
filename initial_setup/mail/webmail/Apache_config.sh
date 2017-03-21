@@ -57,22 +57,3 @@ service apache2 reload
 exit
 
 ####### END :) #######
-#	
-#						SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
-#						SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
-#		                #SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
-#						#SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
-#						SSLCertificateFile /etc/ssl/My_Certs/certs/mailserver_crt.pem
-#						SSLCertificateKeyFile /etc/ssl/My_Certs/private/mailserver_key.pem
-#		
-#		#ServerName www.example.com
-#
-#        ServerAdmin webmaster@localhost
-#        DocumentRoot /var/www/html
-#
-#
-#        ServerName mail.cfedun.com
-#        ServerAlias www.cfedun.com
-#        Redirect permanent / https://www.cfedun.com/
-#        ServerAdmin webmaster@localhost
-#        #DocumentRoot /var/www/html

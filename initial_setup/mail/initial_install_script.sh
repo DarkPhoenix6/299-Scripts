@@ -32,6 +32,8 @@ User_Name=$8
 Setup_dir='/root/initial_setup/mail/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
+Third_boot="/var/log/thirdboot.log"
+Fourth_boot="/var/log/fourthboot.log"
 ##### Functions #####
 function Second_boot_install 
 {
@@ -124,6 +126,10 @@ chmod u=rw,go= $Setup_dir\PHPMyAdmin-setup_password.txt
 echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 apt-get update -q 1> /dev/null
 apt-get dist-upgrade -y -q 
+
+function third_boot_config
+{
+root_db
 ##### OpenSSH/OpenSSL/OpenDKIM #####
 
 apt-get install -y -q ssh openssl openssh-server \
@@ -204,7 +210,10 @@ bash -x $Setup_dir\email/OpenDKIM.sh $domain_name
 ##### Roundcube Setup #####
 echo "[+] Configuring Roundcube..."
 bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
+}
 
+function fourth_boot_config
+{
 ##### Firewall #####
 echo "[+] Configuring Firewall..."
 bash -x $Setup_dir\iptables_mail.sh
@@ -217,33 +226,83 @@ apt-get -q -y -o Dpkg::Options::="--force-confdef" \
 -o Dpkg::Options::="--force-confold" install iptables-persistent
 
 ##### Fail2Ban
+apt-get install -y -q fail2ban
 bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
+
+##### Secure MYSQL
+expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
 
 }
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
+
 	touch $First_boot
-	bash $Setup_dir\ip_address_mail.sh $host_name $domain_name
+	####Use only if ip address is NOT set by dhcp
+#	bash $Setup_dir\ip_address_mail.sh $host_name $domain_name
+#	bash $Setup_dir\ip_address_mail.sh
 #	bash -x $Setup_dir\ip_address_mail_deb_test.sh $host_name $domain_name
+#	bash -x $Setup_dir\ip_address_call_man_deb_test.sh $host_name $domain_name
 #	FB_install
 	
 	#raspi-config --expand-rootfs
-	reboot
+#	reboot
 	#touch $Second_boot
 	#Second_boot_install
-	exit
+#	exit
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
-#	sed -i "
-#	/exit 0/ i\
-#	bash $Setup_dir\iptables_mail.sh
-#	" /etc/rc.local
+	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
+	touch $Third_boot
+	third_boot_config
+	touch $Fourth_boot
+	fourth_boot_config
+	reboot
+elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then
+	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
+	touch $Third_boot
+	third_boot_config
+	touch $Fourth_boot
+	fourth_boot_config
+	reboot
+elif [ -f $First_boot ] && [ -f $Second_boot ] && [ -f $Third_boot ] && [ ! -f $Fourth_boot ]; then
+	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
+	touch $Fourth_boot
+	fourth_boot_config
+	reboot
+	exit
 else
 	exit
 fi
 
-reboot
+
 exit
+
+#if [ ! -f $First_boot ]; then
+#	touch $First_boot
+#	bash $Setup_dir\ip_address_mail.sh $host_name $domain_name
+##	bash -x $Setup_dir\ip_address_mail_deb_test.sh $host_name $domain_name
+##	FB_install
+#	
+#	#raspi-config --expand-rootfs
+#	reboot
+#	#touch $Second_boot
+#	#Second_boot_install
+#	exit
+#elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
+#	touch $Second_boot
+#	Second_boot_install
+##	sed -i "
+##	/exit 0/ i\
+##	bash $Setup_dir\iptables_mail.sh
+##	" /etc/rc.local
+#else
+#	exit
+#fi
+#
+#reboot
+#
+#
+#exit
 ####### END :) #######

@@ -2,9 +2,9 @@
 #
 ######################################################################
 #
-#	Name:		 	<Script Name>
+#	Name:		 	Asterisk_install.sh
 #	Author:			Chris Fedun 23/02/2017
-#	Description:	<description> 
+#	Description:	Asterisk Install script
 #	
 #	Copyright (C) 2017  Christopher Fedun
 #

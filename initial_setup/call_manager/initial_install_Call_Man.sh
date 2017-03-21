@@ -2,9 +2,9 @@
 #
 ######################################################################
 #
-#	Name:		 	<Script Name>
+#	Name:		 	initial_install_Call_Man.sh
 #	Author:			Chris Fedun 23/02/2017
-#	Description:	<description> 
+#	Description:	install script Configuration
 #	
 #	Copyright (C) 2017  Christopher Fedun
 #
@@ -29,6 +29,7 @@ Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
 Third_boot="/var/log/thirdboot.log"
+Fourth_boot="/var/log/fourthboot.log"
 ##### Functions #####
 function Second_boot_install 
 {
@@ -102,7 +103,8 @@ echo "[+] Installing PHP..."
 apt-get install php5 php-pear php5-mysql -y -q
 }
 
-function third_boot_config{
+function third_boot_config
+{
 ##### MYSQL Database Setup #####
 echo "[+] Setting up MYSQL Database..."
 #bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
@@ -113,12 +115,17 @@ apt-get install build-essential subversion \
 	linux-headers-`uname -r` libncurses5-dev libncursesw5-dev \
 	mysql-client bison flex php5-curl php5-gd curl sox \
 	libmysqlclient-dev mpg123 libnewt-dev sqlite3 \
-	libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev \
-	libasound2-dev libogg-dev libvorbis-dev  libtool-bin \
-	libical-dev libneon27-dev libsrtp0-dev autotools-dev \
-	libspandsp-dev sudo libmyodbc libusb-dev libeditline-dev libedit-dev \
-	tftpd chkconfig libcurl4-gnutls-dev \
-	xinetd e2fsprogs dbus xmlstarlet unixodbc python-minimal -y -q
+	libsqlite3-dev pkg-config automake libtool autoconf git \
+	unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev \
+	libvorbis-dev  libtool-bin libical-dev libneon27-dev \
+	libsrtp0-dev autotools-dev libspandsp-dev sudo libmyodbc \
+	libusb-dev libeditline-dev libedit-dev \
+	tftpd chkconfig libcurl4-gnutls-dev xinetd \
+	e2fsprogs dbus xmlstarlet unixodbc python-minimal \
+	python-tk python-doc libpython-stdlib python-sphinx \
+	python-docutils debhelper dh-python python-all \
+	python-setuptools libpython-all-dev libpython-all-dbg \
+	python-pip -y -q
 
 
 #apt-get install g++
@@ -142,15 +149,20 @@ bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name "true"
 ##### Firewall #####
 echo "[+] Configuring Firewall..."
 #bash -x $Setup_dir\iptables_mail.sh
+
+##### Secure MYSQL
+expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
 }
 
 
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
+
 	touch $First_boot
+	####Use only if ip address is NOT set by dhcp
 #	bash $Setup_dir\ip_address_mail.sh
-	bash -x $Setup_dir\ip_address_call_man_deb_test.sh $host_name $domain_name
+#	bash -x $Setup_dir\ip_address_call_man_deb_test.sh $host_name $domain_name
 #	FB_install
 	
 	#raspi-config --expand-rootfs
