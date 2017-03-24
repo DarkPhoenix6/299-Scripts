@@ -25,13 +25,13 @@
 IPTABLES=/sbin/iptables
 IP6TABLES=/sbin/ip6tables
 MODPROBE=/sbin/modprobe
-INT_NET=192.168.10.0/24
+#INT_NET=192.168.10.0/24
 IFACE_INT=eth0
 IFACE_EXT=eth0
-DNS_SVR_IP=192.168.10.253
-WEB_SVR_IP=192.168.10.253
-EMAIL_SVR_IP=192.168.10.253
-CALL_MANAGER=192.168.10.252
+#DNS_SVR_IP=192.168.10.253
+#WEB_SVR_IP=192.168.10.253
+#EMAIL_SVR_IP=192.168.10.253
+#CALL_MANAGER=192.168.10.252
 Setup_dir='/root/initial_setup/mail/'
 
 ### Flush existing rules ###
@@ -57,7 +57,8 @@ $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 
 ### ACCEPT rules ###
-$IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+#$IPTABLES -A INPUT -i $IFACE_INT -p tcp -s $INT_NET --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 21 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 43 -m conntrack --ctstate NEW -j ACCEPT

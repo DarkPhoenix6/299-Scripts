@@ -29,6 +29,7 @@ City=$5
 OrgName=$6
 OU=$7
 User_Name=$8
+IS_Raspian=0
 Setup_dir='/root/initial_setup/mail/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
@@ -37,6 +38,8 @@ Fourth_boot="/var/log/fourthboot.log"
 ##### Functions #####
 function Second_boot_install 
 {
+if [ IS_Raspian = 1 ]; then
+
 echo "
 #
 
@@ -53,6 +56,8 @@ deb-src http://security.debian.org/ jessie/updates main
 # jessie-updates, previously known as 'volatile'
 deb http://mirror.it.ubc.ca/debian/ jessie-updates main
 deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main" >> /etc/apt/sources.list
+
+fi
 #####UPDATE#####
 apt-get update -q
 apt-get upgrade -y -q

@@ -35,7 +35,7 @@
 #touch /var/log/initial_setup.log
 
 
-domain_name=$1
+domain_name=fedun.ca
 host_name=mail
 Country=CA
 State=BC
