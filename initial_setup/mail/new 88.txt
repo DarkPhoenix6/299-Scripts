@@ -49,7 +49,10 @@ git init .
 git commit -m "update"
 git push
 
-
+git init
+git add .
+git commit -am '<message>'
+git push
 
 $host_name $domain_name $Country $State $City $OrgName $OU $User_Name
 

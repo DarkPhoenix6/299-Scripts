@@ -232,6 +232,7 @@ bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
 ##### Secure MYSQL
 expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
 
+setup OpenVPN
 }
 #####Main
 export DEBIAN_FRONTEND=noninteractive
