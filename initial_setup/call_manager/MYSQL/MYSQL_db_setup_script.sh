@@ -72,18 +72,7 @@ CREATE DATABASE drupal;
 CREATE USER drupaluser@localhost IDENTIFIED BY '$drupaluser_passwd';
 GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX,ALTER,CREATE TEMPORARY TABLES,LOCK TABLES ON drupal.* TO drupaluser@localhost;
  FLUSH PRIVILEGES;
- 
-CREATE DATABASE IF NOT EXISTS \`as_certs\` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE \`as_certs\`;
 
-CREATE DATABASE IF NOT EXISTS \`as_config\` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE \`as_config\`;
-
-CREATE DATABASE IF NOT EXISTS \`as_log\` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE \`as_log\`;
-
-CREATE DATABASE IF NOT EXISTS \`as_userprop\` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE \`as_userprop\`;
 
 MYSQL_SCRIPT
  
