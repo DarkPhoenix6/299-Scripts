@@ -31,9 +31,13 @@ a2enmod rewrite ssl
 #Enable the virtual host for HTTPS
 a2ensite default-ssl
 
-
+#Change Max Upload size to 20Mb
 sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php5/apache2/php.ini
+
+#Backup original Apache configureation file 
 cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf_orig
+
+#allow asterisk user access
 sed -i 's/^\(User\|Group\).*/\1 asterisk/' /etc/apache2/apache2.conf
 sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
