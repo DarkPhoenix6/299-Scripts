@@ -35,7 +35,7 @@ cat > /etc/rc.local << EOF
 # By default this script does nothing.
 
 if [ ! -f /var/log/fourthboot.log ]; then
-	bash /root/install.sh
+	bash -x /root/install_mail.sh
 fi
 	
 exit 0
