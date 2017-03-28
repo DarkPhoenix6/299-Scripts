@@ -58,6 +58,7 @@ deb http://mirror.it.ubc.ca/debian/ jessie-updates main
 deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main" >> /etc/apt/sources.list
 
 fi
+
 ##### Add Jessie Backports for Roundcube #####
 echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 #####UPDATE#####
@@ -247,7 +248,7 @@ expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
-
+	bash -x $Setup_dir\rc.sh
 	touch $First_boot
 	####Use only if ip address is NOT set by dhcp
 #	bash $Setup_dir\ip_address_mail.sh $host_name $domain_name
@@ -289,31 +290,4 @@ fi
 
 
 exit
-
-#if [ ! -f $First_boot ]; then
-#	touch $First_boot
-#	bash $Setup_dir\ip_address_mail.sh $host_name $domain_name
-##	bash -x $Setup_dir\ip_address_mail_deb_test.sh $host_name $domain_name
-##	FB_install
-#	
-#	#raspi-config --expand-rootfs
-#	reboot
-#	#touch $Second_boot
-#	#Second_boot_install
-#	exit
-#elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
-#	touch $Second_boot
-#	Second_boot_install
-##	sed -i "
-##	/exit 0/ i\
-##	bash $Setup_dir\iptables_mail.sh
-##	" /etc/rc.local
-#else
-#	exit
-#fi
-#
-#reboot
-#
-#
-#exit
 ####### END :) #######
