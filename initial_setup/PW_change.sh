@@ -24,10 +24,11 @@
 #apt-get install -y python-minimal
 
 Saltsalt=$(pwgen -s 8 1)
-User_name=chris
+#User_name=chris
+User_name=$1
 #New_Passwd=$2
 New_Passwd='P@ssw0rd'
 shadow_passwd=$(python -c "import crypt, getpass, pwd; \
          print crypt.crypt('$New_Passwd', '\$6\$$Saltsalt\$')")
-#sed -r "s|$User_name:[^:].*:(.*)|$User_name:$shadow_passwd:\1|" /etc/shadow > /etc/shadow.new2
+
 sed -ri "s|$User_name:[^:].*(:.*:.*:.*:.*:::)|$User_name:$shadow_passwd\1|" /etc/shadow 

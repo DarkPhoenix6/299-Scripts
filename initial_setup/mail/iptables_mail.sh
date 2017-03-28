@@ -64,7 +64,6 @@ $IPTABLES -A INPUT -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 43 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A INPUT -p tcp --dport 4321 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 # SMTP and SMTPS #
@@ -81,7 +80,8 @@ $IPTABLES -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
 
 ### Default INPUT LOG rule ###
 $IPTABLES -A INPUT ! -i lo -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
-
+### LOG Rule for PSAD
+$IPTABLES -A INPUT ! -i lo -j LOG
 ### Make sure that loopback traffic is accepted ###
 $IPTABLES -A INPUT -i lo -j ACCEPT
 
@@ -99,7 +99,6 @@ $IPTABLES -A OUTPUT -p tcp --dport 25 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 43 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
-$IPTABLES -A OUTPUT -p tcp --dport 4321 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 # SMTP and SMTPS #

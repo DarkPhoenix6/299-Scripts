@@ -58,9 +58,13 @@ deb http://mirror.it.ubc.ca/debian/ jessie-updates main
 deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main" >> /etc/apt/sources.list
 
 fi
+##### Add Jessie Backports for Roundcube #####
+echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 #####UPDATE#####
+
 apt-get update -q
 apt-get upgrade -y -q
+apt-get dist-upgrade -y -q
 
 #####install#####
 apt-get install -y -q debconf-utils sudo
@@ -128,9 +132,8 @@ touch $Setup_dir\PHPMyAdmin-setup_password.txt
 echo "$PHPMyAdmin_setup_passwd" >> $Setup_dir\PHPMyAdmin-setup_password.txt
 chmod u=rw,go= $Setup_dir\PHPMyAdmin-setup_password.txt
 
-echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
-apt-get update -q 1> /dev/null
-apt-get dist-upgrade -y -q 
+
+
 
 function third_boot_config
 {
@@ -234,10 +237,12 @@ apt-get -q -y -o Dpkg::Options::="--force-confdef" \
 apt-get install -y -q fail2ban
 bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
 
+##### PSAD
+bash -x $Setup_dir\PSAD.sh $domain_name $host_name
 ##### Secure MYSQL
 expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
 
-setup OpenVPN
+###setup OpenVPN
 }
 #####Main
 export DEBIAN_FRONTEND=noninteractive

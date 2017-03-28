@@ -75,7 +75,7 @@ $IPTABLES -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j DROP
 $IPTABLES -t mangle -A PREROUTING -p icmp -j DROP
 
 ### 7: Drop fragments in all chains ### ### DO NOT USE IF USING VPN ###
-$IPTABLES -t mangle -A PREROUTING -f -j DROP
+#$IPTABLES -t mangle -A PREROUTING -f -j DROP
 
 ### 8: Limit connections per source IP ###
 $IPTABLES -A INPUT -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
