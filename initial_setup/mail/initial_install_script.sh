@@ -133,7 +133,7 @@ touch $Setup_dir\PHPMyAdmin-setup_password.txt
 echo "$PHPMyAdmin_setup_passwd" >> $Setup_dir\PHPMyAdmin-setup_password.txt
 chmod u=rw,go= $Setup_dir\PHPMyAdmin-setup_password.txt
 
-
+}
 
 
 function third_boot_config
@@ -240,10 +240,12 @@ bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
 
 ##### PSAD
 bash -x $Setup_dir\PSAD.sh $domain_name $host_name
+
 ##### Secure MYSQL
 expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
 
 ###setup OpenVPN
+
 }
 #####Main
 export DEBIAN_FRONTEND=noninteractive
@@ -287,7 +289,6 @@ elif [ -f $First_boot ] && [ -f $Second_boot ] && [ -f $Third_boot ] && [ ! -f $
 else
 	exit
 fi
-
 
 exit
 ####### END :) #######
