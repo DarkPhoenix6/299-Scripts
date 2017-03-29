@@ -133,10 +133,9 @@ echo "[+] Disabling IPv6 traffic..."
 $IP6TABLES -P INPUT DROP
 $IP6TABLES -P OUTPUT DROP
 $IP6TABLES -P FORWARD DROP
-### Save ###
-echo "[+] Saving rules..."
-iptables-save > ipt.save
 
+##### Basic DDos Prevention #####
+bash -x $Setup_dir\ddos_protection_my_build.sh
 
 exit
 

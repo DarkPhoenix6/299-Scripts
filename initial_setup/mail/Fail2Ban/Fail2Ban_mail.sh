@@ -49,7 +49,7 @@ cat >> /etc/fail2ban/jail.local << EOF
 # # "ignoreip" can be an IP address, a CIDR mask or a DNS host. Fail2ban will not
 # # ban a host which matches an address in this list. Several addresses can be
 # # defined using space separator.
-ignoreip = 127.0.0.1/8 192.168.10.0/24
+ignoreip = 127.0.0.1/8 
 # 
 
 # # "bantime" is the number of seconds that a host is banned.
@@ -279,16 +279,16 @@ port    = http,https
 filter  = php-url-fopen
 logpath = /var/log/apache*/*access.log
 # 
-/log/nginx/error.log
+
 # 
 # # Monitor roundcube server
 # 
 [roundcube-auth]
  
-enabled  = true
-filter   = roundcube-auth
-port     = http,https
-logpath  = /var/log/roundcube/userlogins
+#enabled  = true
+#filter   = roundcube-auth
+#port     = http,https
+#logpath  = /var/log/roundcube/userlogins
 #
 
 # # FTP servers
