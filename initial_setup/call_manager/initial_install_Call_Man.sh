@@ -49,9 +49,14 @@ function Second_boot_install
 ## jessie-updates, previously known as 'volatile'
 #deb http://mirror.it.ubc.ca/debian/ jessie-updates main
 #deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main" >> /etc/apt/sources.list
+
+##### Add Jessie Backports #####
+echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 #####UPDATE#####
+
 apt-get update -q
 apt-get upgrade -y -q
+apt-get dist-upgrade -y -q
 
 #####install#####
 apt-get install -y -q debconf-utils sudo automake \
@@ -80,10 +85,6 @@ echo "$SQL_root_passwd" >> $Setup_dir\MYSQL/pass.txt
 chmod u=rw,go= $Setup_dir\MYSQL/pass.txt
 
 
-
-echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
-apt-get update -q 1> /dev/null
-apt-get dist-upgrade -y -q 
 ##### OpenSSH/OpenSSL#####
 
 apt-get install -y -q ssh openssl openssh-server openssh-client 
@@ -93,7 +94,7 @@ apt-get install ntp ntpdate -y -q
 timedatectl set-timezone America/Vancouver
 ##### Apache and MYSQL Install #####
 echo "[+] Installing Apache..."
-apt-get update -q 1> /dev/null
+#apt-get update -q 1> /dev/null
 echo "[+] Installing MYSQL..."
 apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
 -o Dpkg::Options::="--force-confold" apache2 mysql-server
@@ -166,9 +167,16 @@ if [ ! -f $First_boot ]; then
 #	FB_install
 	
 	#raspi-config --expand-rootfs
-	reboot
+#	reboot
 	#touch $Second_boot
 	#Second_boot_install
+	touch $Second_boot
+	Second_boot_install
+	touch $Third_boot
+	third_boot_config
+	touch $Fourth_boot
+	fourth_boot_config
+	reboot
 	exit
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot

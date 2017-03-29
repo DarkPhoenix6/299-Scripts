@@ -123,7 +123,7 @@ sed -i '
 		
 		}
 }' $conf_dir\10-master.conf
-service dovecot restart
+#service dovecot restart
 
 #Enable server-side mail rules
 sed -i '

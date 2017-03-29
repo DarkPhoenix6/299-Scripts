@@ -149,7 +149,7 @@ openssh-client opendkim opendkim-tools
 apt-get install ntp ntpdate -y -q
 ##### Apache and MYSQL Install #####
 echo "[+] Installing Apache..."
-apt-get update -q 1> /dev/null
+#apt-get update -q 1> /dev/null
 echo "[+] Installing MYSQL..."
 apt-get install -q -y -o Dpkg::Options::="--force-confdef" \
 -o Dpkg::Options::="--force-confold" apache2 mysql-server
