@@ -160,7 +160,7 @@ apt-get install php5 php-pear php5-mysql -y -q
 
 ##### MYSQL Database Setup #####
 echo "[+] Setting up MYSQL Database..."
-bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name $User_Name
+bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
 
 ##### Install BIND #####
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q
@@ -220,6 +220,9 @@ bash -x $Setup_dir\email/OpenDKIM.sh $domain_name
 ##### Roundcube Setup #####
 echo "[+] Configuring Roundcube..."
 bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
+
+##### Add first email user
+bash -x $Setup_dir\add_user.sh -u $User_Name -d $domain_name -p "P@ssw0rd"
 }
 
 function fourth_boot_config
