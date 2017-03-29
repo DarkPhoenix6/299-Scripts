@@ -25,7 +25,7 @@ My_Cert="/etc/ssl/My_Certs/certs/mailserver_crt.pem"
 My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
 domain_name=$1
 #####Main
-sed -i '
+sed -i "
 	/\t\tSSLCertificateFile\t\/etc\/ssl\/certs\/ssl-cert-snakeoil.pem/ {
 		N
 			/\t\tSSLCertificateKeyFile \/etc\/ssl\/private\/ssl-cert-snakeoil.key/ {
@@ -35,7 +35,7 @@ sed -i '
 	}
 
 
-' /etc/apache2/sites-available/default-ssl.conf
+" /etc/apache2/sites-available/default-ssl.conf
 
 #Enable the SSL encryption module and the Rewrite module
 a2enmod rewrite ssl

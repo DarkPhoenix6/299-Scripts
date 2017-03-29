@@ -240,10 +240,11 @@ apt-get install -y -q fail2ban
 bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
 
 ##### PSAD
+apt-get -y -q install psad
 bash -x $Setup_dir\PSAD.sh $domain_name $host_name
 
 ##### Secure MYSQL
-expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
+expect $Setup_dir\MYSQL/mysql_secure.exp $SQL_root_passwd
 
 ###setup OpenVPN
 
