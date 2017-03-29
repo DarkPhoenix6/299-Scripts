@@ -24,6 +24,7 @@
 mailuser_passwd=$(pwgen -s 25 1)
 drupaluser_passwd=$(pwgen -s 25 1)
 domain_name=$1
+User_name=$2
 Setup_dir='/root/initial_setup/mail/'
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 touch $Setup_dir\email/mailuser_passwd.txt
@@ -74,5 +75,6 @@ GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX,ALTER,CREATE TEMPORARY TABLE
  FLUSH PRIVILEGES;
 MYSQL_SCRIPT
  
+bash -x $Setup_dir\add_user.sh -u $User_name -d $domain_name -p "P@ssw0rd"
 exit
 ####### END :) #######

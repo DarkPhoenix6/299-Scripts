@@ -74,6 +74,7 @@ apt-get install pwgen curl php5-cli git quotatool expect -y -q
 SQL_root_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_user_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_setup_passwd=$(pwgen -s 20 1)
+
 #####New user
 adduser --disabled-login --quiet --gecos "" nonroot
 adduser --disabled-login --quiet --gecos "" server_admin 
@@ -85,16 +86,16 @@ debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login    
 
 debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password password $SQL_root_passwd"
 debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password_again password $SQL_root_passwd"
-echo postfix postfix/protocols       select  all | debconf-set-selections
-echo postfix postfix/chattr  boolean false | debconf-set-selections
-echo postfix postfix/recipient_delim string  + | debconf-set-selections
-echo postfix postfix/mynetworks      string  127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 | debconf-set-selections
-echo postfix postfix/rfc1035_violation       boolean false | debconf-set-selections
-echo postfix postfix/mailname        string  $domain_name | debconf-set-selections
-echo postfix postfix/main_mailer_type        select  Internet Site | debconf-set-selections
-echo postfix postfix/procmail        boolean true | debconf-set-selections
-echo postfix postfix/mailbox_limit   string  0 | debconf-set-selections
-echo postfix postfix/destinations    string  $domain_name, localhost.com, , localhost | debconf-set-selections
+debconf-set-selections <<< "postfix postfix/protocols       select  all"
+debconf-set-selections <<< "postfix postfix/chattr  boolean false"
+debconf-set-selections <<< "postfix postfix/recipient_delim string  +"
+debconf-set-selections <<< "postfix postfix/mynetworks      string  127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128"
+debconf-set-selections <<< "postfix postfix/rfc1035_violation       boolean false"
+debconf-set-selections <<< "postfix postfix/mailname        string  $domain_name"
+debconf-set-selections <<< "postfix postfix/main_mailer_type        select  Internet Site"
+debconf-set-selections <<< "postfix postfix/procmail        boolean true"
+debconf-set-selections <<< "postfix postfix/mailbox_limit   string  0"
+debconf-set-selections <<< "postfix postfix/destinations    string  $domain_name, localhost.com, , localhost"
 
 debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v4 boolean true"
 debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v6 boolean true"
@@ -159,7 +160,7 @@ apt-get install php5 php-pear php5-mysql -y -q
 
 ##### MYSQL Database Setup #####
 echo "[+] Setting up MYSQL Database..."
-bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
+bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name $User_Name
 
 ##### Install BIND #####
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q
@@ -250,7 +251,7 @@ expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
 #####Main
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f $First_boot ]; then
-	bash -x $Setup_dir\rc.sh
+#	bash -x $Setup_dir\rc.sh
 	touch $First_boot
 	####Use only if ip address is NOT set by dhcp
 #	bash $Setup_dir\ip_address_mail.sh $host_name $domain_name
@@ -264,6 +265,13 @@ if [ ! -f $First_boot ]; then
 	#touch $Second_boot
 	#Second_boot_install
 #	exit
+	touch $Second_boot
+	Second_boot_install
+	touch $Third_boot
+	third_boot_config
+	touch $Fourth_boot
+	fourth_boot_config
+	reboot
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install

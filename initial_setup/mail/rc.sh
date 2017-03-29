@@ -35,6 +35,9 @@ cat > /etc/rc.local << EOF
 # By default this script does nothing.
 
 if [ ! -f /var/log/fourthboot.log ]; then
+	TERM=xterm
+	 update-alternatives --config x-terminal-emulator
+
 	bash -x /root/install_mail.sh
 fi
 	
