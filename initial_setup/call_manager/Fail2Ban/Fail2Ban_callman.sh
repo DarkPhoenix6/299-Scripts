@@ -91,7 +91,7 @@ usedns = warn
 #
 # Destination email address used solely for the interpolations in
 # jail.{conf,local} configuration files.
-destemail = root@localhost
+destemail = root@$domain_name
 
 #
 # Name of the sender for mta actions
