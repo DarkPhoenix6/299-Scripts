@@ -24,6 +24,12 @@
 ##### Constants #####
 host_name=$1
 domain_name=$2
+Country=$3
+State=$4
+City=$5
+OrgName=$6
+OU=$7
+User_Name=$8
 
 Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
@@ -89,6 +95,10 @@ chmod u=rw,go= $Setup_dir\MYSQL/pass.txt
 ##### OpenSSH/OpenSSL#####
 
 apt-get install -y -q ssh openssl openssh-server openssh-client 
+
+##### Certificate Setup #####
+echo "[+] Configuring Certificates..."
+bash -x $Setup_dir\Certificate.sh "$host_name" "$domain_name" "$Country" "$State" "$City" "$OrgName" "$OU" "$User_Name"
 
 ##### NTP #####
 apt-get install ntp ntpdate -y -q

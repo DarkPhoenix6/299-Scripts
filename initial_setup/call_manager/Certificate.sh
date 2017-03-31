@@ -2,9 +2,9 @@
 #
 ######################################################################
 #
-#	Name:		 	install_cm.sh
+#	Name:		 	Certificate.sh
 #	Author:			Chris Fedun 31/01/2017
-#	Description:	        Install Script 
+#	Description:	Certificate Creation Script 
 #	Copyright (C) 2017  Christopher Fedun
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -20,32 +20,34 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.	
 ######################################################################
-#apt-get install git -y
-#cd /root/
-#
-##this removes any previous downloads of the installation packages
-#rm -r 299-Scripts/ initial_setup/ README.md
-#
-#git -C /root/ clone https://github.com/DarkPhoenix6/299-Scripts.git
-#cd /root/299-Scripts/
-#git submodule update --init --recursive
-#cp -a * ..
-#cd ../
-#rm -r 299-Scripts/
-#touch /var/log/initial_setup.log
-
-
-domain_name=fedun.ca
-host_name=CallMan
-Country=CA
-State=BC
-City=KELOWNA
-OrgName="Chris Fedun LTD"
-OU=CF
+##### Constants #####
+My_Cert="/etc/ssl/My_Certs/certs/mailserver_crt.pem"
+My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
+Setup_dir='/root/initial_setup/call_manager/'
+host_name=$1
+domain_name=$2
+Country=$3
+State=$4
+City=$5
+OrgName=$6
+OU=$7
 FQDN=$host_name.$domain_name
-User_Name=chris
+User_Name=$8
 Email=$User_Name@$domain_name
-bash -x /root/initial_setup/call_manager/initial_install_Call_Man.sh "$host_name" "$domain_name" "$Country" "$State" "$City" "$OrgName" "$OU" "$User_Name" &>> /var/log/initial_setup.log
-chmod go= /var/log/initial_setup.log
+
+##### Functions #####
+function new_dirs
+{
+	mkdir -p /etc/ssl/My_Certs/certs/
+	mkdir -p /etc/ssl/My_Certs/private/
+}
+##### Main #####
+new_dirs
+expect $Setup_dir\Certificate.exp "$Country" "$State" "$City" "$OrgName" "$OU" "$FQDN" "$User_Name" "$domain_name"
+chmod go= $My_Key
+
 exit
-#######END :) #######
+####### END :) #######
+#sudo apt-get install python-certbot-apache -t jessie-backports
+#certbot --apache
+#certbot --apache certonly

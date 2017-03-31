@@ -20,8 +20,9 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################
-
-
+My_Cert="/etc/ssl/My_Certs/certs/mailserver_crt.pem"
+My_Key="/etc/ssl/My_Certs/private/mailserver_key.pem"
+domain_name=$1
 #####Main
 
 
@@ -30,6 +31,24 @@ a2enmod rewrite ssl
 
 #Enable the virtual host for HTTPS
 a2ensite default-ssl
+
+#create HTTPtoHTTPS
+sed -i "
+	s|\t\#ServerName www.example.com|\t\#ServerName www.example.com\n\tRewriteEngine On\n\tRewriteCond %{HTTPS} off\n\tRewriteRule (.*) https://%{SERVER_NAME}/\$1 [R,L]|
+" /etc/apache2/sites-available/000-default.conf
+
+#Set Certificate location
+sed -i "
+	/\t\tSSLCertificateFile\t\/etc\/ssl\/certs\/ssl-cert-snakeoil.pem/ {
+		N
+			/\t\tSSLCertificateKeyFile \/etc\/ssl\/private\/ssl-cert-snakeoil.key/ {
+				N
+					s:\t\tSSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\tSSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key:\t\t\#SSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\t\#SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key\n\t\tSSLCertificateFile\t$My_Cert\n\t\tSSLCertificateKeyFile $My_Key:
+			}
+	}
+
+
+" /etc/apache2/sites-available/default-ssl.conf
 
 #Change Max Upload size to 20Mb
 sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php5/apache2/php.ini
