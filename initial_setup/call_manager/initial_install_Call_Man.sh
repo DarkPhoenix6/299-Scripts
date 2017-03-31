@@ -126,7 +126,7 @@ apt-get install build-essential subversion \
 	python-tk python-doc libpython-stdlib python-sphinx \
 	python-docutils debhelper dh-python python-all \
 	python-setuptools libpython-all-dev libpython-all-dbg \
-	python-pip -y -q
+	python-pip ipcalc -y -q
 
 
 #apt-get install g++
@@ -149,7 +149,21 @@ bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name "true"
 
 ##### Firewall #####
 echo "[+] Configuring Firewall..."
-#bash -x $Setup_dir\iptables_mail.sh
+bash -x $Setup_dir\iptables_callMan.sh
+
+##### Persistent Firewall #####
+echo "[+] Configuring Persistent Firewall..."
+
+apt-get -q -y -o Dpkg::Options::="--force-confdef" \
+-o Dpkg::Options::="--force-confold" install iptables-persistent
+
+##### Fail2Ban
+apt-get install -y -q fail2ban
+bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
+
+##### PSAD
+apt-get -y -q install psad
+bash -x $Setup_dir\PSAD.sh $domain_name $host_name
 
 ##### Secure MYSQL
 expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
