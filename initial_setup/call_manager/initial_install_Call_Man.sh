@@ -74,7 +74,8 @@ adduser www-data staff
 debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login        boolean true"
 debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password password $SQL_root_passwd"
 debconf-set-selections <<< "mysql-server-5.5 mysql-server/root_password_again password $SQL_root_passwd"
-
+debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v4 boolean true"
+debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v6 boolean true"
 touch /root/.my.cnf
 echo '[client]' >> /root/.my.cnf
 echo "password=$SQL_root_passwd" >> /root/.my.cnf
@@ -166,7 +167,7 @@ apt-get -y -q install psad
 bash -x $Setup_dir\PSAD.sh $domain_name $host_name
 
 ##### Secure MYSQL
-expect $Setup_dir\MYSQL/mysql_secure.exp $root_db_pass
+expect $Setup_dir\MYSQL/mysql_secure.exp $SQL_root_passwd
 }
 
 
@@ -195,18 +196,21 @@ if [ ! -f $First_boot ]; then
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
+	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 	touch $Third_boot
 	third_boot_config
 	touch $Fourth_boot
 	fourth_boot_config
 	reboot
 elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then
+	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 	touch $Third_boot
 	third_boot_config
 	touch $Fourth_boot
 	fourth_boot_config
 	reboot
 elif [ -f $First_boot ] && [ -f $Second_boot ] && [ -f $Third_boot ] && [ ! -f $Fourth_boot ]; then
+	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 	touch $Fourth_boot
 	fourth_boot_config
 	reboot
