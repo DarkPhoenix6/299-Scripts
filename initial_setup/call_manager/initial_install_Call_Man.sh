@@ -170,7 +170,7 @@ apt-get -q -y -o Dpkg::Options::="--force-confdef" \
 
 ##### Fail2Ban
 apt-get install -y -q fail2ban
-bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
+bash -x $Setup_dir\Fail2Ban/Fail2Ban_callman.sh
 
 ##### PSAD
 apt-get -y -q install psad
