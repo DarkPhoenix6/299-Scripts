@@ -68,7 +68,7 @@ apt-get upgrade -y -q
 apt-get dist-upgrade -y -q
 
 #####install#####
-apt-get install -y -q debconf-utils sudo
+apt-get install -y -q debconf-utils sudo ipcalc
 apt-get install pwgen curl php5-cli git quotatool expect -y -q
 
 SQL_root_passwd=$(pwgen -s 20 1)
@@ -160,7 +160,7 @@ apt-get install php5 php-pear php5-mysql -y -q
 
 ##### MYSQL Database Setup #####
 echo "[+] Setting up MYSQL Database..."
-bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
+bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name $User_Name
 
 ##### Install BIND #####
 #apt-get install bind9 bind9utils bind9-doc dnsutils -y -q

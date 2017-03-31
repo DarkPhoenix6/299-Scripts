@@ -24,6 +24,7 @@
 mailuser_passwd=$(pwgen -s 25 1)
 drupaluser_passwd=$(pwgen -s 25 1)
 domain_name=$1
+User_Name=$2
 Setup_dir='/root/initial_setup/mail/'
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 touch $Setup_dir\email/mailuser_passwd.txt
@@ -67,7 +68,8 @@ CREATE TABLE IF NOT EXISTS \`virtual_aliases\` (
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  
  REPLACE INTO \`mailserver\`.\`virtual_domains\` ( \`id\` , \`name\` ) VALUES ( '1', "$domain_name" );
- 
+ REPLACE INTO \`mailserver\`.\`virtual_aliases\` (\`id\`, \`domain_id\`, \`source\`, \`destination\`)
+ VALUES ('NULL', '1', "root@$domain_name", "$User_Name@$domain_name");
 CREATE DATABASE drupal;
 CREATE USER drupaluser@localhost IDENTIFIED BY '$drupaluser_passwd';
 GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX,ALTER,CREATE TEMPORARY TABLES,LOCK TABLES ON drupal.* TO drupaluser@localhost;
