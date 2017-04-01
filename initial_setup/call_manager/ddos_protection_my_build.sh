@@ -103,6 +103,7 @@ $IPTABLES -N port-scanning
 $IPTABLES -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN
 $IPTABLES -A port-scanning -j LOG --log-prefix "DROP Port-Scanning" --log-tcp-options --log-ip-options
 $IPTABLES -A port-scanning -j DROP
+$IPTABLES -A INPUT -j port-scanning
 
 exit
 #######END :) #######
