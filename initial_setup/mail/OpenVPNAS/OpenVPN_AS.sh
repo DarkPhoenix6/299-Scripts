@@ -23,9 +23,15 @@
 DB=127.0.0.1
 Setup_dir='/root/initial_setup/mail/'
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
-
+openVPNas_Pass=$(pwgen -s 20 1)
 cp /root/.my.cnf /etc/.my.cnf
 chmod go-rwx /etc/.my.cnf
+
+cat > $Setup_dir\Openvpn.txt << OPENVPNPASS
+$openVPNas_Pass
+OPENVPNPASS
+
+chmod u=rw,go= $Setup_dir\Openvpn.txt
 
 cd $Setup_dir\OpenVPNAS/
 #Download OpenVPN AS
@@ -43,10 +49,11 @@ cd OpenVpn/
 
 dpkg -i openvpn-as-2.1.4-Debian8.amd_64.deb
 
+open
 
 
 
-cat > cat > /etc/rc.local << EOF
+cat > /etc/rc.local << EOF
 #!/bin/sh -e
 #
 # rc.local

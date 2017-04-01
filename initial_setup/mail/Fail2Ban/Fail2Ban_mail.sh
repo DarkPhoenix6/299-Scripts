@@ -285,10 +285,10 @@ logpath = /var/log/apache*/*access.log
 # 
 [roundcube-auth]
  
-#enabled  = true
-#filter   = roundcube-auth
-#port     = http,https
-#logpath  = /var/log/roundcube/userlogins
+enabled  = true
+filter   = roundcube-auth
+port     = http,https
+logpath  = /var/log/roundcube/userlogins
 #
 
 # # FTP servers

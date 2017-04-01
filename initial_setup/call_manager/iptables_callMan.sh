@@ -81,8 +81,7 @@ $IPTABLES -A INPUT -p tcp --dport 58080 -m conntrack --ctstate NEW -j ACCEPT
 
 ### Default INPUT LOG rule ###
 $IPTABLES -A INPUT ! -i lo -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
-### LOG Rule for PSAD
-$IPTABLES -A INPUT ! -i lo -j LOG
+
 ### Make sure that loopback traffic is accepted ###
 $IPTABLES -A INPUT -i lo -j ACCEPT
 

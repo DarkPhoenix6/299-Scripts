@@ -66,7 +66,8 @@ $IPTABLES -t mangle -A PREROUTING -s 169.254.0.0/16 ! -i $IFACE_INT -j DROP
 $IPTABLES -t mangle -A PREROUTING -s 172.16.0.0/12 ! -i $IFACE_INT -j DROP
 $IPTABLES -t mangle -A PREROUTING -s 192.0.2.0/24 ! -i $IFACE_INT -j DROP
 $IPTABLES -t mangle -A PREROUTING -s 192.168.0.0/16 ! -i $IFACE_INT -j DROP
-$IPTABLES -t mangle -A PREROUTING -s 10.0.0.0/8 ! -i $IFACE_INT -j DROP
+#### disable next line to allow Digital Ocean Agent
+#$IPTABLES -t mangle -A PREROUTING -s 10.0.0.0/8 ! -i $IFACE_INT -j DROP
 $IPTABLES -t mangle -A PREROUTING -s 0.0.0.0/8 ! -i $IFACE_INT -j DROP
 $IPTABLES -t mangle -A PREROUTING -s 240.0.0.0/5 ! -i $IFACE_INT -j DROP
 $IPTABLES -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j DROP
@@ -100,6 +101,7 @@ $IPTABLES -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --upd
 ### Protection against port scanning ###
 $IPTABLES -N port-scanning
 $IPTABLES -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN
+$IPTABLES -A port-scanning -j LOG --log-prefix "DROP Port-Scanning" --log-tcp-options --log-ip-options
 $IPTABLES -A port-scanning -j DROP
 
 exit

@@ -248,6 +248,7 @@ function install_FreePBX
 	fwconsole reload
 	fwconsole chown
 	FreePBX_conf
+	echo "messages => security, notice,warning,error" >> /etc/asterisk/logger_logfiles_additional.conf
 }
 function setup_tftp
 {
