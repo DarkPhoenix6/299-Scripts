@@ -35,9 +35,7 @@ EMAIL_SVR_IP=192.168.10.253
 CALL_MANAGER_IP=192.168.10.252
 Setup_dir='/root/initial_setup/'
 
-$IPTABLES -N LOG_DROP
-$IPTABLES -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 6
-$IPTABLES -A LOG_DROP -j DROP
+
 
 ### 1: Drop invalid packets ###
 $IPTABLES -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j LOG_DROP
@@ -77,8 +75,8 @@ $IPTABLES -t mangle -A PREROUTING -s 240.0.0.0/5 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j LOG_DROP
 
 ### 6: Drop ICMP (you usually don't need this protocol) ###
-$IPTABLES -t mangle -A PREROUTING -p icmp -j LOG --log-prefix 'ICMP Block '
-$IPTABLES -t mangle -A PREROUTING -p icmp -j DROP
+$IPTABLES -t mangle -A PREROUTING -p icmp -j LOG_DROP
+
 
 ### 7: Drop fragments in all chains ### ### DO NOT USE IF USING VPN ###
 #$IPTABLES -t mangle -A PREROUTING -f -j LOG_DROP

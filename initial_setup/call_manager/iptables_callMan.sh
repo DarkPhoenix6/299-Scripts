@@ -54,6 +54,17 @@ $MODPROBE iptable_nat
 $MODPROBE ip_conntrack_ftp
 $MODPROBE ip_nat_ftp
 
+##### CREATE LOG_DROP CHAIN #####
+$IPTABLES -N LOG_DROP
+$IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
+$IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j DROP
+$IPTABLES -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block '
+$IPTABLES -A LOG_DROP -p icmp -j DROP
+$IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
+$IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
+$IPTABLES -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 6 --log-ip-options --log-tcp-options
+$IPTABLES -A LOG_DROP -j DROP
+
 ##### INPUT chain #####
 echo "[+] Setting up INPUT chain..."
 

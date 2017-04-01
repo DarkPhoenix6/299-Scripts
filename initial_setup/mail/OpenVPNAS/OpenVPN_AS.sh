@@ -49,7 +49,7 @@ cd OpenVpn/
 
 dpkg -i openvpn-as-2.1.4-Debian8.amd_64.deb
 
-open
+expect $Setup_dir\OpenVPNAS/openvpn_passwd.exp $openVPNas_Pass
 
 
 
