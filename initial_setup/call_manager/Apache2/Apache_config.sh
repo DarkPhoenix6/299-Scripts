@@ -32,7 +32,7 @@ a2enmod rewrite ssl
 #Enable the virtual host for HTTPS
 a2ensite default-ssl
 
-#create HTTPtoHTTPS
+#create HTTPtoHTTPS Rewrite
 sed -i "
 	s|\t\#ServerName www.example.com|\t\#ServerName www.example.com\n\tRewriteEngine On\n\tRewriteCond %{HTTPS} off\n\tRewriteRule (.*) https://%{SERVER_NAME}/\$1 [R,L]|
 " /etc/apache2/sites-available/000-default.conf

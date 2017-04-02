@@ -2,7 +2,7 @@
 #
 ######################################################################
 #
-#	Name:		 	iptables_mail.sh
+#	Name:		 	OpenVPN_AS.sh
 #	Author:			Chris Fedun 20/03/2017
 #	Description:	OpenVPN Access Server Configuration for Mail Server
 #	Copyright (C) 2017  Christopher Fedun
@@ -46,9 +46,10 @@ tar -zxvf OpenVpn.tar.gz
 cd OpenVpn/
 
 
-
+# Install the Package
 dpkg -i openvpn-as-2.1.4-Debian8.amd_64.deb
 
+# Set the admin password to something secure
 expect $Setup_dir\OpenVPNAS/openvpn_passwd.exp $openVPNas_Pass
 
 

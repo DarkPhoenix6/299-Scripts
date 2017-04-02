@@ -46,6 +46,8 @@ echo "[+] Flushing existing iptables rules..."
 
 $IPTABLES -F
 $IPTABLES -F -t nat
+$IPTABLES -F -t mangle
+$IPTABLES -F -t raw
 $IPTABLES -X
 
 ### Load connection-tracking modules. ###

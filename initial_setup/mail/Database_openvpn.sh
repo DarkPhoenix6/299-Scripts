@@ -2,9 +2,9 @@
 #
 ######################################################################
 #
-#	Name:		 	iptables_mail.sh
-#	Author:			Chris Fedun /12/2016
-#	Description:	Base IPTABLES Firewall Configuration for Mail Server
+#	Name:		 	Database_openvpn.sh
+#	Author:			Chris Fedun 16/03/2017
+#	Description:	Database for OpenVPN Access Server
 #	Copyright (C) 2017  Christopher Fedun
 #
 #   This program is free software: you can redistribute it and/or modify
