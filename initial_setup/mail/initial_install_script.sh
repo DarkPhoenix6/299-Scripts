@@ -250,7 +250,7 @@ bash -x $Setup_dir\PSAD.sh $domain_name $host_name
 expect $Setup_dir\MYSQL/mysql_secure.exp $SQL_root_passwd
 
 ###setup OpenVPN
-
+bash -x $Setup_dir\OpenVPNAS/OpenVPN_AS.sh
 }
 #####Main
 export DEBIAN_FRONTEND=noninteractive

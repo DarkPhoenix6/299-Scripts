@@ -3,7 +3,7 @@
 ######################################################################
 #
 #	Name:		 	ddos_protection_my_build.sh
-#	Author:			Chris Fedun 17/12/2016
+#	Author:			Chris Fedun 17/02/2017
 #	Description:	IPTABLES DDoS Configuration for Call Manager
 #	Based on:		https://javapipe.com/iptables-ddos-protection
 #
@@ -26,13 +26,13 @@
 IPTABLES=/sbin/iptables
 IP6TABLES=/sbin/ip6tables
 MODPROBE=/sbin/modprobe
-INT_NET=192.168.10.0/24
+#INT_NET=192.168.10.0/24
 IFACE_INT=eth1
 IFACE_EXT=eth0
-DNS_SVR_IP=192.168.10.253
-WEB_SVR_IP=192.168.10.253
-EMAIL_SVR_IP=192.168.10.253
-CALL_MANAGER_IP=192.168.10.252
+#DNS_SVR_IP=192.168.10.253
+#WEB_SVR_IP=192.168.10.253
+#EMAIL_SVR_IP=192.168.10.253
+#CALL_MANAGER_IP=192.168.10.252
 Setup_dir='/root/initial_setup/'
 
 
@@ -61,13 +61,12 @@ $IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags ALL FIN,PSH,URG -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,FIN,PSH,URG -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j LOG_DROP
 
-### 5: Block spoofed packets ###
+### 5: Block spoofed packets ### ### CAUTION! MAY DISRUPT VPN ###
 $IPTABLES -t mangle -A PREROUTING -s 224.0.0.0/3 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 169.254.0.0/16 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 172.16.0.0/12 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 192.0.2.0/24 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 192.168.0.0/16 ! -i $IFACE_INT -j LOG_DROP
-#### disable next line to allow Digital Ocean Agent
 #$IPTABLES -t mangle -A PREROUTING -s 10.0.0.0/8 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 0.0.0.0/8 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 240.0.0.0/5 ! -i $IFACE_INT -j LOG_DROP

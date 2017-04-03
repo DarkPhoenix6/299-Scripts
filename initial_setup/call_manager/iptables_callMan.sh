@@ -57,6 +57,7 @@ $MODPROBE ip_conntrack_ftp
 $MODPROBE ip_nat_ftp
 
 ##### CREATE LOG_DROP CHAIN #####
+echo "[+] Setting up LOG_DROP chain..."
 $IPTABLES -N LOG_DROP
 $IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
 $IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j DROP
@@ -71,14 +72,14 @@ $IPTABLES -A LOG_DROP -j DROP
 echo "[+] Setting up INPUT chain..."
 
 ### State tracking rules ###
-$IPTABLES -A INPUT -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
-$IPTABLES -A INPUT -m conntrack --ctstate INVALID -j DROP
+$IPTABLES -A INPUT -m conntrack --ctstate INVALID -j LOG_DROP
 $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 
 ### ACCEPT rules ###
 $IPTABLES -A INPUT -p tcp --dport 21 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
 ##### To enable possible MYSQL communication between servers #####
@@ -93,7 +94,7 @@ $IPTABLES -A INPUT -p tcp --dport 58080 -m conntrack --ctstate NEW -j ACCEPT
 
 
 ### Default INPUT LOG rule ###
-$IPTABLES -A INPUT ! -i lo -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
+$IPTABLES -A INPUT ! -i lo -j LOG_DROP
 
 ### Make sure that loopback traffic is accepted ###
 $IPTABLES -A INPUT -i lo -j ACCEPT
@@ -103,18 +104,16 @@ $IPTABLES -A INPUT -i lo -j ACCEPT
 echo "[+] Setting up FORWARD chain..."
 
 ### State tracking rules ###
-$IPTABLES -A FORWARD -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
-$IPTABLES -A FORWARD -m conntrack --ctstate INVALID -j DROP
+$IPTABLES -A FORWARD -m conntrack --ctstate INVALID -j LOG_DROP
 $IPTABLES -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 $IPTABLES -A FORWARD -i $IFACE_INT -o $IFACE_EXT -j ACCEPT
 ### Default FORWARD LOG rule ###
-$IPTABLES -A FORWARD ! -i lo -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
+$IPTABLES -A FORWARD ! -i lo -j LOG_DROP
 
 ##### OUTPUT chain #####
 echo "[+] Setting up OUTPUT chain..."
 ### State tracking rules ###
-$IPTABLES -A OUTPUT -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
-$IPTABLES -A OUTPUT -m conntrack --ctstate INVALID -j DROP
+$IPTABLES -A OUTPUT -m conntrack --ctstate INVALID -j LOG_DROP
 $IPTABLES -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 ### ACCEPT rules for allowing connections out. ###
@@ -142,7 +141,7 @@ $IPTABLES -A OUTPUT -p tcp --dport 465 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 587 -m conntrack --ctstate NEW -j ACCEPT
 
 ### Default OUTPUT LOG rule ###
-$IPTABLES -A OUTPUT ! -o lo -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
+$IPTABLES -A OUTPUT ! -o lo -j LOG_DROP
 
 ### Make sure that loopback traffic is accepted. ###
 $IPTABLES -A OUTPUT -o lo -j ACCEPT
