@@ -1,0 +1,26 @@
+
+
+cat >> $WEBROOT/sites/default/settings.php << EOF
+\$settings['trusted_host_patterns'] = array(
+  '^example\.com$',
+  '^www\.example\.com$',
+  '^mail\.example\.com$',
+);
+if (file_exists(__DIR__ . '/settings.local.php')) {
+  include __DIR__ . '/settings.local.php';
+}
+
+EOF 
+
+example
+cat >> $WEBROOT/sites/default/settings.php << EOF
+\$settings['trusted_host_patterns'] = array(
+  '^example\.ca$',
+  '^www\.example\.ca$',
+  '^mail\.example\.ca$',
+);
+if (file_exists(__DIR__ . '/settings.local.php')) {
+  include __DIR__ . '/settings.local.php';
+}
+
+EOF
