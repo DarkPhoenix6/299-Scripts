@@ -72,8 +72,11 @@ $IPTABLES -t mangle -A PREROUTING -s 0.0.0.0/8 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 240.0.0.0/5 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j LOG_DROP
 
-### 6: Drop ICMP (you usually don't need this protocol) ###
-$IPTABLES -t mangle -A PREROUTING -p icmp -j LOG_DROP
+### 6: Drop ICMP (you usually don't need this protocol)  Limit Really ###
+#$IPTABLES -t mangle -A PREROUTING -p icmp -j LOG_DROP
+$IPTABLES -t mangle -A PREROUTING -p icmp -m icmp --icmp-type address-mask-request -j LOG_DROP
+$IPTABLES -t mangle -A PREROUTING -p icmp -m icmp --icmp-type timestamp-request -j LOG_DROP
+$IPTABLES -t mangle -A PREROUTING -p icmp -m icmp --icmp-type 8 -m limit --limit 1/second -j ACCEPT
 
 ### 7: Drop fragments in all chains ### ### DO NOT USE IF USING VPN ###
 #$IPTABLES -t mangle -A PREROUTING -f -j LOG_DROP
