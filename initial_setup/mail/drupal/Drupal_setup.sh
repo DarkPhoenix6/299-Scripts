@@ -49,5 +49,17 @@ mv $(dirname $WEBROOT)/drupal-8* $WEBROOT
 #drush si standard --db-url=mysql://[db_user]:[db_pass]@[ip-address]/[db_name] --account-name=admin --account-pass=[useruser_pass] --site-name=Example
 expect $Setup_dir\drupal/Drupal_Setup.exp $root_db_pass $drupal_admin_passwd
 
+cd $WEBROOT
+sudo -H -u www-data bash -c "composer install"
+
+cat >> $WEBROOT/sites/default/settings.local.php << EOF 
+<?php
+\$settings['trusted_host_patterns'][] = '^localhost$';
+
+EOF
+
+
+chown www-data:www-data $WEBROOT/sites/default/settings.local.php
+
 exit
 ####### END :) #######

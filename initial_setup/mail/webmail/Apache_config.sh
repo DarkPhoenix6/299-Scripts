@@ -33,10 +33,20 @@ sed -i "
 					s:\t\tSSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\tSSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key:\t\t\#SSLCertificateFile\t/etc/ssl/certs/ssl-cert-snakeoil.pem\n\t\t\#SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key\n\t\tSSLCertificateFile\t$My_Cert\n\t\tSSLCertificateKeyFile $My_Key:
 			}
 	}
-
-
 " /etc/apache2/sites-available/default-ssl.conf
 
+# Enable 
+sed -ri "
+	/<Directory \/var\/www\/>/ {
+		N
+			/\tOptions Indexes FollowSymLinks/ {
+				N
+					/\tAllowOverride None/ {
+						s:(<Directory /var/www/>\n\tOptions Indexes FollowSymLinks\n\tAllowOverride) None:\1 All:
+					}
+			}
+	}
+" /etc/apache2/apache2.conf
 #Enable the SSL encryption module and the Rewrite module
 a2enmod rewrite ssl
 
