@@ -76,6 +76,6 @@ GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX,ALTER,CREATE TEMPORARY TABLE
  FLUSH PRIVILEGES;
 MYSQL_SCRIPT
  
-
+mysql --user=root --password=$root_db_pass < /root/My_List_of_SMS_gateways/SMS_Gateways.sql
 exit
 ####### END :) #######

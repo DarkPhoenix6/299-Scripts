@@ -119,7 +119,7 @@ function third_boot_config
 {
 ##### MYSQL Database Setup #####
 echo "[+] Setting up MYSQL Database..."
-#bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
+bash -x $Setup_dir\MYSQL/MYSQL_db_setup_script.sh $domain_name
 
 ##### Asterisk Dependicies #####
 apt-get install build-essential subversion \
