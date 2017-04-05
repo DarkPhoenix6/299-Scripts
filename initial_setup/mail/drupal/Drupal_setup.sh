@@ -58,6 +58,7 @@ cat >> $WEBROOT/sites/default/settings.local.php << EOF
 
 EOF
 
+python $Setup_dir\drupal/drupal_setting.py $domain_name $WEBROOT/sites/default/settings.php
 
 chown www-data:www-data $WEBROOT/sites/default/settings.local.php
 
