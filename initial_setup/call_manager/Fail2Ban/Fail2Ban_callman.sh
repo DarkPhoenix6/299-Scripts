@@ -23,9 +23,7 @@
 ######################################################################
 #####Constants#####
 domain_name=$1
-#comment entire file
-#awk '{ printf "# "; print; }' /etc/fail2ban/jail.conf | sudo tee /etc/fail2ban/jail.local
-#sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
 function config_jailLocal
 {
 cat >> /etc/fail2ban/jail.local << EOF

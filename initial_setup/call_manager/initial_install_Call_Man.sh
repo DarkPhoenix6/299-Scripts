@@ -30,7 +30,7 @@ City=$5
 OrgName=$6
 OU=$7
 User_Name=$8
-
+IS_Raspian=0
 Setup_dir='/root/initial_setup/call_manager/'
 First_boot="/var/log/firstboot.log"
 Second_boot="/var/log/secondboot.log"
@@ -39,22 +39,26 @@ Fourth_boot="/var/log/fourthboot.log"
 ##### Functions #####
 function Second_boot_install 
 {
-#echo "
-##
+if [ IS_Raspian = 1 ]; then
+
+echo "
 #
-## deb cdrom:[Debian GNU/Linux 8.7.1 _Jessie_ - Official amd64 NETINST Binary-1 20170116-10:57]/ jessie main
-#
-##deb cdrom:[Debian GNU/Linux 8.7.1 _Jessie_ - Official amd64 NETINST Binary-1 20170116-10:57]/ jessie main
-#
-#deb http://mirror.it.ubc.ca/debian/ jessie main
-#deb-src http://mirror.it.ubc.ca/debian/ jessie main
-#
-#deb http://security.debian.org/ jessie/updates main
-#deb-src http://security.debian.org/ jessie/updates main
-#
-## jessie-updates, previously known as 'volatile'
-#deb http://mirror.it.ubc.ca/debian/ jessie-updates main
-#deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main" >> /etc/apt/sources.list
+
+# deb cdrom:[Debian GNU/Linux 8.7.1 _Jessie_ - Official amd64 NETINST Binary-1 20170116-10:57]/ jessie main
+
+#deb cdrom:[Debian GNU/Linux 8.7.1 _Jessie_ - Official amd64 NETINST Binary-1 20170116-10:57]/ jessie main
+
+deb http://mirror.it.ubc.ca/debian/ jessie main
+deb-src http://mirror.it.ubc.ca/debian/ jessie main
+
+deb http://security.debian.org/ jessie/updates main
+deb-src http://security.debian.org/ jessie/updates main
+
+# jessie-updates, previously known as 'volatile'
+deb http://mirror.it.ubc.ca/debian/ jessie-updates main
+deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main" >> /etc/apt/sources.list
+
+fi
 
 ##### Add Jessie Backports #####
 echo 'deb http://http.debian.net/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list

@@ -5,7 +5,6 @@
 #	Name:		 	Drupal_setup.sh
 #	Author:			Chris Fedun 26/01/2017
 #	Description:	Drupal Setup script Configuration
-##http://drupal.stackexchange.com/questions/162061/how-to-install-drush-8-properly-on-debian-8
 #	Copyright (C) 2017  Christopher Fedun
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -46,12 +45,13 @@ drush dl drupal-8 --destination=$(dirname $WEBROOT)
 mv $(dirname $WEBROOT)/drupal-8* $WEBROOT
 
 # setup Database
-#drush si standard --db-url=mysql://[db_user]:[db_pass]@[ip-address]/[db_name] --account-name=admin --account-pass=[useruser_pass] --site-name=Example
 expect $Setup_dir\drupal/Drupal_Setup.exp $root_db_pass $drupal_admin_passwd
 
+# have composer install dependencies
 cd $WEBROOT
 sudo -H -u www-data bash -c "composer install"
 
+## Configure Drupal
 cat >> $WEBROOT/sites/default/settings.local.php << EOF 
 <?php
 \$settings['trusted_host_patterns'][] = '^localhost$';

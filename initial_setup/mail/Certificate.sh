@@ -48,6 +48,4 @@ chmod go= $My_Key
 
 exit
 ####### END :) #######
-#sudo apt-get install python-certbot-apache -t jessie-backports
-#certbot --apache
-#certbot --apache certonly
+

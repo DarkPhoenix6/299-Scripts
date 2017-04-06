@@ -35,7 +35,7 @@ sed -i "
 	}
 " /etc/apache2/sites-available/default-ssl.conf
 
-# Enable 
+# Enable Clean htaccess for Drupal ## Clean URLs
 sed -ri "
 	/<Directory \/var\/www\/>/ {
 		N

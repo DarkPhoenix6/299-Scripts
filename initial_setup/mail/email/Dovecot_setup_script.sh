@@ -123,7 +123,7 @@ sed -i '
 		
 		}
 }' $conf_dir\10-master.conf
-#service dovecot restart
+
 
 #Enable server-side mail rules
 sed -i '
@@ -131,7 +131,6 @@ sed -i '
   mail_plugins = \$mail_plugins sieve
 ' $conf_dir\20-lmtp.conf
 
-service dovecot restart
 
 exit
 ####### END :) #######

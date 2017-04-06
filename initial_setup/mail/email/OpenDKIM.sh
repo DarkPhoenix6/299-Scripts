@@ -5,7 +5,6 @@
 #	Name:		 	OpenDKIM.sh
 #	Author:			Chris Fedun 31/01/2017
 #	Description:	OpenDKIM Setup Script 
-#	Created following a guide on Digital Ocean https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy
 #	Copyright (C) 2017  Christopher Fedun
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -23,6 +22,8 @@
 ######################################################################
 #####Constants#####
 domain_name=$1
+
+
 function new_dir_and_files
 {
 sudo mkdir /etc/opendkim
@@ -97,7 +98,6 @@ echo '#*@example.org mail._domainkey.example.org' >> /etc/opendkim/SigningTable
 cd /etc/opendkim/keys/$domain_name
 opendkim-genkey -s mail -d $domain_name
 chown opendkim:opendkim mail.private
-#Update dns
 
 #
 sudo service postfix restart
