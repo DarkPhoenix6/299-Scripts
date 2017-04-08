@@ -83,15 +83,15 @@ $IPTABLES -t mangle -A PREROUTING -p icmp -j LOG_DROP
 #$IPTABLES -t mangle -A PREROUTING -f -j LOG_DROP
 
 ### 8: Limit connections per source IP ###
-$IPTABLES -A INPUT -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
+$IPTABLES -t mangle -A PREROUTING -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
 
 ### 9: Limit RST packets ###
-$IPTABLES -A INPUT -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT
-$IPTABLES -A INPUT -p tcp --tcp-flags RST RST -j LOG_DROP
+$IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT
+$IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags RST RST -j LOG_DROP
 
 ### 10: Limit new TCP connections per second per source IP ###
-$IPTABLES -A INPUT -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT
-$IPTABLES -A INPUT -p tcp -m conntrack --ctstate NEW -j LOG_DROP
+$IPTABLES -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT
+$IPTABLES -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -j LOG_DROP
 
 ### 11: Use SYNPROXY on all ports (disables connection limiting rule) ###
 #$IPTABLES -t raw -A PREROUTING -p tcp -m tcp --syn -j CT --notrack
@@ -99,15 +99,9 @@ $IPTABLES -A INPUT -p tcp -m conntrack --ctstate NEW -j LOG_DROP
 #$IPTABLES -A INPUT -m conntrack --ctstate INVALID -j LOG_DROP
 
 ### SSH brute-force protection ###
-$IPTABLES -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set
-$IPTABLES -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j LOG_DROP
+$IPTABLES -t mangle -A PREROUTING -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set
+$IPTABLES -t mangle -A PREROUTING -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j LOG_DROP
 
-### Protection against port scanning ###
-$IPTABLES -N port-scanning
-$IPTABLES -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN
-$IPTABLES -A port-scanning -j LOG --log-prefix "DROP Port-Scanning " --log-tcp-options --log-ip-options
-$IPTABLES -A port-scanning -j DROP
-$IPTABLES -A INPUT -j port-scanning
 
 exit
 #######END :) #######

@@ -78,6 +78,12 @@ $IPTABLES -t mangle -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
 $IPTABLES -t mangle -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 6 --log-ip-options --log-tcp-options
 $IPTABLES -t mangle -A LOG_DROP -j DROP
 
+### Protection against port scanning ###
+$IPTABLES -N port-scanning
+$IPTABLES -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN
+$IPTABLES -A port-scanning -j LOG --log-prefix "DROP Port-Scanning" --log-tcp-options --log-ip-options
+$IPTABLES -A port-scanning -j DROP
+
 ##### INPUT chain #####
 echo "[+] Setting up INPUT chain..."
 
@@ -85,6 +91,8 @@ echo "[+] Setting up INPUT chain..."
 $IPTABLES -A INPUT -m conntrack --ctstate INVALID -j LOG_DROP
 $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
+### Protection against port scanning ###
+$IPTABLES -A INPUT -p tcp --tcp-flags SYN,ACK,FIN,RST RST -j port-scanning
 
 ### ACCEPT rules ###
 $IPTABLES -A INPUT -p tcp --dport 21 -m conntrack --ctstate NEW -j ACCEPT
