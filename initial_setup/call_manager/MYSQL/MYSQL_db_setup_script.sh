@@ -22,7 +22,7 @@
 ######################################################################
 #####Constants#####
 domain_name=$1
-Setup_dir='/root/initial_setup/mail/'
+Setup_dir='/root/initial_setup/call_manager/'
 root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
 
 mysql --user=root --password=$root_db_pass < /root/My_List_of_SMS_gateways/SMS_Gateways.sql
