@@ -40,6 +40,12 @@ CREATE DATABASE IF NOT EXISTS \`as_userprop\`;
 
 MYSQL_SCRIPT
  
+ 
+#mkdir /root/keyfiles_bak
+#cp /usr/local/openvpn_as/etc/web-ssl/* /root/keyfiles_bak
+
+service openvpnas restart
+
 cd /usr/local/openvpn_as/scripts
 ./sacli --import GetActiveWebCerts
 

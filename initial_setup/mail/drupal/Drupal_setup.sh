@@ -49,6 +49,7 @@ expect $Setup_dir\drupal/Drupal_Setup.exp $root_db_pass $drupal_admin_passwd
 
 # have composer install dependencies
 cd $WEBROOT
+chown -R www-data:www-data /var/www/
 sudo -H -u www-data bash -c "composer install"
 
 ## Configure Drupal
@@ -61,6 +62,6 @@ EOF
 python $Setup_dir\drupal/drupal_setting.py $domain_name $WEBROOT/sites/default/settings.php
 
 chown www-data:www-data $WEBROOT/sites/default/settings.local.php
-
+chown -R www-data:www-data /var/www/
 exit
 ####### END :) #######

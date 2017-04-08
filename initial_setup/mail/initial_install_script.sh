@@ -139,7 +139,7 @@ chmod u=rw,go= $Setup_dir\PHPMyAdmin-setup_password.txt
 
 function third_boot_config
 {
-root_db
+
 ##### OpenSSH/OpenSSL/OpenDKIM #####
 
 apt-get install -y -q ssh openssl openssh-server \
@@ -249,7 +249,7 @@ bash -x $Setup_dir\PSAD.sh $domain_name $host_name
 ##### Secure MYSQL
 expect $Setup_dir\MYSQL/mysql_secure.exp $SQL_root_passwd
 
-###setup OpenVPN
+###setup OpenVPN 
 bash -x $Setup_dir\OpenVPNAS/OpenVPN_AS.sh
 }
 #####Main
