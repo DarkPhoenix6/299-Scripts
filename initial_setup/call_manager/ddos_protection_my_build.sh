@@ -63,11 +63,13 @@ $IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j 
 
 ### 5: Block spoofed packets ### ### CAUTION! MAY DISRUPT VPN ###
 $IPTABLES -t mangle -A PREROUTING -s 224.0.0.0/3 ! -i $IFACE_INT -j LOG_DROP
-$IPTABLES -t mangle -A PREROUTING -s 169.254.0.0/16 ! -i $IFACE_INT -j LOG_DROP
+# keep next 2 rules disabled for Digital Ocean Agent
+#$IPTABLES -t mangle -A PREROUTING -s 169.254.0.0/16 ! -i $IFACE_INT -j LOG_DROP
+#$IPTABLES -t mangle -A PREROUTING -s 10.0.0.0/8 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 172.16.0.0/12 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 192.0.2.0/24 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 192.168.0.0/16 ! -i $IFACE_INT -j LOG_DROP
-#$IPTABLES -t mangle -A PREROUTING -s 10.0.0.0/8 ! -i $IFACE_INT -j LOG_DROP
+
 $IPTABLES -t mangle -A PREROUTING -s 0.0.0.0/8 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 240.0.0.0/5 ! -i $IFACE_INT -j LOG_DROP
 $IPTABLES -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j LOG_DROP
@@ -82,7 +84,7 @@ $IPTABLES -t mangle -A PREROUTING -p icmp -j LOG_DROP
 #$IPTABLES -t mangle -A PREROUTING -f -j LOG_DROP
 
 ### 8: Limit connections per source IP ###
-$IPTABLES -t mangle -A PREROUTING -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
+$IPTABLES -I INPUT 4 -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
 
 ### 9: Limit RST packets ###
 $IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT
@@ -100,8 +102,6 @@ $IPTABLES -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -j LOG_DROP
 ### SSH brute-force protection ###
 $IPTABLES -t mangle -A PREROUTING -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set
 $IPTABLES -t mangle -A PREROUTING -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j LOG_DROP
-
-
 
 exit
 #######END :) #######
