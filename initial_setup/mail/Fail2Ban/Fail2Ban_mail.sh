@@ -518,6 +518,16 @@ EOF
 
 }
 
-config_jailLocal
+function rc_userlogin
+{
+touch /var/log/roundcube/userlogins
+chown www-data:www-data /var/log/roundcube/userlogins
+chmod 644 /var/log/roundcube/userlogins
 
+}
+
+config_jailLocal
+rc_userlogin
+
+exit
 ####### END :) #######
