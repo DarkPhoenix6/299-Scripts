@@ -74,12 +74,13 @@ apt-get install pwgen curl php5-cli git quotatool expect -y -q
 SQL_root_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_user_passwd=$(pwgen -s 20 1)
 PHPMyAdmin_setup_passwd=$(pwgen -s 20 1)
-
+router_passwd=$(pwgen -s 20 1)
 #####New user
 adduser --disabled-login --quiet --gecos "" nonroot
 adduser --disabled-login --quiet --gecos "" server_admin 
 adduser server_admin sudo
 adduser www-data staff
+expect $Setup_dir\routerUser.exp $router_passwd
 #usermod  
 #####deb_conf#####
 debconf-set-selections <<< "openssh-server  openssh-server/permit-root-login        boolean true"
@@ -134,6 +135,9 @@ touch $Setup_dir\PHPMyAdmin-setup_password.txt
 echo "$PHPMyAdmin_setup_passwd" >> $Setup_dir\PHPMyAdmin-setup_password.txt
 chmod u=rw,go= $Setup_dir\PHPMyAdmin-setup_password.txt
 
+touch $Setup_dir\router_pass.txt
+echo "$router_passwd" >> $Setup_dir\router_pass.txt
+chmod u=rw,go= $Setup_dir\router_pass.txt
 }
 
 
