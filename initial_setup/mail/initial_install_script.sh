@@ -96,7 +96,7 @@ debconf-set-selections <<< "postfix postfix/mailname        string  $domain_name
 debconf-set-selections <<< "postfix postfix/main_mailer_type        select  Internet Site"
 debconf-set-selections <<< "postfix postfix/procmail        boolean true"
 debconf-set-selections <<< "postfix postfix/mailbox_limit   string  0"
-debconf-set-selections <<< "postfix postfix/destinations    string  $domain_name, localhost.com, , localhost"
+debconf-set-selections <<< "postfix postfix/destinations    string  $host_name.$domain_name, localhost.$domain_name, , localhost"
 
 debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v4 boolean true"
 debconf-set-selections <<< "iptables-persistent iptables-persistent/autosave_v6 boolean true"
