@@ -53,7 +53,7 @@ sed -i "
 #Change Max Upload size to 20Mb
 sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php5/apache2/php.ini
 
-#Backup original Apache configureation file 
+#Backup original Apache configuration file 
 cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf_orig
 
 #allow asterisk user access

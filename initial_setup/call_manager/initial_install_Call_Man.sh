@@ -210,21 +210,21 @@ if [ ! -f $First_boot ]; then
 elif [ -f $First_boot ] && [ ! -f $Second_boot ]; then
 	touch $Second_boot
 	Second_boot_install
-	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
+	SQL_root_passwd=$( cat $Setup_dir\MYSQL/pass.txt )
 	touch $Third_boot
 	third_boot_config
 	touch $Fourth_boot
 	fourth_boot_config
 	reboot
 elif [ -f $First_boot ] && [ -f $Second_boot ] && [ ! -f $Third_boot ]; then
-	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
+	SQL_root_passwd=$( cat $Setup_dir\MYSQL/pass.txt )
 	touch $Third_boot
 	third_boot_config
 	touch $Fourth_boot
 	fourth_boot_config
 	reboot
 elif [ -f $First_boot ] && [ -f $Second_boot ] && [ -f $Third_boot ] && [ ! -f $Fourth_boot ]; then
-	root_db_pass=$( cat $Setup_dir\MYSQL/pass.txt )
+	SQL_root_passwd=$( cat $Setup_dir\MYSQL/pass.txt )
 	touch $Fourth_boot
 	fourth_boot_config
 	reboot
