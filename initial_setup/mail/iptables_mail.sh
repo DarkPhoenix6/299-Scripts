@@ -102,6 +102,7 @@ $IPTABLES -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 943 -m conntrack --ctstate NEW -j ACCEPT
 
 ##### To enable possible MYSQL communication between servers #####
 $IPTABLES -A INPUT -i $IFACE_INT -p udp --dport 3306 -m conntrack --ctstate NEW -j ACCEPT
