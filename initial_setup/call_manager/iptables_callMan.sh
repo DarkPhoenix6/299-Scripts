@@ -26,7 +26,6 @@
 IPTABLES=/sbin/iptables
 IP6TABLES=/sbin/ip6tables
 MODPROBE=/sbin/modprobe
-#INT_NET=192.168.10.0/24
 INT_IP="$(ifconfig | grep -A 1 'eth1' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)"
 EXT_IP="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)"
 INT_MASK="$(ifconfig 'eth1' | sed -rn '2s/ .*:(.*)$/\1/p')"
@@ -35,10 +34,6 @@ INT_NET="$(ipcalc $INT_IP $INT_MASK | grep Network | awk '{print $2}')"
 
 IFACE_INT=eth1
 IFACE_EXT=eth0
-#DNS_SVR_IP=192.168.10.253
-#WEB_SVR_IP=192.168.10.253
-#EMAIL_SVR_IP=192.168.10.253
-#CALL_MANAGER_IP=192.168.10.252
 Setup_dir='/root/initial_setup/call_manager/'
 
 ### Flush existing rules ###
@@ -59,9 +54,9 @@ $MODPROBE ip_nat_ftp
 ##### CREATE LOG_DROP CHAIN #####
 echo "[+] Setting up LOG_DROP chain..."
 $IPTABLES -N LOG_DROP
-$IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
+$IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT " --log-ip-options
 $IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j DROP
-$IPTABLES -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block '
+$IPTABLES -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block ' --log-ip-options
 $IPTABLES -A LOG_DROP -p icmp -j DROP
 $IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
 $IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
@@ -69,9 +64,9 @@ $IPTABLES -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 6 --log-ip-options
 $IPTABLES -A LOG_DROP -j DROP
 
 $IPTABLES -t mangle -N LOG_DROP
-$IPTABLES -t mangle -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
+$IPTABLES -t mangle -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT " --log-ip-options
 $IPTABLES -t mangle -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j DROP
-$IPTABLES -t mangle -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block '
+$IPTABLES -t mangle -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block ' --log-ip-options
 $IPTABLES -t mangle -A LOG_DROP -p icmp -j DROP
 $IPTABLES -t mangle -A LOG_DROP -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
 $IPTABLES -t mangle -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
@@ -143,6 +138,7 @@ $IPTABLES -A OUTPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --dport 123 -m conntrack --ctstate NEW -j ACCEPT
 
 ##### To enable possible MYSQL communication between servers #####
 $IPTABLES -A OUTPUT -o $IFACE_INT -p udp --dport 3306 -m conntrack --ctstate NEW -j ACCEPT

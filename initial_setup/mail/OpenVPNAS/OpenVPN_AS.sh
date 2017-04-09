@@ -45,12 +45,14 @@ tar -zxvf OpenVpn.tar.gz
 
 cd OpenVpn/
 
-
 # Install the Package
 dpkg -i openvpn-as-2.1.4-Debian8.amd_64.deb
 
 # Set the admin password to something secure
 expect $Setup_dir\OpenVPNAS/openvpn_passwd.exp $openVPNas_Pass
+
+#setup openvpn-as
+expect $Setup_dir\OpenVPNAS/openVPN.exp
 
 # Optional Database setup for mysql
 bash -x $Setup_dir\Database_openvpn.sh

@@ -52,12 +52,12 @@ $MODPROBE iptable_nat
 $MODPROBE ip_conntrack_ftp
 $MODPROBE ip_nat_ftp
 
-##### CREATE LOG_DROP CHAIN #####
+##### CREATE LOG_DROP CHAIN ##### ### next create one per chain
 echo "[+] Setting up LOG_DROP chain..."
 $IPTABLES -N LOG_DROP
-$IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
+$IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT " --log-ip-options
 $IPTABLES -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j DROP
-$IPTABLES -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block '
+$IPTABLES -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block ' --log-ip-options
 $IPTABLES -A LOG_DROP -p icmp -j DROP
 $IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
 $IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
@@ -65,9 +65,9 @@ $IPTABLES -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 6 --log-ip-options
 $IPTABLES -A LOG_DROP -j DROP
 
 $IPTABLES -t mangle -N LOG_DROP
-$IPTABLES -t mangle -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT "
+$IPTABLES -t mangle -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j LOG --log-prefix "SPOOFED PKT " --log-ip-options
 $IPTABLES -t mangle -A LOG_DROP -i $IFACE_INT ! -s  $INT_NET -j DROP
-$IPTABLES -t mangle -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block '
+$IPTABLES -t mangle -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block ' --log-ip-options
 $IPTABLES -t mangle -A LOG_DROP -p icmp -j DROP
 $IPTABLES -t mangle -A LOG_DROP -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
 $IPTABLES -t mangle -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
@@ -102,6 +102,7 @@ $IPTABLES -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A INPUT -p tcp --dport 123 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A INPUT -p tcp --dport 943 -m conntrack --ctstate NEW -j ACCEPT
 
 ##### To enable possible MYSQL communication between servers #####
@@ -150,6 +151,7 @@ $IPTABLES -A OUTPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --dport 123 -m conntrack --ctstate NEW -j ACCEPT
 
 ##### To enable possible MYSQL communication between servers #####
 $IPTABLES -A OUTPUT -o $IFACE_INT -p udp --dport 3306 -m conntrack --ctstate NEW -j ACCEPT
