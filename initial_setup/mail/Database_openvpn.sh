@@ -40,9 +40,14 @@ CREATE DATABASE IF NOT EXISTS \`as_userprop\`;
 
 MYSQL_SCRIPT
  
- 
+# Set certs
+#service openvpnas stop
+#sed -i 's|cs.ca_bundle=~/web-ssl/ca.crt|\#cs.ca_bundle=~/web-ssl/ca.crt|' /usr/local/openvpn_as/etc/as.conf
+#
 #mkdir /root/keyfiles_bak
-#cp /usr/local/openvpn_as/etc/web-ssl/* /root/keyfiles_bak
+#mv /usr/local/openvpn_as/etc/web-ssl/* /root/keyfiles_bak
+#cp /etc/ssl/My_Certs/certs/mailserver_crt.pem /usr/local/openvpn_as/etc/web-ssl/server.crt
+#cp /etc/ssl/My_Certs/private/mailserver_key.pem /usr/local/openvpn_as/etc/web-ssl/server.key
 
 service openvpnas restart
 
@@ -61,11 +66,11 @@ cd /usr/local/openvpn_as/scripts
 # configuration DB
 sed -i 's|config_db=sqlite:///~/db/config.db|config_db=mysql://127.0.0.1/as_config|' /usr/local/openvpn_as/etc/as.conf
 # user properties DB
-sed -i 's|user_prop_db=sqlite:///~/db/userprop.db|user_prop_db=mysql://127.0.0.1/as_userprop|'
+sed -i 's|user_prop_db=sqlite:///~/db/userprop.db|user_prop_db=mysql://127.0.0.1/as_userprop|' /usr/local/openvpn_as/etc/as.conf
 # log DB
-sed -i 's|log_db=sqlite:///~/db/log.db|log_db=mysql://127.0.0.1/as_log|'
+sed -i 's|log_db=sqlite:///~/db/log.db|log_db=mysql://127.0.0.1/as_log|' /usr/local/openvpn_as/etc/as.conf
 # certificates database
-sed -i 's|certs_db=sqlite:///~/db/certs.db|certs_db=mysql://127.0.0.1/as_certs|'
+sed -i 's|certs_db=sqlite:///~/db/certs.db|certs_db=mysql://127.0.0.1/as_certs|' /usr/local/openvpn_as/etc/as.conf
 
 
 service openvpnas start
