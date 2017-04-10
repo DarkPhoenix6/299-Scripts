@@ -125,6 +125,7 @@ $IPTABLES -A INPUT ! -i lo -j LOG_DROP
 
 ### Make sure that loopback traffic is accepted ###
 $IPTABLES -A INPUT -i lo -j ACCEPT
+$IP6TABLES -A INPUT -i lo -j ACCEPT
 
 ##### FORWARD chain #####
 ##### to allow posssible VPN Configuration or Load Balencing#####
@@ -173,6 +174,7 @@ $IPTABLES -A OUTPUT ! -o lo -j LOG_DROP
 
 ### Make sure that loopback traffic is accepted. ###
 $IPTABLES -A OUTPUT -o lo -j ACCEPT
+$IP6TABLES -A OUTPUT -o lo -j ACCEPT
 
 # POSTROUTING rule
 $IPTABLES -t nat -A POSTROUTING -s $INT_NET -o $IFACE_EXT -j MASQUERADE
