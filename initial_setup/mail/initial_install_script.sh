@@ -227,6 +227,8 @@ bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
 
 ##### Add first email user
 bash -x $Setup_dir\add_user.sh -u $User_Name -d $domain_name -p "P@ssw0rd"
+cp $Setup_dir\add_user.sh /usr/local/sbin/
+chmod o+x /usr/local/sbin/add_user.sh
 }
 
 function fourth_boot_config
