@@ -62,7 +62,7 @@ function send_to_junk_folder
 	echo 'require ["fileinto","mailbox"];' > /etc/dovecot/sieve-after/spam-to-folder.sieve
     echo " " >> /etc/dovecot/sieve-after/spam-to-folder.sieve
 	echo 'if header :contains "X-Spam-Flag" "YES" {' >> /etc/dovecot/sieve-after/spam-to-folder.sieve
-	echo ' fileinto :create "INBOX.Junk";' >> /etc/dovecot/sieve-after/spam-to-folder.sieve
+	echo ' fileinto :create "INBOX/Junk";' >> /etc/dovecot/sieve-after/spam-to-folder.sieve
 	echo ' stop;' >> /etc/dovecot/sieve-after/spam-to-folder.sieve
 	echo '}' >> /etc/dovecot/sieve-after/spam-to-folder.sieve
 	

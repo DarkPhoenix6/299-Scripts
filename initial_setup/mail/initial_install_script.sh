@@ -92,7 +92,7 @@ debconf-set-selections <<< "postfix postfix/chattr  boolean false"
 debconf-set-selections <<< "postfix postfix/recipient_delim string  +"
 debconf-set-selections <<< "postfix postfix/mynetworks      string  127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128"
 debconf-set-selections <<< "postfix postfix/rfc1035_violation       boolean false"
-debconf-set-selections <<< "postfix postfix/mailname        string  $domain_name"
+debconf-set-selections <<< "postfix postfix/mailname        string  $host_name.$domain_name"
 debconf-set-selections <<< "postfix postfix/main_mailer_type        select  Internet Site"
 debconf-set-selections <<< "postfix postfix/procmail        boolean true"
 debconf-set-selections <<< "postfix postfix/mailbox_limit   string  0"
@@ -202,7 +202,7 @@ bash -x $Setup_dir\webmail/Apache_config.sh $domain_name
 
 ##### Postfix Setup #####
 echo "[+] Configuring Postfix..."
-bash -x $Setup_dir\email/Postfix_setup_script.sh $domain_name
+bash -x $Setup_dir\email/Postfix_setup_script.sh $domain_name $host_name
 
 
 ##### Dovecot Setup #####

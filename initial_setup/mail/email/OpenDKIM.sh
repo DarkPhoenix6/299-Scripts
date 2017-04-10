@@ -30,6 +30,7 @@ sudo mkdir /etc/opendkim
 sudo mkdir /etc/opendkim/keys
 sudo mkdir /etc/opendkim/keys/$domain_name
 
+
 sudo touch /etc/opendkim/TrustedHosts
 sudo touch /etc/opendkim/SigningTable
 sudo touch /etc/opendkim/KeyTable
@@ -87,7 +88,7 @@ echo "#mail._domainkey.example.com example.com:mail:/etc/opendkim/keys/example.c
 echo "#mail._domainkey.example.net example.net:mail:/etc/opendkim/keys/example.net/mail.private" >> /etc/opendkim/KeyTable
 echo "#mail._domainkey.example.org example.org:mail:/etc/opendkim/keys/example.org/mail.private" >> /etc/opendkim/KeyTable
 #create a Signing table
-echo "@$domain_name mail._domainkey.$domain_name" > /etc/opendkim/SigningTable
+echo "*@$domain_name mail._domainkey.$domain_name" > /etc/opendkim/SigningTable
 echo '' >> /etc/opendkim/SigningTable
 echo '#*@example.com mail._domainkey.example.com' >> /etc/opendkim/SigningTable
 echo '#*@example.net mail._domainkey.example.net' >> /etc/opendkim/SigningTable

@@ -22,6 +22,7 @@
 ######################################################################
 #####Constants#####
 domain_name=$1
+host_name=$2
 Setup_dir='/root/initial_setup/mail/'
 mailuser_passwd=$(cat $Setup_dir\email/mailuser_passwd.txt)
 My_Cert="/etc/ssl/My_Certs/certs/mailserver_crt.pem"
@@ -75,6 +76,10 @@ function Create_mappings
 
 	#Tell Postfix to deliver emails to Dovecot using LMTP
 	postconf virtual_transport=lmtp:unix:private/dovecot-lmtp
+	
+	#Set destinations
+	postconf myhostname="$host_name.$domain_name"
+	postconf mydestination="$host_name.$domain_name, localhost.$domain_name, , localhost"
 
 }
 

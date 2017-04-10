@@ -63,7 +63,11 @@ sed  -i '
 }' $conf_dir\auth-sql.conf.ext
 
 
-sed -i 's-mail_location = mbox:~/mail:INBOX=/var/mail/%u-\#mail_location = mbox:~/mail:INBOX=/var/mail/%u\nmail_location = maildir:/var/vmail/%d/%n/Maildir-' $conf_dir\10-mail.conf
+sed -i '
+/\#/ {
+	N
+		s-\#\nmail_location = mbox:~/mail:INBOX=/var/mail/%u-\#\n\#mail_location = mbox:~/mail:INBOX=/var/mail/%u\nmail_location = maildir:/var/vmail/%d/%n/Maildir-
+}' $conf_dir\10-mail.conf
 
 sed -i '
 /  \# The default however depends on the underlying mail storage format./ {
@@ -102,10 +106,11 @@ echo "default_pass_scheme = SHA256-CRYPT" >> /etc/dovecot/dovecot-sql.conf.ext
 echo "password_query = SELECT email as user, password FROM virtual_users WHERE email='%u';" >> /etc/dovecot/dovecot-sql.conf.ext
 
 
-
-
 chown root:root /etc/dovecot/dovecot-sql.conf.ext
 chmod go= /etc/dovecot/dovecot-sql.conf.ext
+
+# Fix Bug
+echo "postmaster_address=postmaster at $domain_name" >> /etc/dovecot/dovecot.conf
 
 # Make Dovecot listen to Postfix LMTP Connections
 sed -i '
