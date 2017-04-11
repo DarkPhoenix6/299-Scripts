@@ -24,6 +24,9 @@
 #Arguements
 MINPARAMS=3
 
+
+
+
 function usage
 {
     echo "usage: ./add_user.sh [[-u user ] [-p password] [-d domain] | [-h]]"

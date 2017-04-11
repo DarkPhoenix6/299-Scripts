@@ -29,6 +29,7 @@ City=$5
 OrgName=$6
 OU=$7
 User_Name=$8
+User_pass=$9
 IS_Raspian=0
 Setup_dir='/root/initial_setup/mail/'
 First_boot="/var/log/firstboot.log"

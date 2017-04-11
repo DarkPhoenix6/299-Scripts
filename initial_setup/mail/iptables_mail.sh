@@ -25,7 +25,6 @@
 IPTABLES=/sbin/iptables
 IP6TABLES=/sbin/ip6tables
 MODPROBE=/sbin/modprobe
-#INT_NET=192.168.10.0/24
 IFACE_INT=eth1
 IFACE_EXT=eth0
 INT_IP="$(ifconfig | grep -A 1 'eth1' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)"
@@ -33,10 +32,6 @@ EXT_IP="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -
 INT_MASK="$(ifconfig 'eth1' | sed -rn '2s/ .*:(.*)$/\1/p')"
 EXT_MASK="$(ifconfig 'eth0' | sed -rn '2s/ .*:(.*)$/\1/p')"
 INT_NET="$(ipcalc $INT_IP $INT_MASK | grep Network | awk '{print $2}')"
-#DNS_SVR_IP=192.168.10.253
-#WEB_SVR_IP=192.168.10.253
-#EMAIL_SVR_IP=192.168.10.253
-#CALL_MANAGER=192.168.10.252
 Setup_dir='/root/initial_setup/mail/'
 
 ### Flush existing rules ###
@@ -61,7 +56,7 @@ $IPTABLES -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block ' --log-ip-options
 $IPTABLES -A LOG_DROP -p icmp -j DROP
 $IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
 $IPTABLES -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
-$IPTABLES -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 6 --log-ip-options --log-tcp-options
+$IPTABLES -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 4 --log-ip-options --log-tcp-options
 $IPTABLES -A LOG_DROP -j DROP
 
 $IPTABLES -t mangle -N LOG_DROP
@@ -71,13 +66,13 @@ $IPTABLES -t mangle -A LOG_DROP -p icmp -j LOG --log-prefix 'ICMP Block ' --log-
 $IPTABLES -t mangle -A LOG_DROP -p icmp -j DROP
 $IPTABLES -t mangle -A LOG_DROP -m conntrack --ctstate INVALID -j LOG --log-prefix "DROP INVALID " --log-ip-options --log-tcp-options
 $IPTABLES -t mangle -A LOG_DROP -m conntrack --ctstate INVALID -j DROP
-$IPTABLES -t mangle -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 6 --log-ip-options --log-tcp-options
+$IPTABLES -t mangle -A LOG_DROP -j LOG --log-prefix "DROP " --log-level 4 --log-ip-options --log-tcp-options
 $IPTABLES -t mangle -A LOG_DROP -j DROP
 
 ### Protection against port scanning ###
 $IPTABLES -N port-scanning
 $IPTABLES -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN
-$IPTABLES -A port-scanning -j LOG --log-prefix "DROP Port-Scanning" --log-tcp-options --log-ip-options
+$IPTABLES -A port-scanning -j LOG --log-prefix "DROP Port-Scanning " --log-tcp-options --log-ip-options
 $IPTABLES -A port-scanning -j DROP
 
 ##### INPUT chain #####
@@ -153,6 +148,9 @@ $IPTABLES -A OUTPUT -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
 $IPTABLES -A OUTPUT -p tcp --dport 123 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p udp --dport 123 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p tcp --sport 123 -m conntrack --ctstate NEW -j ACCEPT
+$IPTABLES -A OUTPUT -p udp --sport 123 -m conntrack --ctstate NEW -j ACCEPT
 
 ##### To enable possible MYSQL communication between servers #####
 $IPTABLES -A OUTPUT -o $IFACE_INT -p udp --dport 3306 -m conntrack --ctstate NEW -j ACCEPT

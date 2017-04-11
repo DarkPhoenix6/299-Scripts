@@ -385,12 +385,13 @@ logpath = /var/log/mail.log
 # # To log wrong MySQL access attempts add to /etc/my.cnf:
 # # log-error=/var/log/mysqld.log
 # # log-warning = 2
-# [mysqld-auth]
+[mysqld-auth]
 # 
-# enabled  = false
-# filter   = mysqld-auth
-# port     = 3306
-# logpath  = /var/log/mysqld.log
+enabled  = true
+filter   = mysqld-auth
+port     = 3306
+#logpath  = /var/log/mysqld.log
+logpath  = /var/log/mysql/error.log
 # 
 # 
 # # DNS Servers
@@ -526,8 +527,18 @@ chmod 644 /var/log/roundcube/userlogins
 
 }
 
+function mysql_conf
+{
+sed -i '
+/log_error = \/var\/log\/mysql\/error.log/ a\
+log_warning\t\t= 2
+' /etc/mysql/my.cnf
+
+}
+
 config_jailLocal
 rc_userlogin
+mysql_conf
 
 exit
 ####### END :) #######

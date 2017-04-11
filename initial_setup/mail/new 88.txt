@@ -132,3 +132,10 @@ deb-src http://security.debian.org/ jessie/updates main
 # jessie-updates, previously known as 'volatile'
 deb http://mirror.it.ubc.ca/debian/ jessie-updates main
 deb-src http://mirror.it.ubc.ca/debian/ jessie-updates main
+
+
+--recursive https://github.com/DarkPhoenix6/299-Scripts.git
+
+
+
+git -C /root/ clone -b v1.0.0-alpha  --recursive https://github.com/DarkPhoenix6/299-Scripts.git 
