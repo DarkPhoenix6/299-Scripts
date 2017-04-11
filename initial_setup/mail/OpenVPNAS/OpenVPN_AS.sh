@@ -72,7 +72,7 @@ cat > /etc/rc.local << EOF
 #
 # By default this script does nothing.
 
-service openvpnas start
+sleep 10 && service openvpnas restart
 
 exit 0
 
