@@ -164,7 +164,7 @@ bash -x $Setup_dir\Asterisk_install.sh $host_name $domain_name "true"
 
 ##### Firewall #####
 echo "[+] Configuring Firewall..."
-bash -x $Setup_dir\iptables_callMan.sh
+bash -x $Setup_dir\iptables_callMan.sh $domain_name
 
 ##### Persistent Firewall #####
 echo "[+] Configuring Persistent Firewall..."
@@ -174,7 +174,7 @@ apt-get -q -y -o Dpkg::Options::="--force-confdef" \
 
 ##### Fail2Ban
 apt-get install -y -q fail2ban
-bash -x $Setup_dir\Fail2Ban/Fail2Ban_callman.sh
+bash -x $Setup_dir\Fail2Ban/Fail2Ban_callman.sh $domain_name
 
 ##### PSAD
 apt-get -y -q install psad
