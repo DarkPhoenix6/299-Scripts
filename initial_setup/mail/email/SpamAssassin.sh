@@ -23,6 +23,8 @@
 ######################################################################
 #####Constants#####
 domain_name=$1
+User_name=$2
+Setup_dir='/root/initial_setup/mail/'
 
 function fix_bug 
 {
@@ -69,9 +71,30 @@ function send_to_junk_folder
 	
 	sievec /etc/dovecot/sieve-after/spam-to-folder.sieve
 	
-	service dovecot restart
-	
 }
+
+function PSAD_filter
+{
+	cp $Setup_dir\email/PSAD.sieve /etc/dovecot/sieve-after/
+	chmod 644 /etc/dovecot/sieve-after/PSAD.sieve
+	sievec /etc/dovecot/sieve-after/PSAD.sieve
+}
+
+function Fail2Ban_filter
+{
+	cp $Setup_dir\email/Fail2Ban.sieve /etc/dovecot/sieve-after/
+	chmod 644 /etc/dovecot/sieve-after/Fail2ban.sieve
+	sievec /etc/dovecot/sieve-after/Fail2Ban.sieve
+}
+
+function subscribe_admin
+{
+	cat >> /var/vmail/$domain_name/$User_name/Maildir/subscriptions <<- EOF
+	INBOX.PSAD
+	INBOX.Fail2Ban
+	EOF
+}
+
 ##### Main
 # Fix Debian bug #739738
 fix_bug
@@ -82,5 +105,13 @@ enc_scan
 #Send Spam to the Junk Folder
 send_to_junk_folder
 
+# Enable PSAD and Fail2Ban Filters
+PSAD_filter
+Fail2Ban_filter
+
+# subscribe the admin to the newly created PSAD and Fail2Ban boxes
+subscribe_admin
+
+#service dovecot restart
 exit
 #######END :) #######

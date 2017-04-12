@@ -68,7 +68,7 @@ destemail = root@$domain_name
 sendername = Fail2BanAlerts
 # 
 # # Email address of the sender
-#sender = fail2ban@$domain_name
+sender = fail2ban@$domain_name
 # 
 # #
 # # ACTIONS
@@ -76,7 +76,7 @@ sendername = Fail2BanAlerts
 # # email action. Since 0.8.1 upstream fail2ban uses sendmail
 # # MTA for the mailing. Change mta configuration parameter to mail
 # # if you want to revert to conventional 'mail'.
-mta = mail
+mta = sendmail
 # 
 # # Default protocol
 # protocol = tcp
@@ -90,9 +90,6 @@ mta = mail
 # # The simplest action to take: ban only
 # action_ = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
 # 
-# # ban & send an e-mail with whois report to the destemail.
-# action_mw = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-#               %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s", sendername="%(sendername)s"]
 # 
 # # ban & send an e-mail with whois report and relevant log lines
 # # to the destemail.

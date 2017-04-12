@@ -36,6 +36,8 @@ CALL_MANAGER_IP=192.168.10.252
 Setup_dir='/root/initial_setup/'
 
 
+### 0: Allow Loopback traffic ###
+$IPTABLES -t mangle -A PREROUTING -i lo -j ACCEPT
 
 ### 1: Drop invalid packets ###
 $IPTABLES -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j LOG_DROP
@@ -85,7 +87,7 @@ $IPTABLES -t mangle -A PREROUTING -p icmp -j LOG_DROP
 #$IPTABLES -t mangle -A PREROUTING -f -j LOG_DROP
 
 ### 8: Limit connections per source IP ###
-$IPTABLES -I INPUT 4 -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
+$IPTABLES -I INPUT 4 ! -i lo -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
 
 ### 9: Limit RST packets ###
 $IPTABLES -t mangle -A PREROUTING -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT

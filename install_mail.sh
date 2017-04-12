@@ -44,8 +44,9 @@ OrgName="Chris Fedun Sec LTD"
 OU=CF
 FQDN=$host_name.$domain_name
 User_Name=chris
+User_pass=P@ssw0rd
 Email=$User_Name@$domain_name
-bash -x /root/initial_setup/mail/initial_install_script.sh $host_name $domain_name $Country $State $City "$OrgName" $OU $User_Name &>> /var/log/initial_setup.log
+bash -x /root/initial_setup/mail/initial_install_script.sh $host_name $domain_name $Country $State $City "$OrgName" $OU $User_Name $User_pass &>> /var/log/initial_setup.log
 chmod go= /var/log/initial_setup.log
 exit
 #######END :) #######

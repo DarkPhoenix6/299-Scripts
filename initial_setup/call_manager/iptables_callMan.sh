@@ -87,7 +87,7 @@ $IPTABLES -A INPUT -m conntrack --ctstate INVALID -j LOG_DROP
 $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 ### Protection against port scanning ###
-$IPTABLES -A INPUT -p tcp --tcp-flags SYN,ACK,FIN,RST RST -j port-scanning
+$IPTABLES -A INPUT ! -i lo -p tcp --tcp-flags SYN,ACK,FIN,RST RST -j port-scanning
 
 ### ACCEPT rules ###
 $IPTABLES -A INPUT -p tcp --dport 21 -m conntrack --ctstate NEW -j ACCEPT
@@ -113,7 +113,7 @@ $IPTABLES -A INPUT ! -i lo -j LOG_DROP
 
 ### Make sure that loopback traffic is accepted ###
 $IPTABLES -A INPUT -i lo -j ACCEPT
-$IPTABLES -A INPUT -o lo -j ACCEPT
+$IP6TABLES -A INPUT -i lo -j ACCEPT
 
 ##### FORWARD chain #####
 ##### to allow posssible VPN Configuration or Load Balencing#####

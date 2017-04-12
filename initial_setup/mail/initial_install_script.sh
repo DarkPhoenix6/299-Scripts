@@ -205,6 +205,10 @@ bash -x $Setup_dir\webmail/Apache_config.sh $domain_name
 echo "[+] Configuring Postfix..."
 bash -x $Setup_dir\email/Postfix_setup_script.sh $domain_name $host_name
 
+##### Add first email user
+bash -x $Setup_dir\add_user.sh -u $User_Name -d $domain_name -p $User_pass
+cp $Setup_dir\add_user.sh /usr/local/sbin/
+chmod o+x /usr/local/sbin/add_user.sh
 
 ##### Dovecot Setup #####
 echo "[+] Configuring Dovecot..."
@@ -226,10 +230,7 @@ bash -x $Setup_dir\email/OpenDKIM.sh $domain_name
 echo "[+] Configuring Roundcube..."
 bash -x $Setup_dir\webmail/RoundCube_config.sh $domain_name
 
-##### Add first email user
-bash -x $Setup_dir\add_user.sh -u $User_Name -d $domain_name -p "P@ssw0rd"
-cp $Setup_dir\add_user.sh /usr/local/sbin/
-chmod o+x /usr/local/sbin/add_user.sh
+
 }
 
 function fourth_boot_config
@@ -247,7 +248,7 @@ apt-get -q -y -o Dpkg::Options::="--force-confdef" \
 
 ##### Fail2Ban
 apt-get install -y -q fail2ban
-bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh
+bash -x $Setup_dir\Fail2Ban/Fail2Ban_mail.sh $domain_name
 
 ##### PSAD
 apt-get -y -q install psad

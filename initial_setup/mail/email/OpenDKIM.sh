@@ -101,7 +101,7 @@ opendkim-genkey -s mail -d $domain_name
 chown opendkim:opendkim mail.private
 
 #
-sudo service postfix restart
-sudo service opendkim restart
+#sudo service postfix restart
+#sudo service opendkim restart
 exit
 ####### END :) #######

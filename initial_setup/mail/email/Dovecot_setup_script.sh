@@ -91,14 +91,13 @@ sed -i '
 }' $conf_dir\10-master.conf
 
 
-
 sed -i 's/ssl = no/ssl = yes/' $conf_dir\10-ssl.conf
 sed -i "
 /\#ssl_key = <\/etc\/dovecot\/private\/dovecot.pem/ a\
 ssl_cert = <$My_Cert\nssl_key = <$My_Key
 " $conf_dir\10-ssl.conf
 
-sed -i 's:namespace inbox {:namespace inbox {\n  mailbox INBOX/Junk {\n   auto = subscribe\n   special_use = \\Junk\n  }\n  mailbox INBOX/Trash {\n   auto = subscribe\n   special_use = \\Trash\n  }\n:' $conf_dir\15-mailboxes.conf
+sed -i 's:namespace inbox {:namespace inbox {\n  mailbox INBOX/Junk {\n   auto = subscribe\n   special_use = \\Junk\n  }\n  mailbox INBOX/Trash {\n   auto = subscribe\n   special_use = \\Trash\n  }\n  mailbox INBOX/PSAD {\n   auto = create\n  }\n  mailbox INBOX/Fail2Ban {\n   auto = create\n  }:' $conf_dir\15-mailboxes.conf
 
 echo "driver = mysql" >> /etc/dovecot/dovecot-sql.conf.ext
 echo "connect = host=127.0.0.1 dbname=mailserver user=mailuser password=$mailuser_passwd" >> /etc/dovecot/dovecot-sql.conf.ext 
@@ -135,7 +134,7 @@ sed -i '
 /  \#mail_plugins = \$mail_plugins/ a\
   mail_plugins = \$mail_plugins sieve
 ' $conf_dir\20-lmtp.conf
-
+service dovecot restart
 
 exit
 ####### END :) #######

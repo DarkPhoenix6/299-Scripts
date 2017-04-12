@@ -93,10 +93,10 @@ destemail = root@$domain_name
 
 #
 # Name of the sender for mta actions
-sendername = Fail2Ban
+sendername = Fail2BanCall
 
 # Email address of the sender
-sender = fail2ban@localhost
+sender = fail2banCall@$domain_name
 
 #
 # ACTIONS
