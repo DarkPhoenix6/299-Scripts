@@ -48,7 +48,7 @@ sed -i "s|EMAIL_ALERT_DANGER_LEVEL    1;|EMAIL_ALERT_DANGER_LEVEL    3;|" /etc/p
 
 
 sed -i "s|ENABLE_AUTO_IDS             N;|ENABLE_AUTO_IDS             Y;|" /etc/psad/psad.conf 
-sed -i "s|AUTO_IDS_DANGER_LEVEL       5;|AUTO_IDS_DANGER_LEVEL       3;|" /etc/psad/psad.conf 
+#sed -i "s|AUTO_IDS_DANGER_LEVEL       5;|AUTO_IDS_DANGER_LEVEL       3;|" /etc/psad/psad.conf 
 #echo "  $MY_IP      0;" >> /etc/psad/auto_dl
 psad --sig-update
 service psad restart

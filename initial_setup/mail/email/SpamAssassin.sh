@@ -83,7 +83,7 @@ function PSAD_filter
 function Fail2Ban_filter
 {
 	cp $Setup_dir\email/Fail2Ban.sieve /etc/dovecot/sieve-after/
-	chmod 644 /etc/dovecot/sieve-after/Fail2ban.sieve
+	chmod 644 /etc/dovecot/sieve-after/Fail2Ban.sieve
 	sievec /etc/dovecot/sieve-after/Fail2Ban.sieve
 }
 

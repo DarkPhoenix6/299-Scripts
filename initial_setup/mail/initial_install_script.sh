@@ -220,7 +220,7 @@ bash -x $Setup_dir\drupal/Drupal_setup.sh $domain_name
 
 ##### SpamAssassin #####
 echo "[+] Configuring SpamAssassin..."
-bash -x $Setup_dir\email/SpamAssassin.sh $domain_name
+bash -x $Setup_dir\email/SpamAssassin.sh $domain_name $User_Name
 
 ##### OpenDKIM #####
 echo "[+] Configuring OpenDKIM..."
