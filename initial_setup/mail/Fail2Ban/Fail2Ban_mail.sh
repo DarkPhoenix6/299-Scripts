@@ -123,7 +123,8 @@ enabled  = true
 port     = ssh
 filter   = sshd
 logpath  = /var/log/auth.log
-maxretry = 6
+maxretry = 3
+bantime = 3600
 # 
 # [dropbear]
 # 
