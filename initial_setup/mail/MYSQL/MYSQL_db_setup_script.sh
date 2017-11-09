@@ -23,6 +23,7 @@
 #####Constants#####
 mailuser_passwd=$(pwgen -s 25 1)
 drupaluser_passwd=$(pwgen -s 25 1)
+mailadmin_passwd=$(pwgen -s 25 1)
 domain_name=$1
 User_Name=$2
 Setup_dir='/root/initial_setup/mail/'
@@ -39,6 +40,8 @@ mysql --user=root --password=$root_db_pass << MYSQL_SCRIPT
 CREATE DATABASE mailserver;
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON mailserver.* TO 'mailuser'@'127.0.0.1' IDENTIFIED BY "$mailuser_passwd";
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON \`mailserver\`.* TO 'mailadmin'@'localhost' IDENTIFIED BY "$mailadmin_passwd";
 USE mailserver;
 CREATE TABLE IF NOT EXISTS \`virtual_domains\` (
  \`id\` int(11) NOT NULL auto_increment,
@@ -66,6 +69,14 @@ CREATE TABLE IF NOT EXISTS \`virtual_aliases\` (
  PRIMARY KEY (\`id\`),
  FOREIGN KEY (domain_id) REFERENCES virtual_domains(id) ON DELETE CASCADE
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+  CREATE TABLE \`AdminUsers\` (
+ \`username\` varchar(32) NOT NULL,
+ \`email\` varchar(255) NOT NULL,
+ \`password\` varchar(150) NOT NULL,
+ \`create_time\` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY (\`username\`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
  
  REPLACE INTO \`mailserver\`.\`virtual_domains\` ( \`id\` , \`name\` ) VALUES ( '1', "$domain_name" );
  REPLACE INTO \`mailserver\`.\`virtual_aliases\` (\`id\`, \`domain_id\`, \`source\`, \`destination\`)
