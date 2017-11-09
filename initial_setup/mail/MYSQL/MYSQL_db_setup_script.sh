@@ -32,6 +32,10 @@ touch $Setup_dir\email/mailuser_passwd.txt
 echo "$mailuser_passwd" >> $Setup_dir\email/mailuser_passwd.txt
 chmod u=rw,go= $Setup_dir\email/mailuser_passwd.txt
 
+touch $Setup_dir\email/mailadmin_passwd.txt
+echo "$mailadmin_passwd" >> $Setup_dir\email/mailadmin_passwd.txt
+chmod u=rw,go= $Setup_dir\email/mailadmin_passwd.txt
+
 touch $Setup_dir\drupal/drupaluser_passwd.txt
 echo "$drupaluser_passwd" >> $Setup_dir\drupal/drupaluser_passwd.txt
 chmod u=rw,go= $Setup_dir\drupal/drupaluser_passwd.txt
